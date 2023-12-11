@@ -1,0 +1,281 @@
+/*SECCION MENU*/
+/* Estilos generales para resetear márgenes, paddings y fuentes */
+.topnav {
+    overflow: hidden;
+    background-color: #8BC34A;
+  }
+
+  .topnav .book-logo{
+    height: 50px;
+    width: 140px;
+    margin-left: 50px;
+    cursor: pointer;
+  }
+
+  .topnav a {
+    float: right;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: white;
+    color: black;
+  }
+
+  .topnav .ini{
+    height: 20px;
+    width: 20px;
+    align-items: end;
+  }
+
+  .topnav .icon {
+    display: none;
+  }
+
+  @media screen and (max-width: 600px) {
+    .topnav a:not(:first-child) {display: none;}
+    .topnav a.icon {
+      float: right;
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .topnav.responsive {position: relative;}
+    .topnav.responsive .icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .topnav.responsive a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+  }
+
+    /*SECCION 1*/
+    .carousel-inner {
+      width: 100%; /* Ajusta el ancho al 100% para que se adapte al contenedor */
+    }
+      
+    .carousel-item img {
+        margin-top: 0px;
+        object-fit:fill;
+        max-height: 100%; /* Establece un tamaño máximo para las imágenes */
+    }
+
+    /*Section registrar caso banner*/
+    .regCaso{
+        overflow: hidden;
+        background-color: #8BC34A;
+        display: flex;
+        justify-content: center; /* Alineación horizontal al centro */
+        align-items: center; /* Alineación vertical al centro */
+        width: 100%; /* Opcional, para ocupar todo el ancho disponible */
+        height: 10vh; /* Opcional, para ocupar toda la altura de la ventana */
+        /* Otras propiedades de estilo para el div, si es necesario */
+    }
+    .h4reg{
+        font-size: 30px;
+        font-weight: 500;
+    }
+
+    /*seccion formulario*/
+
+    .formularioReg {
+      background-color: #d2d1d1;
+      height: 1000px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .campo {
+      margin-top: 50px;
+      flex: 1;
+      margin-right: 10px;
+      margin-left: 60px;
+    }
+    
+    .campo2 {
+      flex: 1;
+      margin-left: 60px;
+      margin-block-start: -12%;
+    }
+    
+    .campo3 {
+      flex: 0;
+      margin-left: 60px;
+      margin-block-start: -20%;
+    }
+    
+    .campo4 {
+      flex: 0;
+      margin-left: 60px;
+      margin-block-start: -25%;
+      margin-inline-end: 20px;
+    }
+    
+    .campo5 {
+      flex: 0;
+      margin-left: 400px;
+      margin-block-start: -12%;
+      margin-inline-end: 20px;
+    }
+    
+    @media (max-width: 1200px) {
+      /* Ajustes para pantallas medianas */
+      .formularioReg {
+        height: auto;
+      }
+    
+      .campo,
+      .campo2,
+      .campo3,
+      .campo4,
+      .campo5 {
+        flex: 1;
+        margin: 10px;
+      }
+    
+      .campo5 {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      /* Ajustes para pantallas pequeñas */
+      .formularioReg {
+        height: auto;
+      }
+    
+      .campo,
+      .campo2,
+      .campo3,
+      .campo4,
+      .campo5 {
+        flex: 1;
+        margin: 10px;
+      }
+    
+      .campo5 {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+    
+    .form-label {
+      text-align: center;
+      width: 400px;
+    }
+    
+    .form-control {
+      width: 375px;
+    }
+    
+    .inpName {
+      width: 450px;
+    }
+    
+    .inpCorreo {
+      width: 450px;
+    }
+    
+    label {
+      font-weight: 500;
+      display: block;
+    }
+    
+    .C1 {
+      margin-top: 23px;
+      flex: 0;
+      height: 30px;
+      width: 150px;
+      border-style: hidden;
+    }
+    
+    .opciones,
+    .opciones2,
+    .opciones3 {
+      text-align: center;
+      margin-top: 35px;
+      height: 20px;
+      width: 175px;
+    }
+    
+    @media (max-width: 1200px) {
+      /* Ajustes para pantallas medianas */
+      .form-label {
+        width: 100%;
+      }
+    
+      .form-control,
+      .inpName,
+      .inpCorreo {
+        width: 100%;
+      }
+    
+      .opciones,
+      .opciones2,
+      .opciones3 {
+        margin-top: 10px;
+        margin-inline-start: 0;
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      /* Ajustes para pantallas pequeñas */
+      .form-label {
+        width: 100%;
+      }
+    
+      .form-control,
+      .inpName,
+      .inpCorreo {
+        width: 100%;
+      }
+    
+      .opciones,
+      .opciones2,
+      .opciones3 {
+        margin-top: 10px;
+        margin-inline-start: 0;
+        width: 100%;
+      }
+    } 
+    
+    /*Seccion contacto*/
+    .sec44 {
+        background-color: #000000;
+        padding: 2vh 5vw; /* Ajuste del relleno según sea necesario */
+        box-sizing: border-box; /* Incluye el relleno en la altura total */
+    }
+    
+    .p1, .p2, .p3 {
+        font-size: 1.5vw; /* Tamaño de fuente relativo */
+        color: white;
+        text-align: center;
+        margin-bottom: 2vh; /* Ajuste según sea necesario */
+    }
+    
+    /* Media query para dispositivos móviles */
+    @media (max-width: 576px) {
+        .p1, .p2, .p3 {
+            font-size: 3vw; /* Tamaño de fuente relativo para dispositivos móviles */
+        }
+    }
+
+    

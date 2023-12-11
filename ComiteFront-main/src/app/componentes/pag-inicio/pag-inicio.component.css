@@ -1,0 +1,273 @@
+/*SECCION MENU*/
+/* Estilos generales para resetear márgenes, paddings y fuentes */
+.topnav {
+    overflow: hidden;
+    background-color: #8BC34A;
+  }
+
+  .topnav .book-logo{
+    height: 50px;
+    width: 140px;
+    margin-left: 50px;
+    cursor: pointer;
+  }
+
+  .topnav a {
+    float: right;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: white;
+    color: black;
+  }
+
+  .topnav .ini{
+    height: 20px;
+    width: 20px;
+    align-items: end;
+  }
+
+  .topnav .icon {
+    display: none;
+  }
+
+  @media screen and (max-width: 600px) {
+    .topnav a:not(:first-child) {display: none;}
+    .topnav a.icon {
+      float: right;
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .topnav.responsive {position: relative;}
+    .topnav.responsive .icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .topnav.responsive a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+  }
+
+    /*SECCION 1*/
+       .carousel-inner {
+        width: 100%; /* Ajusta el ancho al 100% para que se adapte al contenedor */
+    }
+      
+    .carousel-item img {
+        margin-top: 0px;
+        object-fit:fill;
+        max-height: 100%; /* Establece un tamaño máximo para las imágenes */
+    }
+      
+    /*SECCION 2*/
+    .sec22 {
+        display: flex;
+        background: rgb(208, 207, 207);
+        height: 100vh; /* Ajuste al 100% del alto de la pantalla */
+        align-items: center;
+    }
+    
+    .contenido-izquierda {
+        margin-right: 5%; /* Ajuste del margen derecho en porcentaje */
+    }
+    
+    .img2 {
+        height: 60%; /* Ajuste de altura en porcentaje */
+        width: auto; /* Ancho automático para mantener la proporción original */
+        max-width: 40%; /* Ancho máximo en relación al tamaño de la sección */
+        margin-left: 5%; /* Ajuste del margen izquierdo en porcentaje */
+        border-radius: 40px;
+    }
+    
+    /* Media query para dispositivos móviles */
+    @media (max-width: 576px) {
+        .sec22 {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    
+        .contenido-izquierda {
+            margin-right: 10; /* Elimina el margen derecho para dispositivos móviles */
+        }
+    
+        .img2 {
+            height: auto; /* Altura automática para mantener la proporción original */
+            width: 60%; /* Ancho del 80% para adaptarse en pantallas pequeñas */
+            max-width: none; /* Restablece el ancho máximo */
+            margin-left: 0; /* Ajuste del margen izquierdo para pantallas pequeñas */
+        }
+    }
+    
+
+/* Estilo base común para texto y párrafo */
+.convo, .pCaso {
+    margin-left: 10%; /* Ajuste del margen izquierdo en porcentaje */
+    margin-right: 10%; /* Ajuste del margen derecho en porcentaje */
+    margin-bottom: 1%; /* Ajuste del margen inferior en porcentaje */
+}
+
+.convo {
+    border-color: #000000;
+    padding-top: 2%; /* Ajuste del padding superior en porcentaje */
+    font-size: 5vw; /* Ajuste del tamaño de fuente en vw */
+}
+
+.pCaso {
+    padding-bottom: 3%; /* Ajuste del padding inferior en porcentaje */
+    font-size: 1.5vw; /* Ajuste del tamaño de fuente en vw */
+    text-align: center;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 576px) {
+    .convo, .pCaso {
+        margin-left: 5%; /* Ajuste del margen izquierdo para pantallas pequeñas */
+        margin-right: 5%; /* Ajuste del margen derecho para pantallas pequeñas */
+        font-size: 3.5vw; /* Tamaño de fuente relativo para pantallas pequeñas */
+    }
+
+    .convo {
+        font-size: 4.5vw; /* Tamaño de fuente ligeramente mayor para .convo en pantallas pequeñas */
+    }
+    
+    /* Centrar el texto y los botones */
+    .sec22 {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+
+/* Estilo base común para los botones */
+.btn-secondary, .btn-light {
+    height: 50px;
+    width: 200px;
+    font-size: 1.75vw;
+    border-radius: 40px;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 10px; /* Espacio entre botones */
+    margin-left: 30px;
+}
+
+.btn-light {
+    border: 2px solid black;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 576px) {
+    .btn-secondary, .btn-light {
+        width: 60%; /* Ancho al 100% para ocupar toda la pantalla */
+        font-size: 3vw; /* Tamaño de fuente relativo */
+    }
+}
+
+
+
+/*SECCION 3*/
+.sec33 {
+    background-color: #8BC34A;
+    padding: 4vh 2vw; /* Ajuste del relleno según sea necesario */
+    box-sizing: border-box; /* Incluye el relleno en la altura total */
+}
+
+.tipCas {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 900;
+    text-align: center;
+    font-size: 4vw; /* Tamaño de fuente relativo */
+    margin-bottom: 2vh; /* Ajuste según sea necesario */
+}
+
+.contenedor-img {
+    text-align: center; /* Alinea el contenido del contenedor al centro */
+}
+
+table {
+    background: #8BC34A;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2vh; /* Ajuste según sea necesario */
+    margin-top: 5vh; /* Ajuste según sea necesario */
+}
+
+th, td {
+    padding: 2vh; /* Ajuste según sea necesario */
+    text-align: center;
+    font-size: 2vw; /* Tamaño de fuente relativo */
+}
+
+.img3, .img4, .img5 {
+    padding-top: 1vh;
+    width: auto; /* Ancho automático para mantener la proporción original */
+    max-width: 30%; /* Ancho máximo */
+    height: 14vh; /* Altura relativa */
+    margin: auto;
+    display: block;
+    margin-bottom: 1vh; /* Espaciado entre imágenes */
+}
+
+.ResTer {
+    margin-top: 1vh;
+    margin-left: 2vw;
+    text-align: justify;
+    font-size: 2vw; /* Tamaño de fuente relativo */
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 576px) {
+    .tipCas {
+        font-size: 6vw; /* Tamaño de fuente relativo para dispositivos móviles */
+    }
+
+    th, td {
+        font-size: 4vw; /* Tamaño de fuente relativo para dispositivos móviles */
+    }
+
+    .img3, .img4, .img5 {
+        max-width: 50%; /* Ancho máximo para dispositivos móviles */
+    }
+
+    .ResTer {
+        font-size: 3vw; /* Tamaño de fuente relativo para dispositivos móviles */
+    }
+}
+
+    /*SECCION 4*/
+.sec44 {
+    background-color: #000000;
+    padding: 2vh 5vw; /* Ajuste del relleno según sea necesario */
+    box-sizing: border-box; /* Incluye el relleno en la altura total */
+}
+
+.p1, .p2, .p3 {
+    font-size: 1.5vw; /* Tamaño de fuente relativo */
+    color: white;
+    text-align: center;
+    margin-bottom: 2vh; /* Ajuste según sea necesario */
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 576px) {
+    .p1, .p2, .p3 {
+        font-size: 3vw; /* Tamaño de fuente relativo para dispositivos móviles */
+    }
+}

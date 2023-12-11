@@ -1,0 +1,39 @@
+<div class="Menu">
+    <div class="topnav" id="myTopnav">
+        <img class="book-logo" src="assets/images/logo1.png" alt="">
+        <a  href="" class="active"><img class="ini" src="assets/images/home.png" alt=""></a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+    </div> 
+    <div>
+        <section class="sec22">
+            <form (submit)="Signin()" class="login-form">
+              <div class="form-box">
+                <div class="form-value">
+                  <h2>iniciar Sesion</h2>
+                  <div class="inputbox">
+                    <input type="email" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email" required autofocus>
+                  </div>
+                  <div class="inputbox">
+                    <input type="password" [(ngModel)]="user.password" name="password" class="form-control" placeholder="Password" required>
+                  </div>
+                  <div class="forget">
+                    <label for=""><a routerLink="/restablecer">¿Olvidaste tu contraseña?</a></label>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+        <div>
+          <section id="contacto" class="sec4">
+            <div>
+              <p class="p1">Carretera Federal México Cuautla s/n La Candelaria Tlapala, 56641 Chalco de Díaz Covarrubias, Méx.</p>
+              <p class="p3">© 2022 Tecnológico de Estudios Superiores de Chalco. Todos los derechos reservados</p>
+            </div>
+          </section>
+    </div>   
+
+</div>

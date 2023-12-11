@@ -1,0 +1,136 @@
+<div class="Reg">
+    <div class="topnav" id="myTopnav">
+        <img class="book-logo" src="assets/images/logo1.png" alt="">
+        <a  href="" class="active"><img class="ini" src="assets/images/home.png" alt=""></a>
+        <a routerLink="/inicio" href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <section id="carrucel" class="sec1">
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active d-item">
+                <img src="assets/images/Group-259.jpg" class="d-block w-100 d-img" alt="slider1">
+              </div>
+              <div class="carousel-item d-item">
+                <img src="assets/images/Pancarta2.jpg" class="d-block w-100 d-img" alt="slider2">
+              </div>
+              <div class="carousel-item d-item">
+                <img src="assets/images/pancarta3.jpg" class="d-block w-100 d-img" alt="slider3">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+    <section>
+        <div class="regCaso">
+            <h4 class="h4reg">Registro de caso</h4>
+        </div>
+    </section>
+    <section>
+        <form (submit)="registrarCaso()" class="formularioReg">
+            <div class="campo">
+              <label for="matricula">Matrícula</label>
+              <input type="number" [(ngModel)]="datosCaso.matricula" name="matricula" required>
+            </div>
+            <div class="campo">
+              <label for="nombre">Nombre completo</label>
+              <input class="inpName" type="text" id="nombre" [(ngModel)]="datosCaso.nombre" name="nombre" required>
+            </div>
+            <div class="campo">
+              <label for="telefono">Número telefónico</label>
+              <input type="number" id="telefono" [(ngModel)]="datosCaso.numero" name="telefono" required>
+            </div>
+            <div class="campo">
+                <button class="C1">Estado de caso</button>
+            </div>
+
+            <div class="campo2">
+                <label for="direccion">Dirección</label>
+                <textarea name="direccion" id="direccion" style="resize: none;" cols="50" rows="2.5" [(ngModel)]="datosCaso.direccion" required></textarea>
+            </div>
+            <div class="campo2">
+                <select class="opciones" name="opciones" [(ngModel)]="datosCaso.carrera" required>
+                    <option value="valor1">Carrea cursada</option>
+                    <option value="valor2">Ingeniería en Sistemas Computacionales</option>
+                    <option value="valor2">Ingeniería Industrial</option>
+                    <option value="valor2">Ingeniería Electromecánica</option>
+                    <option value="valor2">Ingeniería Informática</option>
+                    <option value="valor2">Ingeniería Electrónica</option>
+                    <option value="valor2">Ingeniería en Administración</option>
+                </select>
+            </div>
+            <div class="campo2">
+                <select class="opciones2" name="opciones"  [(ngModel)]="datosCaso.Tcaso" required>
+                    <option value="valor1">Tipo de caso</option>
+                    <option value="valor2">Residencias por tercera ocasión</option>
+                    <option value="valor3">Cambio de modalidad</option>
+                    <option value="valor4">Decimotercer semestre</option>
+                    <option value="valor5">Asignatura por asesoría</option>
+                    <option value="valor6">Curso de materia de especialidad no vigente </option>
+                    <option value="valor7">Anulación de semestre</option>
+                </select>
+            </div>
+            <div class="campo2">
+                <select class="opciones3" name="opciones" [(ngModel)]="datosCaso.semestre" required>
+                    <option value="0">Número de semestres</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                </select>
+            </div><br>
+            <div class="campo3">
+                <label for="correo">Correo Electrónico Institucional</label>
+                <input class="inpCorreo" type="text" id="correo" [(ngModel)]="datosCaso.email" name="correo" required>
+            </div>
+            <div class="campo3">
+                <label for="correo">Confirmar Correo Electrónico Institucional</label>
+                <input class="inpCorreo" type="text" id="correo" [(ngModel)]="datosCaso.email" name="correo" required>
+            </div>
+            <div class="campo4">
+                <label style="text-align: center;" for="motivos-a">Motivos Académicos</label>
+                <textarea name="motivos-a" id="motivos-a" style="resize: none;" cols="60" rows="10" [(ngModel)]="datosCaso.motivosA" required></textarea>
+            </div>
+            <div class="campo4">
+                <label style="text-align: center;" for="motivos-p">Motivos Personales</label>
+                <textarea name="motivos-p" id="motivos-p" style="resize: none;" cols="60" rows="10"  [(ngModel)]="datosCaso.motivosP" required></textarea>
+            </div>
+            <div class="campo5">
+                <label for="formFile" class="form-label">Subir evidencia</label>
+                <input class="form-control" type="file" id="formFile"  [(ngModel)]="datosCaso.estado" name="evidencia" required>
+              </div>
+              <div class="campo">
+                <button type="submit" class="btn btn-primary btn-block">Registrar Caso</button>
+              </div>
+            </form>
+    </section>
+    <section>
+        <div id="contacto" class="sec44">
+            <p class="p1">Carretera Federal México Cuautla s/n La Candelaria Tlapala, 56641 Chalco de Díaz Covarrubias, Méx.</p>
+            <p class="p2">Correo   Comite    5500887733 / 5522447765     Lineamientos Politicas de Privacidad</p>
+            <p class="p3">© 2022 Tecnologico de Estudios Superiores de Chalco. Todos los derechos reservados</p>
+        </div>
+    </section>
+</div>

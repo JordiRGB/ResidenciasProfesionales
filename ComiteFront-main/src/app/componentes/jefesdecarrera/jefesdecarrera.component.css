@@ -1,0 +1,143 @@
+/* This first section is a simple "reset". It allows the navbar to push up against the top of the browser window with no white space around it. This code also sets the default font for your whole page. Put it at the very top of your css page.  */
+html, body, ul, li, div {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;   
+  }
+
+  .btnMenu{
+    padding-left: 0%;
+    border-radius: 1cm;
+    margin-right: 5px;
+    margin-right: 20px;
+  }
+  /* This class is applied to the containing div <div class="nav"> and is used to set the background color and height of the navbar */
+  .nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: #8BC34A;
+    height: 100px; /* set same as height & line-height below */
+    justify-content: end;
+  }
+  
+  /* This rule centers the nav items verticaly in the bar with the height and line height properties. Spacing between the nav items is controlled by setting right and left padding.  */
+  .nav li {
+    display: inline-block;
+    list-style: none;
+    height: 100px; /* should be the same as line-height */
+    line-height: 75px; /* should be the same as height */
+    padding: 0 40px; /* "0" sets top and bottom padding to none */
+    justify-content: end;
+  }
+  
+  /* :hover allows you change the background color of the nav items when you mouse over them. Play around with the transition value to change the speed of the hover transition. */
+  .nav li:hover {
+    background: rgb(255, 255, 255);
+    transition: background .3s;
+  }
+  
+  /* This rule is applied to the link <a> tag. It lets you turn off the link underline and set the link text color. */
+  .nav-link {
+    color: #000000;
+    font-size: 200%;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+
+  .sec22 {
+    display: flex;
+    background: rgb(208, 207, 207);
+    height: 600px;
+    align-items: center;
+    }
+    .contenido-izquierda {
+        margin-right: 20px;
+    }
+    .img2 {
+        height: 65%;
+        width: 40%;
+        margin-left: 150px;
+        border-radius: 40px;
+    }
+    .convo{
+        border-color: #000000;
+        margin-inline-start: 200px;
+        padding-top: 35px;
+        font-size: 480%;
+        margin-bottom: 20px;
+    }
+    .pCaso{
+        margin-left: 150px;
+        padding-bottom: 60px;
+        font-size: 150%;
+    }
+    .btn-secondary{
+        height: 80px;
+        width: 300px;
+        margin-left: 100px;
+        margin-right: 80px;
+        font-size: 200%;
+        border-radius: 40px;
+        background-color: #494949;
+        text-align: center;
+        line-height: 1.5px;
+    }
+    .btn-light{
+        height: 80px;
+        width: 300px;
+        font-size: 175%;
+        border-radius: 40px;
+        border: 2px solid black;
+        text-align: center;
+        line-height: 1.5px;
+    }
+    .sec33{
+        background-color: #8BC34A;
+        height: 1000px;
+    }
+    .tipCas{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: 900;
+        text-align: center;
+        font-size: 48px;
+    }
+    
+    .contenedor-img {
+        text-align: center; /* Alinea el contenido del contenedor al centro */
+        height: 200px; /* Altura del contenedor */
+    }
+    .img3{
+        padding-top: 2%;
+        height: 140px;
+        width: 100px;
+        margin: auto; /* Aplica márgenes automáticos para centrar horizontalmente */
+        display: block; /* Cambia la visualización a "block" para que los márgenes automáticos funcionen */
+    }
+    .sec44{
+        background-color: #000000;
+        height: 240px;
+    }
+    .p1{
+        font-size: 150%;
+        color:white;
+        text-align: center;
+        padding-top: 2%;
+    }
+    .p2{
+        font-size: 150%;
+        color:white;
+        text-align: center;
+    }
+    .p3{
+        font-size: 150%;
+        color:white;
+        text-align: center;
+    }
+    
