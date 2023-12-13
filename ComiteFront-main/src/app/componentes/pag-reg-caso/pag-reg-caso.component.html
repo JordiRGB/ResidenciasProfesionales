@@ -39,92 +39,109 @@
             <h4 class="h4reg">Registro de caso</h4>
         </div>
     </section>
-    <section>
-        <form (submit)="registrarCaso()" class="formularioReg">
-            <div class="campo">
-              <label for="matricula">Matrícula</label>
-              <input type="number" [(ngModel)]="datosCaso.matricula" name="matricula" required>
-            </div>
-            <div class="campo">
-              <label for="nombre">Nombre completo</label>
-              <input class="inpName" type="text" id="nombre" [(ngModel)]="datosCaso.nombre" name="nombre" required>
-            </div>
-            <div class="campo">
-              <label for="telefono">Número telefónico</label>
-              <input type="number" id="telefono" [(ngModel)]="datosCaso.numero" name="telefono" required>
-            </div>
-            <div class="campo">
-                <button class="C1">Estado de caso</button>
-            </div>
+    <section class="secform">
+      <div class="parent">
+        <form (submit)="registrarCaso()" class="example-form">
+          <mat-label>Ingresa tu nombre</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre completo" name="nombre" [(ngModel)]="datosCaso.nombre">
+          </mat-form-field>
 
-            <div class="campo2">
-                <label for="direccion">Dirección</label>
-                <textarea name="direccion" id="direccion" style="resize: none;" cols="50" rows="2.5" [(ngModel)]="datosCaso.direccion" required></textarea>
-            </div>
-            <div class="campo2">
-                <select class="opciones" name="opciones" [(ngModel)]="datosCaso.carrera" required>
-                    <option value="valor1">Carrea cursada</option>
-                    <option value="valor2">Ingeniería en Sistemas Computacionales</option>
-                    <option value="valor2">Ingeniería Industrial</option>
-                    <option value="valor2">Ingeniería Electromecánica</option>
-                    <option value="valor2">Ingeniería Informática</option>
-                    <option value="valor2">Ingeniería Electrónica</option>
-                    <option value="valor2">Ingeniería en Administración</option>
-                </select>
-            </div>
-            <div class="campo2">
-                <select class="opciones2" name="opciones"  [(ngModel)]="datosCaso.Tcaso" required>
-                    <option value="valor1">Tipo de caso</option>
-                    <option value="valor2">Residencias por tercera ocasión</option>
-                    <option value="valor3">Cambio de modalidad</option>
-                    <option value="valor4">Decimotercer semestre</option>
-                    <option value="valor5">Asignatura por asesoría</option>
-                    <option value="valor6">Curso de materia de especialidad no vigente </option>
-                    <option value="valor7">Anulación de semestre</option>
-                </select>
-            </div>
-            <div class="campo2">
-                <select class="opciones3" name="opciones" [(ngModel)]="datosCaso.semestre" required>
-                    <option value="0">Número de semestres</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                </select>
-            </div><br>
-            <div class="campo3">
-                <label for="correo">Correo Electrónico Institucional</label>
-                <input class="inpCorreo" type="text" id="correo" [(ngModel)]="datosCaso.email" name="correo" required>
-            </div>
-            <div class="campo3">
-                <label for="correo">Confirmar Correo Electrónico Institucional</label>
-                <input class="inpCorreo" type="text" id="correo" [(ngModel)]="datosCaso.email" name="correo" required>
-            </div>
-            <div class="campo4">
-                <label style="text-align: center;" for="motivos-a">Motivos Académicos</label>
-                <textarea name="motivos-a" id="motivos-a" style="resize: none;" cols="60" rows="10" [(ngModel)]="datosCaso.motivosA" required></textarea>
-            </div>
-            <div class="campo4">
-                <label style="text-align: center;" for="motivos-p">Motivos Personales</label>
-                <textarea name="motivos-p" id="motivos-p" style="resize: none;" cols="60" rows="10"  [(ngModel)]="datosCaso.motivosP" required></textarea>
-            </div>
-            <div class="campo5">
-                <label for="formFile" class="form-label">Subir evidencia</label>
-                <input class="form-control" type="file" id="formFile"  [(ngModel)]="datosCaso.estado" name="evidencia" required>
-              </div>
-              <div class="campo">
-                <button type="submit" class="btn btn-primary btn-block">Registrar Caso</button>
-              </div>
-            </form>
+          <mat-label>Ingresa tu matricula</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Matricula</mat-label>
+            <input matInput type="number" placeholder="201924..." name="matricula"  [(ngModel)]="datosCaso.matricula">
+          </mat-form-field>
+
+          <mat-label>Ingresa tu numero de teléfono</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Teléfono/celular</mat-label>
+            <input matInput type="number" placeholder="10 digitos" name="telefono" id="telefono" [(ngModel)]="datosCaso.numero">
+          </mat-form-field>
+
+          <mat-label>Ingresa tu dirección</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Dirección</mat-label>
+            <textarea matInput type="text" placeholder="Calle 30..." name="direccion" id="direccion" [(ngModel)]="datosCaso.direccion"></textarea>
+          </mat-form-field>
+
+          <mat-label>Selecciona tu carrera:</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Carrera</mat-label>
+            <select name="opciones" [(ngModel)]="datosCaso.carrera" matNativeControl required>
+              <option value="Ingeniería en Sistemas Computacionales">Ingeniería en Sistemas Computacionales</option>
+              <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+              <option value="Ingeniería Electromecánica">Ingeniería Electromecánica</option>
+              <option value="Ingeniería Informática">Ingeniería Informática</option>
+              <option value="Ingeniería Electrónica">Ingeniería Electrónica</option>
+              <option value="Ingeniería en Administración">Ingeniería en Administración</option>
+            </select>
+          </mat-form-field>
+
+          <mat-label>Selecciona tu caso:</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Caso</mat-label>
+            <select name="opciones" [(ngModel)]="datosCaso.Tcaso" matNativeControl required>
+              <option value="Residencias por tercera ocasión">Residencias por tercera ocasión</option>
+              <option value="Cambio de modalidad">Cambio de modalidad</option>
+              <option value="Decimotercer semestre">Decimotercer semestre</option>
+              <option value="Asignatura por asesoría">Asignatura por asesoría</option>
+              <option value="Curso de materia de especialidad no vigente">Curso de materia de especialidad no vigente</option>
+              <option value="Anulación de semestre">Anulación de semestre</option>
+            </select>
+          </mat-form-field>
+
+          <mat-label>Selecciona tu semestre:</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Semestre</mat-label>
+            <select name="opciones" [(ngModel)]="datosCaso.semestre" matNativeControl required>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+            </select>
+          </mat-form-field>
+
+          <mat-label>Ingresa tu correo institucional</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Correo institucional</mat-label>
+            <input matInput type="email" placeholder="Pedro_sc@..." name="correo" id="correo" [(ngModel)]="datosCaso.email">
+          </mat-form-field>
+
+          <mat-label>Confirmar correo institucional</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Confirmar correo institucional</mat-label>
+            <input matInput type="email" placeholder="Pedro_sc@..." name="correo" id="correo" [(ngModel)]="datosCaso.email">
+          </mat-form-field>
+
+          <mat-label>Motivos personales</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Motivos</mat-label>
+            <textarea matInput type="text" placeholder="Debido a..." name="motivos-p" id="motivos-p" [(ngModel)]="datosCaso.motivosP" required></textarea>
+          </mat-form-field>
+
+          <mat-label>Motivos Académicos</mat-label>
+          <mat-form-field class="example-full">
+            <mat-label>Motivos</mat-label>
+            <textarea matInput type="text" placeholder="Debido a..." name="motivos-a" id="motivos-a" [(ngModel)]="datosCaso.motivosA" required></textarea>
+          </mat-form-field>
+
+            <label for="formFile" class="form-label">Subir evidencia</label>
+            <input class="form-control" type="file" id="formFile"  [(ngModel)]="datosCaso.estado" name="evidencia" required/>
+
+            <button type="submit" class="btnselectfile" mat-raised-button color="primary">Subir</button>
+        </form>
+      </div>
     </section>
     <section>
         <div id="contacto" class="sec44">
