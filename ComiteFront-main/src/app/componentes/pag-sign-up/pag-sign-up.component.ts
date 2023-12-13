@@ -22,7 +22,7 @@ export class PagSignUpComponent {
       res =>{
         console.log(res)
         localStorage.setItem('token', res.token)
-        this.router.navigate(['/inicio']);
+        this.router.navigate(['/jefeisc']);
       },
       err =>{
         console.log(err)
