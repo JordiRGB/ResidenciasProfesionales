@@ -22,6 +22,7 @@ const alumnoSchema = new Schema(
         versionKey: false
     }
 );
+//exportamos el modelo para usarlo en otros ficheros
 
 //creamos un modelo a partir del schema
 module.exports = model('Alumno', alumnoSchema);
