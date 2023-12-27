@@ -1,21 +1,35 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
+import { DatosCaso } from '../models/datos-caso';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private URL = 'http://localhost:4000/api';
 
-  private URL= 'http://localhost:4000/api'
+  // Nuevo BehaviorSubject para almacenar los datos del caso
+  private datosCasoSubject = new BehaviorSubject<FormGroup>(this.formBuilder.group({} as DatosCaso));
+  datosCaso$ = this.datosCasoSubject.asObservable();
+  
+  constructor(private http: HttpClient, private formBuilder: FormBuilder) {}
 
-  constructor(private http: HttpClient) { }
-
-  signUp(user: any){
-    return this.http.post<any>(this.URL+ '/users/signup', user);
+  get datosCasoForm(): FormGroup {
+    return this.datosCasoSubject.value;
   }
-  signIn(user: any){
-    return this.http.post<any>(this.URL+ '/users/signin', user);
+
+  initDatosCasoForm(): void {
+    this.datosCasoSubject.next(this.formBuilder.group({} as DatosCaso));
+  }
+
+  signUp(user: any): Observable<any> {
+    return this.http.post<any>(this.URL + '/users/signup', user);
+  }
+
+  signIn(user: any): Observable<any> {
+    return this.http.post<any>(this.URL + '/users/signin', user);
   }
   registrarCaso(datosCaso: any): Observable<any> {
     return this.http.post<any>(this.URL+ '/create/alumno',datosCaso);
