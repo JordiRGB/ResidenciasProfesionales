@@ -17,6 +17,7 @@ import { AdministradorComponent } from './componentes/administrador/administrado
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
