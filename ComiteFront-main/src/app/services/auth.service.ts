@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,5 +21,11 @@ export class AuthService {
   registrarCaso(datosCaso: any): Observable<any> {
     return this.http.post<any>(this.URL+ '/create/alumno',datosCaso);
   }
+
+ // Método para mostrar los datos de la colección "Alumno"
+ getAlumnos(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/alumnos`);
+}
+
   
 }

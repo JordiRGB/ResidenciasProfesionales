@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="jefeisc.component.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -21,12 +22,12 @@
             <div class="search">
                 <input type="text" placeholder="Buscar...">
             </div>
-            <i class=""></i> <!-- Icono de búsqueda -->
+            <i class=""></i> 
         </div>
         <div class="Jefe">
           <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            jefatura.sistemas@tesch.edu.mx
-            <i class="fas fa-user"></i> <!-- Icono de FontAwesome -->
+            jefatura.sistemas.tesch.edu.mx
+            <i class="fas fa-user"></i> 
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="#">Cerrar sesion</a></li>
@@ -43,6 +44,8 @@
     <a href="#"><i class="material-icons">check_circle</i> Casos Aceptados</a>
     <a href="#"><i class="material-icons">description</i> Acta LXX</a>
     <a href="#"><i class="material-icons">history</i> Historial de casos</a>
+    <a href="#"><i class="material-icons">delete</i>papelera</a>
+
           </div>
           
             
@@ -63,7 +66,7 @@
                   </tr>
                     <tr>
                         <th>MATRICULA</th>
-                        <th>NOMBRE COMPLETO</th> <!-- Aquí estaba el error -->
+                        <th>NOMBRE COMPLETO</th> 
                         <th>CARRERA</th>
                         <th>TIPO DE CASO</th>
                         <th>EVIDENCIA</th>
@@ -72,28 +75,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Tu contenido de la tabla aquí -->
-                    <tr>
-                      <td>1</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <button class="accion">
-                            <i class="fas fa-ellipsis-v"></i> 
-                        </button>
-                      </td>
-                  </tr>
+                  <tr *ngFor="let alumno of Alumno">
+                    <td>{{ alumno.matricula }}</td>
+                    <td>{{ alumno.nombreCom }}</td>
+                    <td>{{ alumno.carrera }}</td>
+                    <td>{{ alumno.casoTipo }}</td>
+                    <td>
+                      <!-- Utiliza un enlace para abrir el PDF al hacer clic -->
+                      <a [href]="alumno.evidencia.pdfPath" target="_blank">{{ alumno.evidencia }}</a>
+                  </td>
+                    <td>{{ alumno.casoEsta }}</td>
+                    <td>
+                      <div class="botones-container">
+                      <button class="Aceptar">
+                        <i class="material-icons">check_circle</i>
+                      </button>
+                      <button class="rechazar">
+                        <i class="material-icons">cancel</i>
+                      </button>
+                      <button class="pape">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </div>
+                  </td>
                 </tbody>
             </table>
             <button id="vaciarDatos" class="btn btn-primary custom-button">
               <i class="fas fa-folder"></i> Vaciar Datos
             </button>
-            <button class="papelera">
-              <i class="fas fa-trash"></i> <!-- Agrega el icono de FontAwesome que desees -->
-          </button>
+              
           
         </div>
     </main>
