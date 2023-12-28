@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-jefeisc',
   templateUrl: './jefeisc.component.html',
   styleUrls: ['./jefeisc.component.css']
 })
 export class JefeiscComponent implements OnInit {
-  Alumno: any[] = []; // Ajusta el tipo de datos según la estructura de tus alumnos
+  Alumno: any[] = [];
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.getAlumnos(); // Llama a la función para obtener los alumnos al inicializar el componente
+    this.getAlumnos();
   }
 
   getAlumnos() {
@@ -22,6 +24,26 @@ export class JefeiscComponent implements OnInit {
       },
       (error) => {
         console.error('Error obteniendo alumnos', error);
+      }
+    );
+  }
+
+  moverAlumnoAlReciclaje(alumnoId: string): void {
+    this.authService.moverAlumno(alumnoId).subscribe(
+      (data) => {
+        console.log('Alumno movido al reciclaje:', data);
+        window.location.reload();
+      },
+      (error) => {
+        console.error('Error moviendo alumno al reciclaje:', error);
+  
+        // Verifica el tipo de error
+        if (error instanceof HttpErrorResponse) {
+          console.error('Estado del error:', error.status);
+          console.error('Mensaje del error:', error.error);
+        }
+  
+       
       }
     );
   }

@@ -27,7 +27,7 @@
         </div>-->
         <div class="Jefe">
           <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            jefatura.sistemas@tesch.edu.mx
+            jefatura.sistemas.tesch.edu.mx
             <i class="fas fa-user"></i> <!-- Icono de FontAwesome -->
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -41,7 +41,7 @@
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
     <a href="#"><i class="material-icons">person</i> Solicitud de alumnos</a>
-    <a href="#"><i class="material-icons">book</i> Compendio de casos</a>
+    <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
     <a href="#"><i class="material-icons">check_circle</i> Casos Aceptados</a>
     <a href="#"><i class="material-icons">description</i> Acta LXX</a>
     <a href="#"><i class="material-icons">history</i> Historial de casos</a>
@@ -67,39 +67,33 @@
             <table>
                 <thead>
                   <tr>
-                    <th colspan="9" style="text-align: left; font-size: 25px;">CASOS ELIMINADOS</th>
+                    <th colspan="6" style="text-align: left; font-size: 20px;">CASOS ELIMINADOS</th>
                   </tr>
                     <tr>
-                      <th>ID</th>
+                      
                         <th>MATRICULA</th>
                         <th>NOMBRE COMPLETO</th> 
                         <th>CARRERA</th>
                         <th>TIPO DE CASO</th>
-                        <th>FECHA DE REGISTRO</th>
-                        <th>FECHA DE ELIMINACION</th>
-                      <th></th>
-                        <th>ACCIONES</th>
+                        <th>FECHA DE CREACION</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- contenido de la tabla  -->
-                    <tr>
-                      <td>1</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                   
+                  <tr *ngFor="let alumno of alumnosReciclaje">
+                    <td>{{ alumno.matricula }}</td>
+                    <td>{{ alumno.nombreCom }}</td>
+                    <td>{{ alumno.carrera }}</td>
+                    <td>{{ alumno.casoTipo }}</td>
+                    <td>{{ alumno.updatedAt | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                       <td><input type="checkbox" name="caso1"></td>
-                        <td>
-                        <button class="editar-button">Restablecer
-                          <i class="fas fa-retweet"></i>
-                        </button> 
-                        </td>  
                   </tr>
                 </tbody>
             </table>
+            <button  id="vaciarDatos" class="btn btn-primary custom-button">
+              <i class="fas fa-undo"></i> Restablecer
+            </button> 
           </div>
         </div>
     </main>

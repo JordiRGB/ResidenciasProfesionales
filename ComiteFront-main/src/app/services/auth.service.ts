@@ -40,6 +40,13 @@ export class AuthService {
  getAlumnos(): Observable<any[]> {
   return this.http.get<any[]>(`${this.URL}/get/alumnos`);
 }
+// Metodo para mover un registro a la coleccion de reciclaje "Alumno"
+moverAlumno(alumnoId: string): Observable<any> {
+  const url = `${this.URL}/reciclaje/alumno/${alumnoId}`;
+  return this.http.post(url, {});
+}
+getAlumnosReciclaje(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos`);
+}
 
-  
 }

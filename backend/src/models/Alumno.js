@@ -27,7 +27,6 @@ const alumnoSchema = new Schema(
 const Alumno = model('Alumno', alumnoSchema);
 
 // Creamos un modelo a partir del mismo schema para Reciclaje
-// Creamos un modelo a partir del mismo schema para Reciclaje
 const Reciclaje = model('Reciclaje', alumnoSchema);
 
 
