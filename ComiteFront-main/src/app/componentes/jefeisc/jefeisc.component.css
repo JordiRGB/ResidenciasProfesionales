@@ -10,118 +10,11 @@ html, body, ul, li, div {
     font-size: 1rem;
   }
 
-  .btnMenu{
-    padding-left: 0%;
-    border-radius: 1cm;
-    margin-right: 5px;
-    margin-right: 20px;
-  }
-  /* This class is applied to the containing div <div class="nav"> and is used to set the background color and height of the navbar */
-  .nav {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    background: #8BC34A;
-    height: 100px; /* set same as height & line-height below */
-    justify-content: end;
-  }
-  
-  /* This rule centers the nav items verticaly in the bar with the height and line height properties. Spacing between the nav items is controlled by setting right and left padding.  */
-  .nav li {
-    display: inline-block;
-    list-style: none;
-    height: 100px; /* should be the same as line-height */
-    line-height: 75px; /* should be the same as height */
-    padding: 0 40px; /* "0" sets top and bottom padding to none */
-    justify-content: end;
-  }
-  
-  /* :hover allows you change the background color of the nav items when you mouse over them. Play around with the transition value to change the speed of the hover transition. */
-  .nav li:hover {
-    background: rgb(255, 255, 255);
-    transition: background .3s;
-  }
-  
-  /* This rule is applied to the link <a> tag. It lets you turn off the link underline and set the link text color. */
-  .nav-link {
-    color: #000000;
-    font-size: 200%;
-    text-decoration: none;
-    margin-top: 10px;
-  }
-
-  .sec22 {
-    display: flex;
-    background: rgb(208, 207, 207);
-    height: 600px;
-    align-items: center;
-    }
-    .contenido-izquierda {
-        margin-right: 20px;
-    }
-    .img2 {
-        height: 65%;
-        width: 40%;
-        margin-left: 150px;
-        border-radius: 40px;
-    }
-    .convo{
-        border-color: #000000;
-        margin-inline-start: 200px;
-        padding-top: 35px;
-        font-size: 480%;
-        margin-bottom: 20px;
-    }
-    .pCaso{
-        margin-left: 150px;
-        padding-bottom: 60px;
-        font-size: 150%;
-    }
-    .btn-secondary{
-        height: 80px;
-        width: 300px;
-        margin-left: 100px;
-        margin-right: 80px;
-        font-size: 200%;
-        border-radius: 40px;
-        background-color: #494949;
-        text-align: center;
-        line-height: 1.5px;
-    }
-    .btn-light{
-        height: 80px;
-        width: 300px;
-        font-size: 175%;
-        border-radius: 40px;
-        border: 2px solid black;
-        text-align: center;
-        line-height: 1.5px;
-    }
-    .sec33{
-        background-color: #8BC34A;
-        height: 1000px;
-    }
-    .tipCas{
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-weight: 900;
-        text-align: center;
-        font-size: 48px;
-    }
+ 
     
-    .contenedor-img {
-        text-align: center; /* Alinea el contenido del contenedor al centro */
-        height: 200px; /* Altura del contenedor */
-    }
-    .img3{
-        padding-top: 2%;
-        height: 140px;
-        width: 100px;
-        margin: auto; /* Aplica márgenes automáticos para centrar horizontalmente */
-        display: block; /* Cambia la visualización a "block" para que los márgenes automáticos funcionen */
-    }
+    
     .sec44{
-        background-color: #000000;
+        background-color: #e4c7c7;
         height: 240px;
     }
     .p1{
@@ -140,7 +33,7 @@ html, body, ul, li, div {
         color:white;
         text-align: center;
     }
-    
+
 
 /* cambios nuevos */
 body {
@@ -399,6 +292,20 @@ td button {
     background-color: #ccc;
 }
 
+.accion-button {
+    width: 40px; /* Ancho deseado */
+    height: 40px; /* Alto deseado */
+    padding: 0; /* Elimina el relleno interno */
+    border: none; /* Elimina el borde */
+    background-color: transparent; /* Fondo transparente */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+}
+
+.accion-button i {
+    font-size: 20px; /* Tamaño del icono */
+    color: #000; /* Color del icono */
+}
+
 /* Estilos personalizados para el botón y el menú desplegable */
 .Jefe .btn-secondary {
     background-color: transparent !important; /* Fondo transparente */
@@ -458,12 +365,13 @@ table tr td .rechazar{
     justify-content: center; /* Centra horizontalmente el contenido del botón */
     align-items: center; /* Centra verticalmente el contenido del botón */
 }
+
 table tr td .pape{
     width: 40px; /* Ancho deseado */
     height: 40px; /* Alto deseado */
     padding: 0; /* Elimina el relleno interno */
     border: 2px solid black; /* Elimina el borde */
-    background-color: rgb(143, 219, 42); /* Cambia el color de fondo del botón según tus preferencias */
+    background-color: rgb(73, 255, 27); /* Cambia el color de fondo del botón según tus preferencias */
     color: #070707; /* Cambia el color del texto del botón según tus preferencias */
     border-radius: 50%; /* Hace que el botón sea circular */
     cursor: pointer; /* Cambia el cursor al pasar el ratón */
