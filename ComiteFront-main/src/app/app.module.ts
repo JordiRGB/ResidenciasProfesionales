@@ -15,6 +15,9 @@ import { PagSignUpComponent } from './componentes/pag-sign-up/pag-sign-up.compon
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
+import { MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,7 @@ import { PapeleraComponent } from './componentes/papelera/papelera.component';
     PagSignUpComponent,
     JefeiscComponent,
     AdministradorComponent,
-    PapeleraComponent
+    PapeleraComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,9 +37,11 @@ import { PapeleraComponent } from './componentes/papelera/papelera.component';
     BrowserAnimationsModule,
     MatButtonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
