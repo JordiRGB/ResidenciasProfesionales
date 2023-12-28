@@ -1,6 +1,14 @@
 const alumnoCtrl = {};
-const Alumno = require('../models/Alumno.js');
+const { Alumno, Reciclaje } = require('../models/Alumno.js'); // Corrección en esta línea;
+
+// Resto del código...
+
+
+
 const fs = require('fs');
+
+
+
 
 // Utilizamos promisify para convertir fs.unlink en una función que devuelve una promesa
 const unlinkAsync = require('util').promisify(fs.unlink);
@@ -133,5 +141,105 @@ alumnoCtrl.deleteAlumno = async (req, res) => {
     }
 };
 
+//reciclaje
+
+alumnoCtrl.reciclajeAlumno = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Obtener la información del alumno antes de moverlo a reciclaje
+        const alumnoExistente = await Alumno.findById(id);
+
+        // Verificar si el alumno existe
+        if (!alumnoExistente) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Crear un nuevo documento en la colección de reciclaje con los datos del alumno
+        const alumnoReciclado = await Reciclaje.create(alumnoExistente.toObject());
+
+        // Obtener el nombre del archivo
+        const evidencia = alumnoExistente.evidencia;
+
+        // Eliminar el alumno de la colección principal
+        await Alumno.findByIdAndDelete(id);
+
+        // No mover ni copiar el archivo, mantenerlo en la carpeta uploads
+        // Puedes agregar aquí lógica adicional si es necesario
+
+        res.status(200).json(alumnoReciclado);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+        console.error(error);
+    }
+};
+
+
+alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
+    try {
+        const reciclajes = await Reciclaje.find();
+        res.status(200).json(reciclajes);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+        console.error(error);
+    }
+};
+
+alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Obtener la información del alumno antes de eliminarlo
+        const alumnoExistente = await Reciclaje.findById(id);
+
+        // Verificar si el alumno existe
+        if (!alumnoExistente) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Eliminar el archivo PDF asociado al alumno
+        const rutaArchivo = `uploads/${alumnoExistente.evidencia}`;
+        await fs.promises.unlink(rutaArchivo);
+
+        // Eliminar el alumno de la base de datos
+        const alumnoEliminado = await Reciclaje.findByIdAndDelete(id);
+
+        res.status(200).json(alumnoEliminado);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+};
+
+alumnoCtrl.restaurarAlumno = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Obtener la información del alumno antes de restaurarlo desde reciclaje
+        const alumnoReciclado = await Reciclaje.findById(id);
+
+        // Verificar si el alumno existe en reciclaje
+        if (!alumnoReciclado) {
+            return res.status(404).json(`Alumno in Reciclaje with id ${id} not found`);
+        }
+
+        // Obtener el nombre del archivo
+        const evidencia = alumnoReciclado.evidencia;
+
+        // No mover ni copiar el archivo, mantenerlo en la carpeta uploads
+        // Puedes agregar aquí lógica adicional si es necesario
+
+        // Eliminar el alumno de la colección de reciclaje
+        await Reciclaje.findByIdAndDelete(id);
+
+        // Crear un nuevo documento en la colección de Alumno con los datos del alumno reciclado
+        const alumnoRestaurado = await Alumno.create(alumnoReciclado.toObject());
+
+        res.status(200).json(alumnoRestaurado);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+        console.error(error);
+    }
+};
 
 module.exports = alumnoCtrl;
