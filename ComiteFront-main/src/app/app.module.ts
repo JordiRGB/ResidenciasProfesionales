@@ -11,6 +11,7 @@ import { PagRegCasoComponent } from './componentes/pag-reg-caso/pag-reg-caso.com
 import { PagLogInComponent } from './componentes/pag-log-in/pag-log-in.component';
 import { PagRestablecerPassComponent } from './componentes/pag-restablecer-pass/pag-restablecer-pass.component';
 import { PagSignUpComponent } from './componentes/pag-sign-up/pag-sign-up.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
@@ -18,6 +19,7 @@ import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
 import { ToastrModule } from 'ngx-toastr';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   imports: [
     BrowserModule,
+    PdfViewerModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -42,6 +45,9 @@ import { ToastrModule } from 'ngx-toastr';
     MatFormFieldModule,
     ToastrModule.forRoot(),
     MatInputModule,
+    SweetAlert2Module.forRoot(),
+    
+
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

@@ -29,5 +29,9 @@ const Alumno = model('Alumno', alumnoSchema);
 // Creamos un modelo a partir del mismo schema para Reciclaje
 const Reciclaje = model('Reciclaje', alumnoSchema);
 
+// Creamos un modelo a partir del mismo schema para Aceptados
+const Aceptados = model('Aceptados', alumnoSchema);
 
-module.exports = { Alumno, Reciclaje };
+
+
+module.exports = { Alumno, Reciclaje, Aceptados};

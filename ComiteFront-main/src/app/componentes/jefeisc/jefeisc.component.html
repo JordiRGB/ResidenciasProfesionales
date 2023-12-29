@@ -81,13 +81,12 @@
                     <td>{{ alumno.carrera }}</td>
                     <td>{{ alumno.casoTipo }}</td>
                     <td>
-                      
-                      <a [href]="alumno.pdfPath" target="_blank">{{ alumno.evidencia }}</a>
-                  </td>
+                      <a [href]="'uploads/' + alumno.evidencia" download="{{ alumno.evidencia }}">{{ alumno.evidencia }}</a>
+                    </td>
                     <td>{{ alumno.casoEsta }}</td>
                     <td>
                       <div class="botones-container">
-                      <button class="Aceptar">
+                      <button (click)="aceptarAlumno(alumno._id)" class="Aceptar">
                         <i class="material-icons">check_circle</i>
                       </button>
                       <button class="rechazar">

@@ -52,5 +52,10 @@ restaurarAlumno(alumnoId: string): Observable<any> {
   const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
   return this.http.post(url, {});
 }
+// Metodo para mover un registro a la coleccion de Aceptados "Alumno"
+aceptarAlumno(alumnoId: string): Observable<any> {
+  const url = `${this.URL}/aceptar/alumnos/${alumnoId}`;
+  return this.http.post(url, {});
+}
 
 }

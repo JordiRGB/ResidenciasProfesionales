@@ -1,9 +1,9 @@
 const alumnoCtrl = {};
-const { Alumno, Reciclaje } = require('../models/Alumno.js'); // Corrección en esta línea;
+const { Alumno, Reciclaje, Aceptados } = require('../models/Alumno.js'); 
 const mongoose = require('mongoose');
 
 
-// Resto del código...
+
 
 
 
@@ -243,6 +243,55 @@ alumnoCtrl.restaurarAlumno = async (req, res) => {
         const alumnoRestaurado = await Alumno.create(alumnoReciclado.toObject());
 
         res.status(200).json(alumnoRestaurado);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+        console.error(error);
+    }
+};
+
+alumnoCtrl.aceptarAlumno = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Obtener la información del alumno antes de moverlo a aceptados
+        const alumnoExistente = await Alumno.findById(id);
+
+        // Verificar si el alumno existe
+        if (!alumnoExistente) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Crear un nuevo documento en la colección de aceptados con los datos del alumno
+        const alumnoAceptado = await Aceptados.create({
+            // Asegúrate de agregar todos los campos necesarios aquí
+            matricula: alumnoExistente.matricula,
+            nombreCom: alumnoExistente.nombreCom,
+            telefono: alumnoExistente.telefono,
+            casoEsta: 'Aceptado',
+            direccion: alumnoExistente.direccion,
+            carrera: alumnoExistente.carrera,
+            casoTipo: alumnoExistente.casoTipo,
+            semestre: alumnoExistente.semestre,
+            correo: alumnoExistente.correo,
+            motivosAca: alumnoExistente.motivosAca,
+            motivosPer: alumnoExistente.motivosPer,
+            evidencia: alumnoExistente.evidencia
+
+        });
+
+        // Eliminar el alumno de la colección principal
+        await Alumno.findByIdAndDelete(id);
+
+        res.status(200).json(alumnoAceptado);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+        console.error(error);
+    }
+};
+alumnoCtrl.getaceptarAlumno = async (req, res) => {
+    try {
+        const Aceptado = await Aceptados.find();
+        res.status(200).json(Aceptado);
     } catch (error) {
         res.status(500).json({ message: "Server error", error });
         console.error(error);

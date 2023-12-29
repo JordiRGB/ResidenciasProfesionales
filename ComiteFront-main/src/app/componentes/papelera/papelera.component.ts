@@ -1,6 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-papelera',
@@ -35,17 +36,34 @@ export class PapeleraComponent implements OnInit {
       }
     );
   }
-  
+
   restablecerAlumno(alumnoId: string): void {
     if (alumnoId) {
       this.authService.restaurarAlumno(alumnoId).subscribe(
         () => {
-          console.log('Alumno restaurado correctamente');
+          // Mostrar mensaje de éxito con SweetAlert2 y cerrar después de 3 segundos
+          Swal.fire({
+            title: 'Éxito',
+            text: 'Alumno restaurado correctamente',
+            icon: 'success',
+            timer: 2000, // 3 segundos
+            timerProgressBar: true,
+          });
+
           // Vuelve a cargar la lista de alumnos reciclados después de restaurar
-          this.getAlumnosReciclaje(); // Utiliza el método getAlumnosReciclaje
+          this.getAlumnosReciclaje();
         },
         (error) => {
           console.error('Error al restaurar alumno', error);
+
+          // Mostrar mensaje de error con SweetAlert2 y cerrar después de 3 segundos
+          Swal.fire({
+            title: 'Error',
+            text: 'Error al restaurar el alumno',
+            icon: 'error',
+            timer: 1000, // 3 segundos
+            timerProgressBar: true,
+          });
         }
       );
     } else {
