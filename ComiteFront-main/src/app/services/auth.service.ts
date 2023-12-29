@@ -48,5 +48,9 @@ moverAlumno(alumnoId: string): Observable<any> {
 getAlumnosReciclaje(): Observable<any[]> {
   return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos`);
 }
+restaurarAlumno(alumnoId: string): Observable<any> {
+  const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
+  return this.http.post(url, {});
+}
 
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-jefeisc',
@@ -10,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class JefeiscComponent implements OnInit {
   Alumno: any[] = [];
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getAlumnos();
@@ -31,7 +33,10 @@ export class JefeiscComponent implements OnInit {
   moverAlumnoAlReciclaje(alumnoId: string): void {
     this.authService.moverAlumno(alumnoId).subscribe(
       (data) => {
-        console.log('Alumno movido al reciclaje:', data);
+        // Mostrar mensaje de éxito con Toastr
+        this.toastr.success('Alumno movido al reciclaje', 'Éxito', { timeOut: 3000 });
+  
+        // Recargar la página después de mostrar el mensaje
         window.location.reload();
       },
       (error) => {
@@ -43,9 +48,11 @@ export class JefeiscComponent implements OnInit {
           console.error('Mensaje del error:', error.error);
         }
   
-       
+        // Mostrar mensaje de error con Toastr
+        this.toastr.error('Error al mover el alumno al reciclaje', 'Error');
       }
     );
   }
+  
   
 }

@@ -81,8 +81,8 @@
                     <td>{{ alumno.carrera }}</td>
                     <td>{{ alumno.casoTipo }}</td>
                     <td>
-                      <!-- Utiliza un enlace para abrir el PDF al hacer clic -->
-                      <a [href]="alumno.evidencia.pdfPath" target="_blank">{{ alumno.evidencia }}</a>
+                      
+                      <a [href]="alumno.pdfPath" target="_blank">{{ alumno.evidencia }}</a>
                   </td>
                     <td>{{ alumno.casoEsta }}</td>
                     <td>

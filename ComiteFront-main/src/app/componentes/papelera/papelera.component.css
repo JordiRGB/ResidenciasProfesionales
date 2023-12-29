@@ -286,19 +286,9 @@ td button {
   background-color: transparent !important; /* Fondo transparente al pasar el ratón */
   color: black !important; /* Color de texto en negro al pasar el ratón */
 }
-.restablecer {
-  background-color: rgb(48, 243, 64);
-    color: rgb(0, 0, 0);
-    border: 2px solid black; /* Agrega un borde sólido de 2 píxeles de color negro */
-    border-radius: 8px; /* Ajusta el radio de las esquinas para hacerlas redondeadas */
-    padding: 10px 15px;
-    cursor: pointer;
-}
-.restablecer i {
-  margin-right: 5px; /* Añade un margen derecho entre el icono y el texto */
-}
+
 /* Estilos personalizados para el botón */
-#vaciarDatos.custom-button {
+#restablecer.custom-button {
   background-color: white;
   border-radius: 8px;
   color: #000;
@@ -313,13 +303,13 @@ td button {
 }
 
 /* Estilo para el icono dentro del botón */
-#vaciarDatos.custom-button i {
+#restablecer.custom-button i {
   margin-left: 9px; /* Agrega un margen a la derecha del icono */
   opacity: 0.5; /* Establece la transparencia del icono (0.7 = 70% de opacidad) */
   color: #000000;
 }
 
 /* Cambio de estilo al pasar el ratón por encima (opcional) */
-#vaciarDatos.custom-button:hover {
+#restablecer.custom-button:hover {
   background-color: #68817a;
 }

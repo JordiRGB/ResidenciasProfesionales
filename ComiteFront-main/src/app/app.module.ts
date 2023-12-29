@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagInicioComponent } from './componentes/pag-inicio/pag-inicio.component';
@@ -18,6 +17,8 @@ import { PapeleraComponent } from './componentes/papelera/papelera.component';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AuthService } from './services/auth.service';
     FormsModule,
     HttpClientModule,
     MatFormFieldModule,
+    ToastrModule.forRoot(),
     MatInputModule,
   ],
   providers: [AuthService],

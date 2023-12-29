@@ -1,5 +1,7 @@
 const alumnoCtrl = {};
 const { Alumno, Reciclaje } = require('../models/Alumno.js'); // Corrección en esta línea;
+const mongoose = require('mongoose');
+
 
 // Resto del código...
 
@@ -214,6 +216,11 @@ alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
 alumnoCtrl.restaurarAlumno = async (req, res) => {
     try {
         const { id } = req.params;
+
+        // Verificar si el ID es null o no es un ObjectId válido
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid ID provided' });
+        }
 
         // Obtener la información del alumno antes de restaurarlo desde reciclaje
         const alumnoReciclado = await Reciclaje.findById(id);
