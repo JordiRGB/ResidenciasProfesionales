@@ -25,5 +25,4 @@ export class JefeiscComponent implements OnInit {
       }
     );
   }
-  
 }
