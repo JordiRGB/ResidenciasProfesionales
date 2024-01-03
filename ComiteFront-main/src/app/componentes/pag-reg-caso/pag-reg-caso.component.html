@@ -41,35 +41,35 @@
     </section>
     <section class="secform">
       <div class="parent">
-        <form (submit)="registrarCaso()" class="example-form">
+        <form enctype="multipart/form-data" method="post" (ngSubmit)="registrarCaso()" class="example-form" [formGroup]="casoForm">
           <mat-label>Ingresa tu nombre</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre completo" name="nombre" [(ngModel)]="datosCaso.nombre">
+            <input matInput placeholder="Nombre completo" formControlName="nombreCom" [(ngModel)]="datosCaso.nombreCom">
           </mat-form-field>
 
           <mat-label>Ingresa tu matricula</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Matricula</mat-label>
-            <input matInput type="number" placeholder="201924..." name="matricula"  [(ngModel)]="datosCaso.matricula">
+            <input matInput type="number" placeholder="201924..." formControlName="matricula" [(ngModel)]="datosCaso.matricula">
           </mat-form-field>
 
           <mat-label>Ingresa tu numero de teléfono</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Teléfono/celular</mat-label>
-            <input matInput type="number" placeholder="10 digitos" name="telefono" id="telefono" [(ngModel)]="datosCaso.numero">
+            <input matInput type="number" placeholder="10 digitos" id="telefono" formControlName="numero" [(ngModel)]="datosCaso.numero">
           </mat-form-field>
 
           <mat-label>Ingresa tu dirección</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Dirección</mat-label>
-            <textarea matInput type="text" placeholder="Calle 30..." name="direccion" id="direccion" [(ngModel)]="datosCaso.direccion"></textarea>
+            <textarea matInput type="text" placeholder="Calle 30..." id="direccion" formControlName="direccion" [(ngModel)]="datosCaso.direccion"></textarea>
           </mat-form-field>
 
           <mat-label>Selecciona tu carrera:</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Carrera</mat-label>
-            <select name="opciones" [(ngModel)]="datosCaso.carrera" matNativeControl required>
+            <select name="opciones" formControlName="carrera" [(ngModel)]="datosCaso.carrera" matNativeControl required>
               <option value="Ingeniería en Sistemas Computacionales">Ingeniería en Sistemas Computacionales</option>
               <option value="Ingeniería Industrial">Ingeniería Industrial</option>
               <option value="Ingeniería Electromecánica">Ingeniería Electromecánica</option>
@@ -82,7 +82,7 @@
           <mat-label>Selecciona tu caso:</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Caso</mat-label>
-            <select name="opciones" [(ngModel)]="datosCaso.Tcaso" matNativeControl required>
+            <select name="opciones" formControlName="casoTipo" [(ngModel)]="datosCaso.casoTipo" matNativeControl required>
               <option value="Residencias por tercera ocasión">Residencias por tercera ocasión</option>
               <option value="Cambio de modalidad">Cambio de modalidad</option>
               <option value="Decimotercer semestre">Decimotercer semestre</option>
@@ -95,7 +95,7 @@
           <mat-label>Selecciona tu semestre:</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Semestre</mat-label>
-            <select name="opciones" [(ngModel)]="datosCaso.semestre" matNativeControl required>
+            <select name="opciones" formControlName="semestre" [(ngModel)]="datosCaso.semestre" matNativeControl required>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -115,29 +115,31 @@
           <mat-label>Ingresa tu correo institucional</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Correo institucional</mat-label>
-            <input matInput type="email" placeholder="Pedro_sc@..." name="correo" id="correo" [(ngModel)]="datosCaso.email">
+            <input matInput type="email" placeholder="Pedro_sc@..." id="correo" formControlName="correo" [(ngModel)]="datosCaso.correo">
           </mat-form-field>
 
           <mat-label>Confirmar correo institucional</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Confirmar correo institucional</mat-label>
-            <input matInput type="email" placeholder="Pedro_sc@..." name="correo" id="correo" [(ngModel)]="datosCaso.email">
+            <input matInput type="email" id="confirmarcorreo" placeholder="Pedro_sc@..." (input)="verificarCorreos()">
+            <div *ngIf="!correosCoinciden" style="color: red;">Los correos no coinciden</div>
           </mat-form-field>
+
 
           <mat-label>Motivos personales</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Motivos</mat-label>
-            <textarea matInput type="text" placeholder="Debido a..." name="motivos-p" id="motivos-p" [(ngModel)]="datosCaso.motivosP" required></textarea>
+            <textarea matInput type="text" placeholder="Debido a..."  id="motivos-p" formControlName="motivosPer" [(ngModel)]="datosCaso.motivosPer" required></textarea>
           </mat-form-field>
 
           <mat-label>Motivos Académicos</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Motivos</mat-label>
-            <textarea matInput type="text" placeholder="Debido a..." name="motivos-a" id="motivos-a" [(ngModel)]="datosCaso.motivosA" required></textarea>
+            <textarea matInput type="text" placeholder="Debido a..."  id="motivos-a" formControlName="motivosAca" [(ngModel)]="datosCaso.motivosAca" required></textarea>
           </mat-form-field>
 
             <label for="formFile" class="form-label">Subir evidencia</label>
-            <input class="form-control" type="file" id="formFile"  [(ngModel)]="datosCaso.estado" name="evidencia" required/>
+            <input class="form-control" type="file" id="formFile" formControlName="evidencia" [(ngModel)]="datosCaso.evidencia"/>
 
             <button type="submit" class="btnselectfile" mat-raised-button color="primary">Subir</button>
         </form>

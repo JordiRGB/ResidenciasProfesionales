@@ -4,6 +4,12 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cors = require('cors');
 const passport = require ('passport');
+const bodyParser = require('body-parser');
+
+//bodyparse
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 
 

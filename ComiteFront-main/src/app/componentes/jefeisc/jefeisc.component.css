@@ -3,11 +3,11 @@ html, body, ul, li, div {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;   
+    font-size: 1rem;
   }
 
  
@@ -101,6 +101,7 @@ main {
     position: absolute;
     background-size: cover;
     background-position: center bottom; /* Centra la imagen horizontalmente y la coloca un poco más abajo */
+    background-color: #ffffff; /* Establece el color de fondo del menú desplegable */
     min-width: 200px; /* Aumenta este valor para hacer el menú más ancho */
     min-height: 300px; /* Aumenta este valor para colocar la imagen más abajo */
     padding: px;
@@ -169,6 +170,10 @@ footer {
     background-color: #f3f2f2;
     color: #070707;
     font-size: 15px;
+}
+table {
+    width: 100%;
+    overflow-x: auto;
 }
 
 th,
@@ -248,10 +253,10 @@ td button {
 /* Estilo para el contenedor de búsqueda */
 .search {
     background-color: #b8b3b3;
-    border: 3cap solid #fffbfb;
+    border: 1cap solid #fffbfb;
     border-radius: 5px;
-    padding: 5px;
-    width: 800px; /* Ajusta el ancho a tu preferencia */
+    padding: 3px;
+    width: 100%;    /* Ajusta el ancho a tu preferencia */
     display: flex;
     align-items: center;
     flex-direction: row-reverse; /* Invierte la dirección de los elementos */
@@ -261,7 +266,7 @@ td button {
 .search::before {
     content: '\f002'; /* Código Unicode del icono de búsqueda (puedes cambiarlo) */
     font-family: 'Font Awesome 5 Free'; /* Fuente de Font Awesome */
-    font-weight: 900;
+    font-weight: 600;
     font-size: 16px;
     color: #fdf8f8; /* Color del icono */
     margin-left: 5px; /* Cambiamos margin-right a margin-left */
@@ -286,37 +291,6 @@ td button {
 .search-button:hover {
     background-color: #ccc;
 }
-/* Estilo para el botón circular */
-.papelera {
-    width: 50px; /* Define el ancho del botón */
-    height: 50px; /* Define la altura del botón (igual que el ancho para hacerlo circular) */
-    border-radius: 50%; /* Hace que el botón sea circular */
-    background-color: #0db823; /* Cambia el color de fondo del botón según tus preferencias */
-    color: #fff; /* Cambia el color del texto del botón según tus preferencias */
-    border: none; /* Elimina el borde del botón */
-    cursor: pointer;
-    position: absolute;
-    bottom: 80px; /* Ajusta la distancia desde la parte inferior */
-    right: 100px; /* Ajusta la distancia desde la parte derecha (menos a la derecha) */
-}
-
-/* Cambio de estilo al pasar el ratón por encima (opcional) */
-.papelera-button:hover {
-    background-color: #d2d9e0; /* Cambia el color de fondo al pasar el ratón por encima */
-}
-.accion-button {
-    width: 40px; /* Ancho deseado */
-    height: 40px; /* Alto deseado */
-    padding: 0; /* Elimina el relleno interno */
-    border: none; /* Elimina el borde */
-    background-color: transparent; /* Fondo transparente */
-    cursor: pointer; /* Cambia el cursor al pasar el ratón */
-}
-
-.accion-button i {
-    font-size: 20px; /* Tamaño del icono */
-    color: #000; /* Color del icono */
-}
 
 /* Estilos personalizados para el botón y el menú desplegable */
 .Jefe .btn-secondary {
@@ -340,3 +314,64 @@ td button {
     background-color: transparent !important; /* Fondo transparente al pasar el ratón */
     color: black !important; /* Color de texto en negro al pasar el ratón */
 }
+@media screen and (max-width: 768px) {
+    /* Add your responsive styles here */
+    body {
+        font-size: 14px;
+    }
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+table tr td .Aceptar{
+    width: 40px; /* Ancho deseado */
+    height: 40px; /* Alto deseado */
+    padding: 0; /* Elimina el relleno interno */
+    border: 2px solid black; /* Elimina el borde */
+    background-color: rgb(11, 255, 153); /* Cambia el color de fondo del botón según tus preferencias */
+    color: #000000; /* Cambia el color del texto del botón según tus preferencias */
+    border-radius: 50%; /* Hace que el botón sea circular */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    display: flex; /* Utiliza el modelo de caja flexible */
+    justify-content: center; /* Centra horizontalmente el contenido del botón */
+    align-items: center; /* Centra verticalmente el contenido del botón */
+}
+
+table tr td .rechazar{
+    width: 40px; /* Ancho deseado */
+    height: 40px; /* Alto deseado */
+    padding: 0; /* Elimina el relleno interno */
+    border: 2px solid black; /* Elimina el borde */
+    background-color: rgb(255, 27, 27); /* Cambia el color de fondo del botón según tus preferencias */
+    color: #070707; /* Cambia el color del texto del botón según tus preferencias */
+    border-radius: 50%; /* Hace que el botón sea circular */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    display: flex; /* Utiliza el modelo de caja flexible */
+    justify-content: center; /* Centra horizontalmente el contenido del botón */
+    align-items: center; /* Centra verticalmente el contenido del botón */
+}
+table tr td .pape{
+    width: 40px; /* Ancho deseado */
+    height: 40px; /* Alto deseado */
+    padding: 0; /* Elimina el relleno interno */
+    border: 2px solid black; /* Elimina el borde */
+    background-color: rgb(143, 219, 42); /* Cambia el color de fondo del botón según tus preferencias */
+    color: #070707; /* Cambia el color del texto del botón según tus preferencias */
+    border-radius: 50%; /* Hace que el botón sea circular */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    display: flex; /* Utiliza el modelo de caja flexible */
+    justify-content: center; /* Centra horizontalmente el contenido del botón */
+    align-items: center; /* Centra verticalmente el contenido del botón */
+}
+
+table tr td i{
+    display: flex;
+    gap: 10px;
+}
+.botones-container {
+    display: flex;
+    gap: 10px; /* Agrega un espacio de 10px entre los botones */
+}
+
+
