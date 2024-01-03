@@ -26,10 +26,8 @@ import { FormGroup, Validators } from '@angular/forms';
       evidencia:'',
     };
     router: any;
-
     correosCoinciden: boolean = true; // Inicia como true para que la validación inicial no muestre error
     confirmarCorreoInput: any; // Inicializamos la variable
-
     constructor(private authService: AuthService, router: Router){}
 
     ngOnInit(): void {
@@ -75,6 +73,7 @@ import { FormGroup, Validators } from '@angular/forms';
           // Después de registrar el caso, redirige a la página de visualización
         },
         (err) => {
+          console.log(this.datosCaso);
           console.log(err);
         }
       );
