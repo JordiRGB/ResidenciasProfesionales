@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { DatosCaso } from '../models/datos-caso';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -34,6 +34,7 @@ export class AuthService {
   signIn(user: any): Observable<any> {
     return this.http.post<any>(this.URL + '/users/signin', user);
   }
+<<<<<<< HEAD
   registrarCaso(datosCaso: any): Observable<any> {
     return this.http.post<any>(this.URL+ '/create/alumno', datosCaso);
   }
@@ -42,4 +43,14 @@ export class AuthService {
   getAlumnos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL}/get/alumnos`);
   }
+=======
+  registrarCaso(datosCaso: DatosCaso): Observable<any> {
+    return this.http.post<any>(this.URL + '/create/alumno', datosCaso);
+  }
+
+ // Método para mostrar los datos de la colección "Alumno"
+ getAlumnos(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/alumnos`);
+}
+>>>>>>> c68a3b906a3df6544d92cf7321b36ace378e2cd7
 }
