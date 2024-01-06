@@ -15,6 +15,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
+import { AceptadosComponent } from './componentes/aceptados/aceptados.component';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
@@ -33,6 +34,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     JefeiscComponent,
     AdministradorComponent,
     PapeleraComponent,
+    AceptadosComponent,
   ],
   imports: [
     BrowserModule,

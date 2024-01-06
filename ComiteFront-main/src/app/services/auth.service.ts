@@ -57,5 +57,9 @@ aceptarAlumno(alumnoId: string): Observable<any> {
   const url = `${this.URL}/aceptar/alumnos/${alumnoId}`;
   return this.http.post(url, {});
 }
+// Metodo para mostrar a la coleccion de Aceptados 
+getAceptadosAlumnos(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/aceptados/alumnos`);
+}
 
 }

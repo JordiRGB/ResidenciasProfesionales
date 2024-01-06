@@ -34,7 +34,7 @@ router.get('/get/reciclaje/alumnos', getReciclajeAlumnos)
 router.delete('/delete/reciclaje/alumno/:id', deleteReciclajeAlumno)
 router.post('/restaurar/alumno/:id', restaurarAlumno)
 router.post('/aceptar/alumnos/:id', aceptarAlumno);
-router.get('get/aceptar/alumnos/', getaceptarAlumno);
+router.get('/get/aceptados/alumnos', getaceptarAlumno);
 
 
 

@@ -290,12 +290,13 @@ alumnoCtrl.aceptarAlumno = async (req, res) => {
 };
 alumnoCtrl.getaceptarAlumno = async (req, res) => {
     try {
-        const Aceptado = await Aceptados.find();
-        res.status(200).json(Aceptado);
+        const aceptados = await Aceptados.find();
+        res.status(200).json(aceptados);
     } catch (error) {
         res.status(500).json({ message: "Server error", error });
         console.error(error);
     }
 };
+
 
 module.exports = alumnoCtrl;

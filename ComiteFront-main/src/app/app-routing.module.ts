@@ -8,6 +8,7 @@ import {PagSignUpComponent}from './componentes/pag-sign-up/pag-sign-up.component
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
+import { AceptadosComponent } from './componentes/aceptados/aceptados.component';
 
 const routes: Routes = [
   { path: 'inicio', component: PagInicioComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'jefes', component: JefeiscComponent},
   { path: 'papelera', component: PapeleraComponent},
   { path: 'administrador', component: AdministradorComponent},
+  {path: 'Aceptado', component: AceptadosComponent},
   { path: '**', component: PagInicioComponent }, // Manejo de rutas no encontradas
   
 ];
