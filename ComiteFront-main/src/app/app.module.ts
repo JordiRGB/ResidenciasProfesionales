@@ -15,10 +15,18 @@ import { PagSignUpComponent } from './componentes/pag-sign-up/pag-sign-up.compon
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
+<<<<<<< HEAD
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
+=======
+import { MyNavbarComponent } from './componentes/my-navbar/my-navbar.component';
+import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';
+import { PagActaTwoComponent } from './componentes/pag-acta-two/pag-acta-two.component';
+import { DataService } from './services/data.service';
+
+>>>>>>> main
 
 @NgModule({
   declarations: [
@@ -31,6 +39,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     JefeiscComponent,
     AdministradorComponent,
     PapeleraComponent,
+<<<<<<< HEAD
+=======
+    MyNavbarComponent,
+    PagActaComponent,
+    PagActaTwoComponent,
+>>>>>>> main
   ],
   imports: [
     BrowserModule,
@@ -43,7 +57,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     ReactiveFormsModule
   ],
+<<<<<<< HEAD
   providers: [AuthService],
+=======
+  providers: [DataService],
+>>>>>>> main
   bootstrap: [AppComponent]
 })
 export class AppModule { }
