@@ -1,0 +1,57 @@
+<app-my-navbar></app-my-navbar>
+
+<div class="container row justify-content-between">
+    <div class="card1" id="editableSection">
+        ACTA DE LA <span id="editableText">{{ tipoSesion }}</span>
+        <label for="tipoSesion"></label>
+        <select id="tipoSesion" [(ngModel)]="tipoSesion" (change)="updateEditableText()">
+          <option value="ORDINARIA">ORDINARIA</option>
+          <option value="EXTRAORDINARIA">EXTRAORDINARIA</option>
+        </select>
+        DEL COMITE ACADEMICO DEL TECNOLOGICO DE ESTUDIOS SUPERIORES DE CHALCO TESCHA/ACTA.COM.ACAD./{{ getCurrentDate() | date: 'dd-MM-yyyy' }}/{{ convertToRoman(getRomanNumber()) }}
+      </div>
+      
+      
+  <div class="card">
+    En la Sala de Juntas de la Dirección Académica del Edificio Bicentenario de la Independencia del Tecnológico de Estudios Superiores de Chalco “TESCHA”, ubicado en la Carretera Federal México-Cuautla s/n y Carretera Chalco-Miraflores, La Candelaria Tlapala, Chalco, Estado de México, siendo las {{currentDate}} se reunieron de manera virtual en segunda convocatoria, a fin de celebrar la {{convertToRoman(getRomanNumber())}} Sesión {{tipoSesion}} del Comité Académico del Tecnológico de Estudios Superiores de Chalco:  
+    <div *ngFor="let asistente of asistentes">
+        <label>
+          <input type="checkbox" [(ngModel)]="asistente.presente"> {{ asistente.nombre }}, {{ asistente.cargo }}
+        </label>
+      </div>
+    La sesión se efectuó conforme al siguiente:
+  </div>
+  <p class="p">ORDEN DEL DIA </p> 
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+    <label class="form-check-label" for="flexCheckChecked">
+      1. Lista de asistencia y declaratoria de quórum.
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+    <label class="form-check-label" for="flexCheckChecked">
+      2. Lectura y aprovacion del Orden del dia.
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+    <label class="form-check-label" for="flexCheckChecked">
+      3. Discución y resolución de los asuntos para los que fue citado  el Comite Académico.
+    </label>
+  </div>
+  <div class="form-check1">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      3.1 Presentación y análisis de los casos de estudiantes para los que fue citadi el Comité Academico.
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+    <label class="form-check-label" for="flexCheckChecked">
+      4. Asuntos Generales
+    </label>
+  </div>
+
+  <button (click)="guardarTexto()">SIGUIENTE</button>
+</div>

@@ -15,6 +15,11 @@ import { PagSignUpComponent } from './componentes/pag-sign-up/pag-sign-up.compon
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
+import { MyNavbarComponent } from './componentes/my-navbar/my-navbar.component';
+import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';
+import { PagActaTwoComponent } from './componentes/pag-acta-two/pag-acta-two.component';
+import { DataService } from './services/data.service';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +31,10 @@ import { PapeleraComponent } from './componentes/papelera/papelera.component';
     PagSignUpComponent,
     JefeiscComponent,
     AdministradorComponent,
-    PapeleraComponent
+    PapeleraComponent,
+    MyNavbarComponent,
+    PagActaComponent,
+    PagActaTwoComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +44,7 @@ import { PapeleraComponent } from './componentes/papelera/papelera.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
