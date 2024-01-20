@@ -1,57 +1,52 @@
 const express = require('express');
 const methodOverride = require('method-override');
-const flash = require('connect-flash'); 
+const flash = require('connect-flash');
 const session = require('express-session');
 const cors = require('cors');
-const passport = require ('passport');
+const passport = require('passport');
 const bodyParser = require('body-parser');
 
-//bodyparse
+// Crear la aplicación Express
+const app = express();
+
+// Bodyparser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-
-
-//Initialization
-const app = express();
-require('./config/passport');
-
-app.use(cors({
+// Configuración de CORS
+app.use(
+  cors({
     origin: 'http://localhost:4200',
-    methods: 'GET,POST,OPTIONS', // Debes incluir OPTIONS
-    allowedHeaders: 'Content-Type,Authorization', // Especifica los encabezados permitidos
-  }));
+    methods: 'GET,POST,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+  })
+);
 
-
-  
-//Middlewares
-
-
+// Middlewares
 app.use(methodOverride('_method'));
-app.use(session({
+app.use(
+  session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
-}));
+    saveUninitialized: true,
+  })
+);
 app.use(flash());
-
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Global Variables
-app.use((req, res, next)=> {
-  res.locals.succes_mgs = req.flash('success_mgs');
+// Variables globales
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
   next();
 });
 
-//settings
+// Configuración de la aplicación
 app.use(express.json());
 app.set('port', process.env.PORT || 4000);
 
+// Rutas
+app.use('/api', require('./routes/user.route'));
+app.use('/api', require('./routes/alumnos.route'));
 
-//Routes
-
-app.use('/api',require('./routes/user.route'));
-app.use('/api',require('./routes/alumnos.route'));
 module.exports = app;
