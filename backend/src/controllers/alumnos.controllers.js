@@ -59,7 +59,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
         motivosAca,
         motivosPer,
         evidencia,
-      });  
+      });
   
       res.status(201).json(newAlumno);
     } catch (error) {
@@ -68,7 +68,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
     }
   };
 
-  alumnoCtrl.updateAlumno = async (req, res) => {
+alumnoCtrl.updateAlumno = async (req, res) => {
     try {
         const { id } = req.params;
         const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer } = req.body;
@@ -175,7 +175,6 @@ alumnoCtrl.reciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 
 alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
     try {

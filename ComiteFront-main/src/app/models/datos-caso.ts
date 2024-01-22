@@ -1,10 +1,10 @@
 export class DatosCaso {
     matricula: number;
     nombreCom: string;
-    numero: number;
+    telefono: number;
+    casoEsta: string;
     direccion: string;
     carrera: string;
-    casoEsta: string;
     casoTipo: string;
     semestre: number;
     correo: string;
@@ -15,10 +15,10 @@ export class DatosCaso {
     constructor(matricula: number, nombreCom: string, numero: number, direccion: string, carrera: string, casoEsta: string, casoTipo: string, semestre: number, correo: string, motivosAca: string, motivosPer: string, evidencia: string){
         this.matricula = matricula;
         this.nombreCom = nombreCom;
-        this.numero = numero;
+        this.telefono = numero;
+        this.casoEsta = casoEsta;
         this.direccion = direccion;
         this.carrera = carrera;
-        this.casoEsta = casoEsta;
         this.casoTipo = casoTipo;
         this.semestre = semestre;
         this.correo = correo;

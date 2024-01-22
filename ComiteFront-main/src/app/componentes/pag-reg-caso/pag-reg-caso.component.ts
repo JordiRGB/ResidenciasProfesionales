@@ -14,10 +14,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
     datosCaso: DatosCaso= {
       matricula:0,
       nombreCom:'',
-      numero:0,
+      telefono:0,
+      casoEsta:'Pendiente',
       direccion:'',
       carrera:'',
-      casoEsta:'Pendiente',
       casoTipo:'',
       semestre:0,
       correo:'',
@@ -31,28 +31,24 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
     correosCoinciden: boolean = true; // Inicia como true para que la validación inicial no muestre error
     confirmarCorreoInput: any; // Inicializamos la variable
 
-<<<<<<< HEAD
-    constructor(private authService: AuthService, router: Router){}
-=======
     casoForm: FormGroup;
 
     constructor(private authService: AuthService, router: Router, private fb: FormBuilder){
       this.casoForm = this.fb.group({
         matricula: ['', Validators.required],
         nombreCom: ['', Validators.required],
-        numero: ['', Validators.required],
+        telefono: ['', Validators.required],
+        casoEsta: ['pendiente', Validators.required],
         direccion: ['', Validators.required],
         carrera: ['', Validators.required],
-        casoEsta: ['pendiente', Validators.required],
         casoTipo: ['', Validators.required],
         semestre: ['', Validators.required],
         correo: ['', Validators.required],
         motivosAca: ['', Validators.required],
         motivosPer: ['', Validators.required],
-        evidencia: ['', Validators.required],
+        evidencia: [''],
       })
     }
->>>>>>> c68a3b906a3df6544d92cf7321b36ace378e2cd7
 
     ngOnInit(): void {
       this.authService.initDatosCasoForm();
@@ -87,10 +83,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
       const CASO: DatosCaso = {
         matricula: this.casoForm.get('matricula')?.value,
         nombreCom: this.casoForm.get('nombreCom')?.value,
-        numero: this.casoForm.get('numero')?.value,
+        telefono: this.casoForm.get('telefono')?.value,
+        casoEsta: this.casoForm.get('casoEsta')?.value,
         direccion: this.casoForm.get('direccion')?.value,
         carrera: this.casoForm.get('carrera')?.value,
-        casoEsta: this.casoForm.get('casoEsta')?.value,
         casoTipo: this.casoForm.get('casoTipo')?.value,
         semestre: this.casoForm.get('semestre')?.value,
         correo: this.casoForm.get('correo')?.value,
