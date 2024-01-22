@@ -49,8 +49,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     ToastrModule.forRoot(),
     MatInputModule,
     SweetAlert2Module.forRoot(),
-    
-
     ReactiveFormsModule
   ],
   providers: [AuthService],
