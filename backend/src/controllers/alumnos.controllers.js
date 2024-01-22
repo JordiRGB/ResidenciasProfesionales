@@ -59,7 +59,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
         motivosAca,
         motivosPer,
         evidencia,
-      });
+      });  
   
       res.status(201).json(newAlumno);
     } catch (error) {
