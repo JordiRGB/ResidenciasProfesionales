@@ -63,5 +63,23 @@ aceptarAlumno(alumnoId: string): Observable<any> {
 getAceptadosAlumnos(): Observable<any[]> {
   return this.http.get<any[]>(`${this.URL}/get/aceptados/alumnos`);
 }
+// Metodo para mostrar a la coleccion de USERS
+getAllUsers(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/users/get`);
+}
+deleteUser(userId: string): Observable<any> {
+  const url = `${this.URL}/users/delete/${userId}`;
+  return this.http.delete(url);
+}
+updateUsuario(id: string, datosUsuario: any): Observable<any> {
+  const url = `${this.URL}/users/update/${id}`;
+  return this.http.put(url, datosUsuario);
+}
+
+createUser(newUser: any): Observable<any> {
+  return this.http.post<any>(`${this.URL}/users/create`, newUser);
+}
 
 }
+
+

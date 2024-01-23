@@ -4,7 +4,6 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
-const passport = require('passport');
 const bodyParser = require('body-parser');
 
 // Crear la aplicación Express
@@ -18,13 +17,12 @@ const path = require('path');
 const fs = require('fs');
 
 
-// Initialization
-const app = express();
+
 require('./config/passport');
 
 app.use(cors({
     origin: 'http://localhost:4200',
-    methods: 'GET,POST,OPTIONS',
+    methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     allowedHeaders: 'Content-Type,Authorization',
 }));
 
