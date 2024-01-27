@@ -99,13 +99,12 @@ alumnoCtrl.createAlumno = async (req, res) => {
 alumnoCtrl.updateAlumno = async (req, res) => {
     try {
         const { id } = req.params;
-        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoRechazo } = req.body;
+        const { matricula, nombreCom, telefono, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoRechazo } = req.body;
 
         let updateFields = {
             matricula,
             nombreCom,
             telefono,
-            casoEsta,
             direccion,
             carrera,
             casoTipo,
@@ -113,19 +112,15 @@ alumnoCtrl.updateAlumno = async (req, res) => {
             correo,
             motivosAca,
             motivosPer,
-            motivoRechazo, // Agrega el motivo de rechazo al objeto de actualización
+            motivoRechazo,
+            casoEsta: "Rechazado",
         };
 
-        // Verificar si se proporciona un nuevo archivo PDF
         if (req.file) {
-            // Obtener la ruta del archivo actual
             const alumnoExistente = await Alumno.findById(id);
             const rutaArchivoActual = alumnoExistente.evidencia;
 
-            // Eliminar el archivo actual utilizando promesas
             await unlinkAsync(`uploads/${rutaArchivoActual}`);
-
-            // Actualizar el campo evidencia con el nuevo archivo
             updateFields.evidencia = req.file.filename;
         }
 
@@ -140,13 +135,14 @@ alumnoCtrl.updateAlumno = async (req, res) => {
         }
 
         // Enviar correo si el estado es "Rechazar"
-        if (casoEsta === "Rechazar") {
+        if (updateFields.casoEsta === "Rechazado" && correo) {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
                     user: 'lulamon75@gmail.com',
                     pass: 'vhar rohu zzgo mjte',
                 },
+                debug: true, // Habilita logs de depuración
             });
 
             const mailOptions = {
@@ -156,15 +152,23 @@ alumnoCtrl.updateAlumno = async (req, res) => {
                 text: `Hola ${nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${motivoRechazo}\n\nSaludos, \nTu Aplicación`,
             };
 
-            await transporter.sendMail(mailOptions);
+            // Agrega un bloque try-catch para manejar errores de envío de correo
+            try {
+                const info = await transporter.sendMail(mailOptions);
+                console.log('Correo enviado con éxito:', info);
+            } catch (error) {
+                console.error('Error al enviar el correo:', error);
+                return res.status(500).json({ message: 'Error sending email' });
+            }
         }
 
         res.status(200).json(alumno);
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
         console.error(error);
+        res.status(500).json({ message: "Server error" });
     }
 };
+
 
 
 alumnoCtrl.deleteAlumno = async (req, res) => {

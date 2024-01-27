@@ -86,10 +86,10 @@
                     <td>{{ alumno.casoEsta }}</td>
                     <td>
                       <div class="botones-container">
-                      <button (click)="aceptarAlumno(alumno._id)" class="Aceptar">
+                      <button *ngIf="!alumno.rechazado" (click)="aceptarAlumno(alumno._id, alumno.casoEsta)" class="Aceptar">
                         <i class="material-icons">check_circle</i>
                       </button>
-                      <button class="rechazar">
+                      <button *ngIf="!alumno.rechazado" class="rechazar" (click)="rechazarAlumno(alumno._id, alumno.casoEsta)">
                         <i class="material-icons">cancel</i>
                       </button>
                       <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)">

@@ -79,6 +79,9 @@ updateUsuario(id: string, datosUsuario: any): Observable<any> {
 createUser(newUser: any): Observable<any> {
   return this.http.post<any>(`${this.URL}/users/create`, newUser);
 }
+updateAlumno(id: string, data: any): Observable<any> {
+  return this.http.put<any>(`${this.URL}/update/alumno/${id}`, data);
+}
 
 }
 
