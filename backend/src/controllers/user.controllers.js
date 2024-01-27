@@ -108,12 +108,6 @@ usersCtrl.updateUser = async (req, res) => {
       user.name = req.body.name;
     }
 
-    if (req.body.password !== undefined) {
-      // Hash de la nueva contraseña antes de almacenarla
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      user.password = hashedPassword;
-    }
-
     if (req.body.email !== undefined) {
       // Verificar si el nuevo correo electrónico es diferente al existente
       if (req.body.email !== user.email) {
@@ -128,6 +122,13 @@ usersCtrl.updateUser = async (req, res) => {
 
     if (req.body.roles !== undefined) {
       user.roles = req.body.roles;
+    }
+
+    // Actualizar la contraseña solo si se proporciona un valor
+    if (req.body.password !== undefined && req.body.password !== "") {
+      // Hash de la nueva contraseña antes de almacenarla
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      user.password = hashedPassword;
     }
 
     const updatedUser = await user.save();

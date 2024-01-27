@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 
 
 
+const nodemailer = require('nodemailer');
+
+
 
 
 
@@ -41,37 +44,62 @@ alumnoCtrl.getAlumnos = async (req, res) => {
   }
 };
 
+
+
 alumnoCtrl.createAlumno = async (req, res) => {
-    try {
-      const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer } = req.body;
-      const evidencia = req.file.filename;
-  
-      const newAlumno = await Alumno.create({
-        matricula,
-        nombreCom,
-        telefono,
-        casoEsta,
-        direccion,
-        carrera,
-        casoTipo,
-        semestre,
-        correo,
-        motivosAca,
-        motivosPer,
-        evidencia,
-      });
-  
-      res.status(201).json(newAlumno);
-    } catch (error) {
-      res.status(500).json({ message: 'Error en el servidor' });
-      console.log(error);
-    }
-  };
+  try {
+    const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer } = req.body;
+    const evidencia = req.file.filename;
+
+    // Crear el nuevo alumno en la base de datos
+    const newAlumno = await Alumno.create({
+      matricula,
+      nombreCom,
+      telefono,
+      casoEsta,
+      direccion,
+      carrera,
+      casoTipo,
+      semestre,
+      correo,
+      motivosAca,
+      motivosPer,
+      evidencia,
+    });
+
+    // Configuración del transporte para nodemailer (ajustar según tu proveedor de correo)
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'lulamon75@gmail.com',
+        pass: 'vhar rohu zzgo mjte',
+      },
+    });
+
+    // Contenido del correo electrónico
+    const mailOptions = {
+      from: 'lulamon75@gmail.com',
+      to: correo,
+      subject: 'Solicitud recibida',
+      text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nSaludos, \nTu Aplicación`,
+    };
+
+    // Envía el correo electrónico
+    await transporter.sendMail(mailOptions);
+
+    // Respuesta a la solicitud del estudiante
+    res.status(201).json({ message: 'Alumno creado con éxito. Se ha enviado un correo de confirmación.' });
+  } catch (error) {
+    console.error('Error al crear el alumno o enviar el correo electrónico:', error);
+    res.status(500).json({ message: 'Error en el servidor' });
+  }
+};
+
 
 alumnoCtrl.updateAlumno = async (req, res) => {
     try {
         const { id } = req.params;
-        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer } = req.body;
+        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoRechazo } = req.body;
 
         let updateFields = {
             matricula,
@@ -85,6 +113,7 @@ alumnoCtrl.updateAlumno = async (req, res) => {
             correo,
             motivosAca,
             motivosPer,
+            motivoRechazo, // Agrega el motivo de rechazo al objeto de actualización
         };
 
         // Verificar si se proporciona un nuevo archivo PDF
@@ -110,12 +139,33 @@ alumnoCtrl.updateAlumno = async (req, res) => {
             return res.status(404).json(`Alumno with id ${id} not found`);
         }
 
+        // Enviar correo si el estado es "Rechazar"
+        if (casoEsta === "Rechazar") {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'lulamon75@gmail.com',
+                    pass: 'vhar rohu zzgo mjte',
+                },
+            });
+
+            const mailOptions = {
+                from: 'lulamon75@gmail.com',
+                to: correo,
+                subject: 'Solicitud rechazada',
+                text: `Hola ${nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${motivoRechazo}\n\nSaludos, \nTu Aplicación`,
+            };
+
+            await transporter.sendMail(mailOptions);
+        }
+
         res.status(200).json(alumno);
     } catch (error) {
         res.status(500).json({ message: "Server error" });
         console.error(error);
     }
 };
+
 
 alumnoCtrl.deleteAlumno = async (req, res) => {
     try {
