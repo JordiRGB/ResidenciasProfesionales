@@ -37,24 +37,36 @@ export class AdministradorComponent implements OnInit {
   }
 
   eliminarUsuario(userId: string): void {
-    this.authService.deleteUser(userId).subscribe(
-      response => {
-        console.log('Usuario eliminado exitosamente:', response);
-
-        // Mostrar mensaje de éxito con SweetAlert2
-        Swal.fire('Éxito', 'Usuario eliminado exitosamente', 'success');
-
-        // Actualizar la lista de usuarios después de la eliminación
-        this.getAllUsers();
-      },
-      error => {
-        console.error('Error al eliminar usuario:', error);
-        // Mostrar mensaje de error con SweetAlert2
-        Swal.fire('Error', 'Error al eliminar usuario', 'error');
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede revertir',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario hace clic en "Sí, eliminar"
+        this.authService.deleteUser(userId).subscribe(
+          response => {
+            console.log('Usuario eliminado exitosamente:', response);
+            // Mostrar mensaje de éxito con SweetAlert2
+            Swal.fire('Éxito', 'Usuario eliminado exitosamente', 'success');
+            // Actualizar la lista de usuarios después de la eliminación
+            this.getAllUsers();
+          },
+          error => {
+            console.error('Error al eliminar usuario:', error);
+            // Mostrar mensaje de error con SweetAlert2
+            Swal.fire('Error', 'Error al eliminar usuario', 'error');
+          }
+        );
       }
-    );
+    });
   }
-
+  
   editarUsuario(user: any): void {
     this.selectedUser = { ...user }; // Crear una copia para no afectar directamente el usuario original
   }
