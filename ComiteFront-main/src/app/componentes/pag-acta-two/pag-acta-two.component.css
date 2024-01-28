@@ -29,6 +29,7 @@ body {
     text-align:justify;
     margin-top: 25px;
     margin-bottom: 20px;
+    border: none;
   }
 .p{
     text-align: center;
@@ -47,3 +48,4 @@ body {
     background-color: black;
   color: white;
 }
+

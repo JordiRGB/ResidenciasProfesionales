@@ -1,24 +1,22 @@
 <app-my-navbar></app-my-navbar>
 
 <div class="container row justify-content-between">
-    <div class="card1" id="editableSection">
-        ACTA DE LA <span id="editableText">{{ tipoSesion }}</span>
-        <label for="tipoSesion"></label>
-        <select id="tipoSesion" [(ngModel)]="tipoSesion" (change)="updateEditableText()">
-          <option value="ORDINARIA">ORDINARIA</option>
-          <option value="EXTRAORDINARIA">EXTRAORDINARIA</option>
-        </select>
-        DEL COMITE ACADEMICO DEL TECNOLOGICO DE ESTUDIOS SUPERIORES DE CHALCO TESCHA/ACTA.COM.ACAD./{{ getCurrentDate() | date: 'dd-MM-yyyy' }}/{{ convertToRoman(getRomanNumber()) }}
-      </div>
-      
-      
+  <div class="card1">
+    ACTA DE LA {{palabras}} SESION 
+    <select id="tipoSesion" [(ngModel)]="tipoSesion">
+      <option value="ORDINARIA">ORDINARIA</option>
+      <option value="EXTRAORDINARIA">EXTRAORDINARIA</option>
+    </select>
+    DEL COMITE ACADEMICO DEL TECNOLOGICO DE ESTUDIOS SUPERIORES DE CHALCO TESCHA/ACTA.COM.ACAD./{{ getCurrentDate() | date: 'dd-MM-yyyy' }}/{{romano}}
+  </div>
+  
   <div class="card">
-    En la Sala de Juntas de la Dirección Académica del Edificio Bicentenario de la Independencia del Tecnológico de Estudios Superiores de Chalco “TESCHA”, ubicado en la Carretera Federal México-Cuautla s/n y Carretera Chalco-Miraflores, La Candelaria Tlapala, Chalco, Estado de México, siendo las {{currentDate}} se reunieron de manera virtual en segunda convocatoria, a fin de celebrar la {{convertToRoman(getRomanNumber())}} Sesión {{tipoSesion}} del Comité Académico del Tecnológico de Estudios Superiores de Chalco:  
+    En la Sala de Juntas de la Dirección Académica del Edificio Bicentenario de la Independencia del Tecnológico de Estudios Superiores de Chalco “TESCHA”, ubicado en la Carretera Federal México-Cuautla s/n y Carretera Chalco-Miraflores, La Candelaria Tlapala, Chalco, Estado de México, siendo las {{currentDateAndTime.time }} del dia {{ currentDateAndTime.date }} se reunieron de manera virtual en segunda convocatoria, a fin de celebrar la {{romano}} Sesión {{tipoSesion}} del Comité Académico del Tecnológico de Estudios Superiores de Chalco:
     <div *ngFor="let asistente of asistentes">
-        <label>
-          <input type="checkbox" [(ngModel)]="asistente.presente"> {{ asistente.nombre }}, {{ asistente.cargo }}
-        </label>
-      </div>
+      <label>
+        <input type="checkbox" [(ngModel)]="asistente.presente"> {{ asistente.nombre }}, {{ asistente.cargo }}
+      </label>
+    </div>
     La sesión se efectuó conforme al siguiente:
   </div>
   <p class="p">ORDEN DEL DIA </p> 
@@ -53,5 +51,5 @@
     </label>
   </div>
 
-  <button (click)="guardarTexto()">SIGUIENTE</button>
+  <button (click)="Pdatos()" >SIGUIENTE</button>
 </div>
