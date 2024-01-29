@@ -79,7 +79,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
       from: 'lulamon75@gmail.com',
       to: correo,
       subject: 'Solicitud recibida',
-      text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nSaludos, \nTu Aplicación`,
+      text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve sera revizada, te pedimos estar atento, \nSaludos!!`,
     };
 
     // Envía el correo electrónico
@@ -156,6 +156,27 @@ alumnoCtrl.updateAlumno = async (req, res) => {
 
             await transporter.sendMail(mailOptions);
         }
+
+        if (casoEsta === "Aceptado2") {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'lulamon75@gmail.com',
+                    pass: 'vhar rohu zzgo mjte',
+                },
+            });
+
+            const mailOptions = {
+                from: 'lulamon75@gmail.com',
+                to: correo,
+                subject: 'Solicitud Aceptada',
+                text: `Hola ${nombreCom},\n\nTu solicitud ha sido aceptada. Por favor pasa lo antes posible con el Comite Academico\n\nSaludos`,
+            };
+
+            await transporter.sendMail(mailOptions);
+        }
+
+        
 
         res.status(200).json(alumno);
     } catch (error) {

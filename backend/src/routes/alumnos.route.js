@@ -25,7 +25,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 
-const { getAlumno,createAlumno, updateAlumno, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno } = require( '../controllers/alumnos.controllers')
+const { getAlumno,createAlumno, updateAlumno, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, updateAlumno2 } = require( '../controllers/alumnos.controllers')
 
 router.get('/get/alumno/:matricula', getAlumno)
 router.get('/get/alumnos', getAlumnos)
@@ -36,6 +36,7 @@ router.post('/reciclaje/alumno/:id', reciclajeAlumno)
 router.get('/get/reciclaje/alumnos', getReciclajeAlumnos)
 router.delete('/delete/reciclaje/alumno/:id', deleteReciclajeAlumno)
 router.post('/restaurar/alumno/:id', restaurarAlumno)
+
 
 
 
