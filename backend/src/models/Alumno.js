@@ -15,7 +15,7 @@ const alumnoSchema = new Schema(
         correo: { type: String, required: [true, "correo is required"] },
         motivosAca: { type: String, required: [true, "motivosAca is required"] },
         motivosPer: { type: String, required: [true, "MotivosPer is required"] },
-        evidencia: { type: String, required: [true, "evidencias is required"] }
+        evidencia: { type: String, required: [true, "evidencia is required"] }
     },
     {
         timestamps: true,

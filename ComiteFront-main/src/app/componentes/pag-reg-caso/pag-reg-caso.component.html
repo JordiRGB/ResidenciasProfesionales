@@ -41,7 +41,7 @@
     </section>
     <section class="secform">
       <div class="parent">
-        <form enctype="multipart/form-data" method="post" (ngSubmit)="registrarCaso()" class="example-form" [formGroup]="casoForm">
+        <form method="post" enctype="multipart/form-data" (ngSubmit)="registrarCaso()" class="example-form" [formGroup]="casoForm">
           <mat-label>Ingresa tu nombre</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Nombre</mat-label>
@@ -139,7 +139,7 @@
           </mat-form-field>
 
             <label for="formFile" class="form-label">Subir evidencia</label>
-            <input class="form-control" type="file" id="formFile" formControlName="evidencia" [(ngModel)]="datosCaso.evidencia"/>
+            <input class="form-control" type="file" accept=".pdf" id="evidencia" id="formFile" formControlName="evidencia" [(ngModel)]="datosCaso.evidencia"/>
 
             <button type="submit" class="btnselectfile" mat-raised-button color="primary">Subir</button>
         </form>

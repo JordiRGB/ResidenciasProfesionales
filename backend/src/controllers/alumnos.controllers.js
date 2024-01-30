@@ -50,7 +50,6 @@ alumnoCtrl.createAlumno = async (req, res) => {
         motivosPer,
         evidencia,
       });  
-  
       res.status(201).json(newAlumno);
     } catch (error) {
       res.status(500).json({ message: 'Error en el servidor' });
