@@ -1,6 +1,7 @@
 const alumnoCtrl = {};
 const { Alumno, Reciclaje } = require('../models/Alumno.js'); // Corrección en esta línea;
-
+const EMAIL_COMI = process.env.EMAIL_COMI;
+const USER_COMI = process.env.USER_COMI;
 // Resto del código...
 const nodemailer = require('nodemailer');
 
@@ -46,7 +47,7 @@ alumnoCtrl.getAlumnos = async (req, res) => {
 
 alumnoCtrl.createAlumno = async (req, res) => {
   try {
-    const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer } = req.body;
+    const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
     const evidencia = req.file.filename;
 
     // Crear el nuevo alumno en la base de datos
@@ -63,20 +64,21 @@ alumnoCtrl.createAlumno = async (req, res) => {
       motivosAca,
       motivosPer,
       evidencia,
+      motivoComi: '', // Agrega un campo vacío para el motivo de rechazo
     });
 
     // Configuración del transporte para nodemailer (ajustar según tu proveedor de correo)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'lulamon75@gmail.com',
-        pass: 'vhar rohu zzgo mjte',
+        user: USER_COMI,
+        pass: EMAIL_COMI,
       },
     });
 
     // Contenido del correo electrónico
     const mailOptions = {
-      from: 'lulamon75@gmail.com',
+      from: USER_COMI,
       to: correo,
       subject: 'Solicitud recibida',
       text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve sera revizada, te pedimos estar atento, \nSaludos!!`,
@@ -97,7 +99,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
 alumnoCtrl.updateAlumno = async (req, res) => {
     try {
         const { id } = req.params;
-        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoRechazo } = req.body;
+        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
 
         let updateFields = {
             matricula,
@@ -111,20 +113,31 @@ alumnoCtrl.updateAlumno = async (req, res) => {
             correo,
             motivosAca,
             motivosPer,
-            motivoRechazo, // Agrega el motivo de rechazo al objeto de actualización
         };
+
+        // Agregar motivoComi solo si casoEsta es "Aceptado2"
+        if (casoEsta === "Aceptado2") {
+            updateFields.motivoComi = 'Aceptado por el Comite Academico';
+        } else {
+            // Agregar motivoComi solo si casoEsta es "Rechazar"
+            if (casoEsta === "Rechazar") {
+                updateFields.motivoComi = motivoComi || 'Motivo no especificado';
+            }
+        }
 
         // Verificar si se proporciona un nuevo archivo PDF
         if (req.file) {
             // Obtener la ruta del archivo actual
             const alumnoExistente = await Alumno.findById(id);
-            const rutaArchivoActual = alumnoExistente.evidencia;
+            if (alumnoExistente && alumnoExistente.evidencia) {
+                const rutaArchivoActual = alumnoExistente.evidencia;
 
-            // Eliminar el archivo actual utilizando promesas
-            await unlinkAsync(`uploads/${rutaArchivoActual}`);
+                // Eliminar el archivo actual utilizando promesas
+                await unlinkAsync(`uploads/${rutaArchivoActual}`);
 
-            // Actualizar el campo evidencia con el nuevo archivo
-            updateFields.evidencia = req.file.filename;
+                // Actualizar el campo evidencia con el nuevo archivo
+                updateFields.evidencia = req.file.filename;
+            }
         }
 
         const alumno = await Alumno.findByIdAndUpdate(
@@ -137,46 +150,32 @@ alumnoCtrl.updateAlumno = async (req, res) => {
             return res.status(404).json(`Alumno with id ${id} not found`);
         }
 
-        // Enviar correo si el estado es "Rechazar"
+        // Enviar correo si el estado es "Rechazar" o "Aceptado2"
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: USER_COMI,
+                pass: EMAIL_COMI,
+            },
+        });
+
+        let mailSubject, mailText;
         if (casoEsta === "Rechazar") {
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'lulamon75@gmail.com',
-                    pass: 'vhar rohu zzgo mjte',
-                },
-            });
-
-            const mailOptions = {
-                from: 'lulamon75@gmail.com',
-                to: correo,
-                subject: 'Solicitud rechazada',
-                text: `Hola ${nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${motivoRechazo}\n\nSaludos, \nTu Aplicación`,
-            };
-
-            await transporter.sendMail(mailOptions);
+            mailSubject = 'Solicitud Rechazada';
+            mailText = `Hola ${nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${updateFields.motivoComi}\n\nSaludos, \nTu Aplicación`;
+        } else if (casoEsta === "Aceptado2") {
+            mailSubject = 'Solicitud Aceptada';
+            mailText = `Hola ${nombreCom},\n\nTu solicitud ha sido aceptada. Por favor, pasa lo antes posible con el Comité Academico\n\nSaludos`;
         }
 
-        if (casoEsta === "Aceptado2") {
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'lulamon75@gmail.com',
-                    pass: 'vhar rohu zzgo mjte',
-                },
-            });
+        const mailOptions = {
+            from: USER_COMI,
+            to: correo,
+            subject: mailSubject,
+            text: mailText,
+        };
 
-            const mailOptions = {
-                from: 'lulamon75@gmail.com',
-                to: correo,
-                subject: 'Solicitud Aceptada',
-                text: `Hola ${nombreCom},\n\nTu solicitud ha sido aceptada. Por favor pasa lo antes posible con el Comite Academico\n\nSaludos`,
-            };
-
-            await transporter.sendMail(mailOptions);
-        }
-
-        
+        await transporter.sendMail(mailOptions);
 
         res.status(200).json(alumno);
     } catch (error) {
@@ -184,6 +183,8 @@ alumnoCtrl.updateAlumno = async (req, res) => {
         console.error(error);
     }
 };
+
+
 
 
 alumnoCtrl.deleteAlumno = async (req, res) => {
