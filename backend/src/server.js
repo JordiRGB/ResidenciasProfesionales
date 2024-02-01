@@ -87,6 +87,7 @@ app.set('port', process.env.PORT || 4000);
 // Routes
 app.use('/api', require('./routes/user.route'));
 app.use('/api', require('./routes/alumnos.route'));
+app.use('/api', require('./routes/roles.route'));
 
 module.exports = app;
 
