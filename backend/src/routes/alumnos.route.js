@@ -3,16 +3,16 @@ const router = Router();
 const multer = require('multer');
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function (_req, _file, cb) {
     cb(null, 'uploads/');
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+  filename: function (_req, _file, cb) {
+    cb(null, Date.now() + '-' + _file.originalname);
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'application/pdf') {
+const fileFilter = (_req, _file, cb) => {
+  if (_file.mimetype === 'application/pdf') {
     cb(null, true);
   } else {
     cb(new Error('Solo se permiten archivos PDF'), false);

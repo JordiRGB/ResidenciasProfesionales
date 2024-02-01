@@ -13,7 +13,7 @@ export class PagRegCasoComponent {
   datosCaso: DatosCaso = {
     matricula: 0,
     nombreCom: '',
-    numero: 0,
+    telefono: 0,
     direccion: '',
     carrera: '',
     casoEsta: 'Pendiente',
@@ -33,7 +33,7 @@ export class PagRegCasoComponent {
     this.casoForm = this.fb.group({
       matricula: ['', Validators.required],
       nombreCom: ['', Validators.required],
-      numero: ['', Validators.required],
+      telefono: ['', Validators.required],
       direccion: ['', Validators.required],
       carrera: ['', Validators.required],
       casoEsta: ['pendiente', Validators.required],
@@ -78,7 +78,7 @@ export class PagRegCasoComponent {
     const CASO: DatosCaso = {
       matricula: this.casoForm.get('matricula')?.value,
       nombreCom: this.casoForm.get('nombreCom')?.value,
-      numero: this.casoForm.get('numero')?.value,
+      telefono: this.casoForm.get('numero')?.value,
       direccion: this.casoForm.get('direccion')?.value,
       carrera: this.casoForm.get('carrera')?.value,
       casoEsta: this.casoForm.get('casoEsta')?.value,
