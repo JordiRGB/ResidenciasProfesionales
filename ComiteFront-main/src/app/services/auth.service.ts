@@ -34,7 +34,10 @@ export class AuthService {
   signIn(user: any): Observable<any> {
     return this.http.post<any>(this.URL + '/users/signin', user);
   }
+<<<<<<< HEAD
   
+=======
+>>>>>>> Solis/API
   registrarCaso(datosCaso: any): Observable<any> {
     return this.http.post<any>(this.URL+ '/create/alumno', datosCaso);
   }
