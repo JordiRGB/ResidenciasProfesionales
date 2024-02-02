@@ -10,7 +10,7 @@ export class DatosCaso {
     correo: string;
     motivosAca: string;
     motivosPer: string;
-    evidencia: string
+    evidencia: string;
 
     constructor(matricula: number, nombreCom: string, telefono: number, direccion: string, carrera: string, casoEsta: string, casoTipo: string, semestre: number, correo: string, motivosAca: string, motivosPer: string, evidencia: string){
         this.matricula = matricula;

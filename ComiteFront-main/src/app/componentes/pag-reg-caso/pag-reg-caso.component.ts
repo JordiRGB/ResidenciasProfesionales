@@ -65,7 +65,7 @@ export class PagRegCasoComponent {
       }
     }
   }
-
+  //verificacion de correos
   verificarCorreos(): void {
     if (this.confirmarCorreoInput) {
       this.correosCoinciden = this.datosCaso.correo === this.confirmarCorreoInput.value;
@@ -75,19 +75,23 @@ export class PagRegCasoComponent {
   }
 
   registrarCaso(): void {
-    const CASO: DatosCaso = {
-      matricula: this.casoForm.get('matricula')?.value,
-      nombreCom: this.casoForm.get('nombreCom')?.value,
-      telefono: this.casoForm.get('numero')?.value,
-      direccion: this.casoForm.get('direccion')?.value,
-      carrera: this.casoForm.get('carrera')?.value,
-      casoEsta: this.casoForm.get('casoEsta')?.value,
-      casoTipo: this.casoForm.get('casoTipo')?.value,
-      semestre: this.casoForm.get('semestre')?.value,
-      correo: this.casoForm.get('correo')?.value,
-      motivosAca: this.casoForm.get('motivosAca')?.value,
-      motivosPer: this.casoForm.get('motivosPer')?.value,
-      evidencia: this.casoForm.get('evidencia')?.value,
+    const formData = new FormData();
+    formData.append('matricula', this.casoForm.get('matricula')?.value);
+    formData.append('nombreCom', this.casoForm.get('nombreCom')?.value);
+    formData.append('telefono', this.casoForm.get('telefono')?.value);
+    formData.append('direccion', this.casoForm.get('direccion')?.value);
+    formData.append('carrera', this.casoForm.get('carrera')?.value);
+    formData.append('casoEsta', this.casoForm.get('casoEsta')?.value);
+    formData.append('casoTipo', this.casoForm.get('casoTipo')?.value);
+    formData.append('semestre', this.casoForm.get('semestre')?.value);
+    formData.append('correo', this.casoForm.get('correo')?.value);
+    formData.append('motivosAca', this.casoForm.get('motivosAca')?.value);
+    formData.append('motivosPer', this.casoForm.get('motivosPer')?.value);
+
+    // Obtener el archivo adjunto
+    const evidenciaFile = this.casoForm.get('evidencia')?.value;
+    if (evidenciaFile instanceof File) {
+      formData.append('evidenciaFile', evidenciaFile, evidenciaFile.name);
     }
 
     if (this.correosCoinciden) {
@@ -95,15 +99,14 @@ export class PagRegCasoComponent {
       console.log(this.datosCaso.correo);
       console.log(this.confirmarCorreoInput);
 
-      this.authService.registrarCaso(CASO).subscribe(
+      this.authService.registrarCaso(formData).subscribe(
         (res) => {
-          console.log(CASO);
-          console.log(res);
+          console.log('Caso registrado correctamente:', res);
           // Después de registrar el caso, redirige a la página de visualización
         },
         (err) => {
-          console.log(CASO);
-          console.log(err);
+          console.error('Error al registrar el caso:', err);
+          // Manejar el error, mostrar mensaje al usuario, etc.
         }
       );
     } else {
