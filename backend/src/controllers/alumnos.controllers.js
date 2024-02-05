@@ -5,6 +5,7 @@ const USER_COMI = process.env.USER_COMI;
 // Resto del código...
 const nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
+const path = require('path');
 
 
 const fs = require('fs');
@@ -32,18 +33,32 @@ alumnoCtrl.getAlumno = async (req, res) => {
 };
 
 alumnoCtrl.getAlumnos = async (req, res) => {
-  try {
-      const alumnos = await Alumno.find()
-      res.status(200).json(alumnos)
-  } catch (error) {
-      req.status(500).json({ message:error.message })
+    try {
+      const alumnos = await Alumno.find();
+      const alumnosWithFileURLs = alumnos.map(alumno => {
+        // Obtener el nombre del archivo de evidencia del alumno
+        const evidenciaFileName = alumno.evidencia;
+  
+        // Crear la URL completa del archivo PDF
+        const fileURL = path.join(__dirname, 'uploads', evidenciaFileName);
+  
+        // Devolver la información del alumno con la URL del archivo PDF
+        return {
+          ...alumno.toObject(),
+          evidenciaURL: fileURL,
+        };
+      });
+  
+      res.status(200).json(alumnosWithFileURLs);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
       console.log(error);
-  }
-};
+    }
+  };
 
 
 
-alumnoCtrl.createAlumno = async (req, res) => {
+  alumnoCtrl.createAlumno = async (req, res) => {
     try {
       const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
   
@@ -53,8 +68,13 @@ alumnoCtrl.createAlumno = async (req, res) => {
   
       const evidencia = req.files.evidencia;
   
-      // Renombrar el archivo para evitar conflictos
-      const fileName = evidencia.name;
+      // Obtén la extensión del archivo
+      const ext = path.extname(evidencia.name);
+  
+      // Genera un nombre de archivo único con timestamp antes de la extensión
+      const uniqueIdentifier = Date.now();
+      const fileName = `evidencia_${uniqueIdentifier}_${evidencia.name}`;
+  
       evidencia.mv(`./uploads/${fileName}`, function(err) {
         if (err) {
           return res.status(500).json({ message: 'Error al subir el archivo.' });
@@ -106,6 +126,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
     }
   };
   
+  
 
 
 alumnoCtrl.updateJefes = async (req, res) => {
@@ -128,11 +149,11 @@ alumnoCtrl.updateJefes = async (req, res) => {
         };
 
         // Agregar motivoComi solo si casoEsta es "Aceptado"
-        if (casoEsta === "Aceptado") {
+        if (casoEsta === "AceptadoJefe") {
             updateFields.motivoComi = 'Aceptado por Jefe/a de Carrera';
         } else {
             // Agregar motivoComi solo si casoEsta es "Rechazar"
-            if (casoEsta === "Rechazar") {
+            if (casoEsta === "RechazarJefe") {
                 updateFields.motivoComi = motivoComi || 'Motivo no especificado';
                 let jefeNombre, passJefe;//se usara despues
                 
