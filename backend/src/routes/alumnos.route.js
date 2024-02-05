@@ -1,14 +1,15 @@
 const { Router } = require('express')
 const fileUpload = require('express-fileupload');
 const router = Router();
-const { getAlumno, createAlumno, updateAlumno, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, getAlumnosAceptados } = require('../controllers/alumnos.controllers');
+const { getAlumno, createAlumno, updateJefes, updateSecre, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, getAlumnosAceptados } = require('../controllers/alumnos.controllers');
 
 // Middleware para gestionar la subida de archivos
 
 
 router.get('/get/alumno/:matricula', getAlumno);
 router.get('/get/alumnos', getAlumnos);
-router.put('/update/alumno/:id', updateAlumno);
+router.put('/update/alumnoJefes/:id', updateJefes );
+router.put('/update/alumnoSecre/:id', updateSecre );
 router.post('/create/alumno', createAlumno);
 router.delete('/delete/alumno/:id', deleteAlumno);
 router.post('/reciclaje/alumno/:id', reciclajeAlumno);

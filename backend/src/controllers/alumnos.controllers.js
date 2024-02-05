@@ -108,7 +108,125 @@ alumnoCtrl.createAlumno = async (req, res) => {
   
 
 
-alumnoCtrl.updateAlumno = async (req, res) => {
+alumnoCtrl.updateJefes = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
+
+        let updateFields = {
+            matricula,
+            nombreCom,
+            telefono,
+            casoEsta,//Aceptado
+            direccion,
+            carrera,
+            casoTipo,
+            semestre,
+            correo,
+            motivosAca,
+            motivosPer,
+        };
+
+        // Agregar motivoComi solo si casoEsta es "Aceptado"
+        if (casoEsta === "Aceptado") {
+            updateFields.motivoComi = 'Aceptado por Jefe/a de Carrera';
+        } else {
+            // Agregar motivoComi solo si casoEsta es "Rechazar"
+            if (casoEsta === "Rechazar") {
+                updateFields.motivoComi = motivoComi || 'Motivo no especificado';
+                let jefeNombre, passJefe;//se usara despues
+                
+                switch (carrera) {
+                    case "Ingeniería en Sistemas Computacionales"://aqui se pondra el correo del jefe de carrera
+                        jefeNombre = "Jefe/a de Carrera de Ingeniería en Sistemas Computacionales";
+                        break;
+                    
+                    case "Ingeniería Industrial":
+                        jefeNombre = "Jefe/a de Carrera de Ingeniería Industrial";
+                        break;
+                    
+                    case "Ingeniería Electromecánica":
+                        jefeNombre = "Jefe/a de Carrera de Ingeniería Electromecánica";
+                        break;
+
+                    case "Ingeniería Informática":
+                        jefeNombre = "Jefe/a de Carrera de Ingeniería Informática";
+                        break;
+
+                    case "Ingeniería Electrónica":
+                        jefeNombre = "Jefe/a de Carrera de Ingeniería Electrónica";
+                        break;
+
+                    case "Ingeniería en Administración":
+                        jefeNombre = "Jefe/a de Carrera de Ingeniería en Administración";
+                        break;
+                }
+                // Agrega estas líneas para asegurar que las variables estén disponibles fuera del bloque
+                updateFields.jefeNombre = jefeNombre;
+                updateFields.passJefe = passJefe;
+            }
+        }
+
+        // Verificar si se proporciona un nuevo archivo PDF
+        if (req.file) {
+            // Obtener la ruta del archivo actual
+            const alumnoExistente = await Alumno.findById(id);
+            if (alumnoExistente && alumnoExistente.evidencia) {
+                const rutaArchivoActual = alumnoExistente.evidencia;
+
+                // Eliminar el archivo actual utilizando promesas
+                await unlinkAsync(`uploads/${rutaArchivoActual}`);
+
+                // Actualizar el campo evidencia con el nuevo archivo
+                updateFields.evidencia = req.file.filename;
+            }
+        }
+
+        const alumno = await Alumno.findByIdAndUpdate(
+            id,
+            updateFields,
+            { new: true }
+        );
+
+        if (!alumno) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Enviar correo si el estado es "Rechazar" o "Aceptado2"
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: USER_COMI, //se agregara el nombreJefe
+                pass: EMAIL_COMI, //se agregara passJefe
+            },
+        });
+
+        let mailSubject, mailText;
+        if (casoEsta === "RechazarJefe") {
+            mailSubject = 'Solicitud Rechazada';
+            mailText = `Hola ${nombreCom},\n\nTu solicitud ha sido rechazada por el/la ${updateFields.jefeNombre}. Motivo: ${updateFields.motivoComi}\n\nSaludos, \nTu Aplicación`;
+        } else if (casoEsta === "AceptadoJefe") {
+            mailSubject = 'Solicitud Aceptada';
+            mailText = `Hola ${nombreCom},\n\nTu solicitud ha sido aceptada por el/la Jefe/a de Carrera. Te pedimos estar a tento a la decisión del COMITE DE CASOS ESPECIALES sobre tu caso\n\nSaludos`;
+        }
+
+        const mailOptions = {
+            from: USER_COMI,
+            to: correo,
+            subject: mailSubject,
+            text: mailText,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json(alumno);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+};
+
+alumnoCtrl.updateSecre = async (req, res) => {
     try {
         const { id } = req.params;
         const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
@@ -128,11 +246,11 @@ alumnoCtrl.updateAlumno = async (req, res) => {
         };
 
         // Agregar motivoComi solo si casoEsta es "Aceptado2"
-        if (casoEsta === "Aceptado2") {
+        if (casoEsta === "AceptadoComi") {
             updateFields.motivoComi = 'Aceptado por el Comite Academico';
         } else {
             // Agregar motivoComi solo si casoEsta es "Rechazar"
-            if (casoEsta === "Rechazar") {
+            if (casoEsta === "RechazarComi") {
                 updateFields.motivoComi = motivoComi || 'Motivo no especificado';
             }
         }
@@ -172,10 +290,10 @@ alumnoCtrl.updateAlumno = async (req, res) => {
         });
 
         let mailSubject, mailText;
-        if (casoEsta === "Rechazar") {
+        if (casoEsta === "RechazarComi") {
             mailSubject = 'Solicitud Rechazada';
             mailText = `Hola ${nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${updateFields.motivoComi}\n\nSaludos, \nTu Aplicación`;
-        } else if (casoEsta === "Aceptado2") {
+        } else if (casoEsta === "AceptadoComi") {
             mailSubject = 'Solicitud Aceptada';
             mailText = `Hola ${nombreCom},\n\nTu solicitud ha sido aceptada. Por favor, pasa lo antes posible con el Comité Academico\n\nSaludos`;
         }
@@ -195,7 +313,6 @@ alumnoCtrl.updateAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 
 
 
