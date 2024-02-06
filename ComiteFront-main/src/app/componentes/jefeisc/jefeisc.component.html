@@ -41,7 +41,7 @@
               <h3 class="menu-title">Menú</h3>
     <a href="#"><i class="material-icons">person</i> Solicitud de alumnos</a>
     <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
-    <a href="#"><i class="material-icons">check_circle</i> Casos Aceptados</a>
+    <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
     <a href="#"><i class="material-icons">description</i> Acta LXX</a>
     <a href="#"><i class="material-icons">history</i> Historial de casos</a>
     <a href="papelera"><i class="material-icons">delete</i>papelera</a>
@@ -89,7 +89,7 @@
                       <button *ngIf="!alumno.rechazado" (click)="aceptarAlumno(alumno._id, alumno.casoEsta)" class="Aceptar">
                         <i class="material-icons">check_circle</i>
                       </button>
-                      <button *ngIf="!alumno.rechazado" class="rechazar" (click)="rechazarAlumno(alumno._id, alumno.casoEsta)">
+                      <button *ngIf="!alumno.rechazado" class="rechazar" (click)="rechazarAlumno(alumno._id, alumno.casoEsta)" >
                         <i class="material-icons">cancel</i>
                       </button>
                       <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)">

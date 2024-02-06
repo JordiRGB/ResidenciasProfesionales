@@ -54,11 +54,7 @@ restaurarAlumno(alumnoId: string): Observable<any> {
   const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
   return this.http.post(url, {});
 }
-// Metodo para mover un registro a la coleccion de Aceptados "Alumno"
-aceptarAlumno(alumnoId: string): Observable<any> {
-  const url = `${this.URL}/aceptar/alumnos/${alumnoId}`;
-  return this.http.post(url, {});
-}
+
 // Metodo para mostrar a la coleccion de Aceptados 
 getAceptadosAlumnos(): Observable<any[]> {
   return this.http.get<any[]>(`${this.URL}/get/aceptados/alumnos`);
@@ -79,10 +75,23 @@ updateUsuario(id: string, datosUsuario: any): Observable<any> {
 createUser(newUser: any): Observable<any> {
   return this.http.post<any>(`${this.URL}/users/create`, newUser);
 }
-updateAlumno(id: string, data: any): Observable<any> {
-  return this.http.put<any>(`${this.URL}/update/alumno/${id}`, data);
+rechazarAlumno(id: string, motivoRechazo: string): Observable<any> {
+  const url = `${this.URL }/rechazar/${id}`;
+  const body = { motivoRechazo };
+
+  return this.http.put(url, body);
+}
+aceptarAlumno(id: string): Observable<any> {
+  const url = `${this.URL}/aceptar/${id}`;
+
+  const body = {};
+
+  return this.http.put(url, body);
+}
+esAlumnoAceptado(casoEsta: string): boolean {
+  return casoEsta === 'Aceptado';
+}
 }
 
-}
 
 

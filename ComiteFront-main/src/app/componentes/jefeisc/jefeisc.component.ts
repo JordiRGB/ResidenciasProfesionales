@@ -31,9 +31,11 @@ interface Alumno {
 })
 export class JefeiscComponent implements OnInit {
   Alumno: Alumno[] = [];
-  motivoRechazo: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    
+  }
+  
 
   ngOnInit() {
     this.getAlumnos();
@@ -83,68 +85,77 @@ export class JefeiscComponent implements OnInit {
   }
 
   aceptarAlumno(id: string, casoEsta: string): void {
-    if (!this.esAlumnoRechazado(casoEsta)) {
-      this.authService.aceptarAlumno(id).subscribe(
-        response => {
-          Swal.fire('Éxito', 'Alumno aceptado', 'success');
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        },
-        error => {
-          console.error('Error al aceptar al alumno', error);
-        }
-      );
-    } else {
-      Swal.fire('Error', 'Este alumno ha sido rechazado y no puede ser aceptado.', 'error');
+    if (this.esAlumnoRechazado(casoEsta)) {
+      Swal.fire('Error', 'Este alumno ya ha sido rechazado y no puede ser aceptado nuevamente.', 'error');
+      return;
     }
+    if (this.authService.esAlumnoAceptado(casoEsta)) {
+      Swal.fire('Error', 'Este alumno ya ha sido aceptado y no puede ser aceptado nuevamente.', 'error');
+      return;
+    }
+  
+  
+    this.authService.aceptarAlumno(id).subscribe(
+      (response) => {
+        console.log('Alumno aceptado con éxito', response);
+  
+        Swal.fire('Éxito', 'Alumno aceptado con éxito', 'success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      },
+      (error) => {
+        console.error('Error al aceptar al alumno', error);
+        Swal.fire('Error', 'Error al aceptar el alumno', 'error');
+      }
+    );
   }
-
-  rechazarAlumno(id: string, casoEsta: string): void {
-    if (!this.esAlumnoRechazado(casoEsta)) {
-      Swal.fire({
-        title: 'Motivo de Rechazo',
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Rechazar',
-        cancelButtonText: 'Cancelar',
-        inputValidator: (value: string) => {
-          if (!value.trim()) {
-            return 'Debes ingresar un motivo de rechazo';
+  
+  //botón de rechazo
+  rechazarAlumno(alumnoId: string, casoEsta: string): void {
+    if (this.esAlumnoRechazado(casoEsta)) {
+      Swal.fire('Error', 'Este alumno ya ha sido rechazado y no puede ser rechazado nuevamente.', 'error');
+      return;
+    }
+  
+    Swal.fire({
+      title: 'Motivo de Rechazo',
+      input: 'text',
+      inputLabel: 'Ingrese el motivo de rechazo',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'El motivo de rechazo es requerido';
+        }
+        return null;
+      },
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Rechazar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const motivoRechazo = result.value;
+  
+        this.authService.rechazarAlumno(alumnoId, motivoRechazo).subscribe(
+          (response) => {
+            console.log('Alumno rechazado con éxito', response);
+  
+            Swal.fire('Éxito', 'Alumno rechazado con éxito', 'success');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          },
+          (error) => {
+            console.error('Error al rechazar al alumno', error);
+            Swal.fire('Error', 'Error al rechazar el alumno', 'error');
           }
-          return null;
-        }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const motivoRechazo = result.value;
-  
-          // Llama al servicio para actualizar el alumno con el motivo de rechazo
-          this.authService.updateAlumno(id, { motivoRechazo }).subscribe(
-            response => {
-              const alumnoRechazado = this.Alumno.find(alumno => alumno._id === id);
-              if (alumnoRechazado) {
-                alumnoRechazado.rechazado = true;
-                alumnoRechazado.casoEsta = 'Rechazado';  // Asegúrate de actualizar el estado
-                alumnoRechazado.motivoRechazo = motivoRechazo;  // Actualiza el motivo de rechazo
-              }
-  
-              Swal.fire('Éxito', 'Alumno rechazado correctamente', 'success');
-            },
-            error => {
-              // Maneja el error y muestra una alerta de error si es necesario
-              console.error('Error al actualizar alumno:', error);
-              Swal.fire('Error', 'Error al rechazar al alumno', 'error');
-            }
-          );
-        }
-      });
-    } else {
-      Swal.fire('Advertencia', 'Este alumno ya ha sido rechazado.', 'warning');
-    }
+        );
+      }
+    });
   }
   
-
+  
   private esAlumnoRechazado(casoEsta: string): boolean {
     return casoEsta.toLowerCase() === 'rechazado';
   }
+  
 }

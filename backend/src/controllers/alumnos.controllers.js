@@ -1,16 +1,10 @@
 const alumnoCtrl = {};
-const { Alumno, Reciclaje, Aceptados } = require('../models/Alumno.js'); 
-const mongoose = require('mongoose');
-
-
-
+const { Alumno, Reciclaje} = require('../models/Alumno.js'); 
+const EMAIL_COMI = process.env.EMAIL_COMI;
+const USER_COMI = process.env.USER_COMI;
 const nodemailer = require('nodemailer');
-
-
-
-
-
 const fs = require('fs');
+const mongoose = require('mongoose');
 
 
 
@@ -48,38 +42,39 @@ alumnoCtrl.getAlumnos = async (req, res) => {
 
 alumnoCtrl.createAlumno = async (req, res) => {
   try {
-    const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer } = req.body;
+    const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
     const evidencia = req.file.filename;
 
     // Crear el nuevo alumno en la base de datos
     const newAlumno = await Alumno.create({
-      matricula,
-      nombreCom,
-      telefono,
-      casoEsta,
-      direccion,
-      carrera,
-      casoTipo,
-      semestre,
-      correo,
-      motivosAca,
-      motivosPer,
-      evidencia,
+        matricula,
+        nombreCom,
+        telefono,
+        casoEsta,
+        direccion,
+        carrera,
+        casoTipo,
+        semestre,
+        correo,
+        motivosAca,
+        motivosPer,
+        evidencia,
+        motivoComi: '', 
     });
 
     // Configuración del transporte para nodemailer (ajustar según tu proveedor de correo)
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'lulamon75@gmail.com',
-        pass: 'vhar rohu zzgo mjte',
-      },
-    });
+        service: 'gmail',
+        auth: {
+          user: USER_COMI,
+          pass: EMAIL_COMI,
+        },
+      });
 
     // Contenido del correo electrónico
     const mailOptions = {
-      from: 'lulamon75@gmail.com',
-      to: correo,
+        from: USER_COMI,
+        to: correo,
       subject: 'Solicitud recibida',
       text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve sera revizada, te pedimos estar atento, \nSaludos!!`,
     };
@@ -99,8 +94,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
 alumnoCtrl.updateAlumno = async (req, res) => {
     try {
         const { id } = req.params;
-        const { matricula, nombreCom, telefono, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoRechazo } = req.body;
-
+        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi, motivoRechazo } = req.body;
         let updateFields = {
             matricula,
             nombreCom,
@@ -116,14 +110,30 @@ alumnoCtrl.updateAlumno = async (req, res) => {
             casoEsta: "Rechazado",
         };
 
-        if (req.file) {
-            const alumnoExistente = await Alumno.findById(id);
-            const rutaArchivoActual = alumnoExistente.evidencia;
-
-            await unlinkAsync(`uploads/${rutaArchivoActual}`);
-            updateFields.evidencia = req.file.filename;
+        // Agregar motivoComi solo si casoEsta es "Aceptado2"
+        if (casoEsta === "Aceptado2") {
+            updateFields.motivoComi = 'Aceptado por el Comite Academico';
+        } else {
+            // Agregar motivoComi solo si casoEsta es "Rechazar"
+            if (casoEsta === "Rechazar") {
+                updateFields.motivoComi = motivoComi || 'Motivo no especificado';
+            }
         }
 
+        if (req.file) {
+            // Obtener la ruta del archivo actual
+            const alumnoExistente = await Alumno.findById(id);
+            if (alumnoExistente && alumnoExistente.evidencia) {
+                const rutaArchivoActual = alumnoExistente.evidencia;
+
+                // Eliminar el archivo actual utilizando promesas
+                await unlinkAsync(`uploads/${rutaArchivoActual}`);
+
+                // Actualizar el campo evidencia con el nuevo archivo
+                updateFields.evidencia = req.file.filename;
+            }
+        }
+        
         const alumno = await Alumno.findByIdAndUpdate(
             id,
             updateFields,
@@ -135,61 +145,39 @@ alumnoCtrl.updateAlumno = async (req, res) => {
         }
 
         // Enviar correo si el estado es "Rechazar"
-        if (updateFields.casoEsta === "Rechazado" && correo) {
+       
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: 'lulamon75@gmail.com',
-                    pass: 'vhar rohu zzgo mjte',
+                    user: USER_COMI,
+                    pass: EMAIL_COMI,
                 },
                 debug: true, // Habilita logs de depuración
             });
 
-            const mailOptions = {
-                from: 'lulamon75@gmail.com',
-                to: correo,
-                subject: 'Solicitud rechazada',
-                text: `Hola ${nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${motivoRechazo}\n\nSaludos, \nTu Aplicación`,
-            };
-
-            // Agrega un bloque try-catch para manejar errores de envío de correo
-            try {
-                const info = await transporter.sendMail(mailOptions);
-                console.log('Correo enviado con éxito:', info);
-            } catch (error) {
-                console.error('Error al enviar el correo:', error);
-                return res.status(500).json({ message: 'Error sending email' });
-            }
+            let mailSubject, mailText;
+        if (casoEsta === "Rechazar") {
+            mailSubject = 'Solicitud Rechazada';
+            mailText =` Hola ${nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${updateFields.motivoComi}\n\nSaludos, \nTu Aplicación`;
+        } else if (casoEsta === "Aceptado2") {
+            mailSubject = 'Solicitud Aceptada';
+            mailText = `Hola ${nombreCom},\n\nTu solicitud ha sido aceptada. Por favor, pasa lo antes posible con el Comité Academico\n\nSaludos`;
         }
-
-        if (casoEsta === "Aceptado2") {
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'lulamon75@gmail.com',
-                    pass: 'vhar rohu zzgo mjte',
-                },
-            });
-
             const mailOptions = {
-                from: 'lulamon75@gmail.com',
+                from: USER_COMI,
                 to: correo,
                 subject: 'Solicitud Aceptada',
                 text: `Hola ${nombreCom},\n\nTu solicitud ha sido aceptada. Por favor pasa lo antes posible con el Comite Academico\n\nSaludos`,
             };
 
             await transporter.sendMail(mailOptions);
-        }
-
         
-
         res.status(200).json(alumno);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: "Server error" });
+        console.error(error);
     }
 };
-
 
 
 alumnoCtrl.deleteAlumno = async (req, res) => {
@@ -218,7 +206,7 @@ alumnoCtrl.deleteAlumno = async (req, res) => {
     }
 };
 
-//reciclaje
+ //reciclaje
 
 alumnoCtrl.reciclajeAlumno = async (req, res) => {
     try {
@@ -322,55 +310,92 @@ alumnoCtrl.restaurarAlumno = async (req, res) => {
         console.error(error);
     }
 };
+//aceptados
+alumnoCtrl.getAlumnosAceptados = async (req, res) => {
+    try {
+      // Busca los alumnos con "Aceptado" en el campo casoEsta
+      const alumnosAceptados = await Alumno.find({ casoEsta: 'Aceptado' });
+  
+      // Envía la lista de alumnos como respuesta
+      res.status(200).json({ alumnos: alumnosAceptados });
+    } catch (error) {
+      console.error('Error al obtener los alumnos aceptados:', error);
+      res.status(500).json({ message: 'Error en el servidor' });
+    }
+  };
+// rechazarAlumno
 
-alumnoCtrl.aceptarAlumno = async (req, res) => {
+alumnoCtrl.rechazarAlumno = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { motivoRechazo } = req.body;
+  
+      const updateFields = {
+        motivoRechazo,
+        casoEsta: 'Rechazado',
+        motivoComi: motivoRechazo || 'Motivo no especificado', 
+      };
+  
+      const alumno = await Alumno.findByIdAndUpdate(
+        id,
+        updateFields,
+        { new: true }
+      );
+  
+      if (!alumno) {
+        return res.status(404).json(`Alumno with id ${id} not found`);
+      }
+  
+      // Enviar correo de rechazo
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: USER_COMI,
+          pass: EMAIL_COMI,
+        },
+        debug: true,
+      });
+  
+      const mailOptions = {
+        from: USER_COMI,
+        to: alumno.correo,
+        subject: 'Solicitud Rechazada',
+        text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido rechazada. Motivo: ${motivoRechazo || 'Motivo no especificado'}\n\nSaludos, \nTu Aplicación`,
+      };
+  
+      await transporter.sendMail(mailOptions);
+  
+      res.status(200).json(alumno);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+      console.error(error);
+    }
+  };
+  alumnoCtrl.aceptarAlumno = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Obtener la información del alumno antes de moverlo a aceptados
-        const alumnoExistente = await Alumno.findById(id);
+        const updateFields = {
+            casoEsta: 'Aceptado',  // Cambiado de 'Rechazado' a 'Aceptado'
+        };
 
-        // Verificar si el alumno existe
-        if (!alumnoExistente) {
+        const alumno = await Alumno.findByIdAndUpdate(
+            id,
+            updateFields,
+            { new: true }
+        );
+
+        if (!alumno) {
             return res.status(404).json(`Alumno with id ${id} not found`);
         }
 
-        // Crear un nuevo documento en la colección de aceptados con los datos del alumno
-        const alumnoAceptado = await Aceptados.create({
-            // Asegúrate de agregar todos los campos necesarios aquí
-            matricula: alumnoExistente.matricula,
-            nombreCom: alumnoExistente.nombreCom,
-            telefono: alumnoExistente.telefono,
-            casoEsta: 'Aceptado',
-            direccion: alumnoExistente.direccion,
-            carrera: alumnoExistente.carrera,
-            casoTipo: alumnoExistente.casoTipo,
-            semestre: alumnoExistente.semestre,
-            correo: alumnoExistente.correo,
-            motivosAca: alumnoExistente.motivosAca,
-            motivosPer: alumnoExistente.motivosPer,
-            evidencia: alumnoExistente.evidencia
-
-        });
-
-        // Eliminar el alumno de la colección principal
-        await Alumno.findByIdAndDelete(id);
-
-        res.status(200).json(alumnoAceptado);
+        res.status(200).json(alumno);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({ message: "Server error" });
         console.error(error);
     }
 };
-alumnoCtrl.getaceptarAlumno = async (req, res) => {
-    try {
-        const aceptados = await Aceptados.find();
-        res.status(200).json(aceptados);
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
-        console.error(error);
-    }
-};
+
 
 
 module.exports = alumnoCtrl;
