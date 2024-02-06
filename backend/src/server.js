@@ -5,6 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 
 // Crear la aplicación Express
 const app = express();
@@ -13,14 +14,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const path = require('path'); 
-const fs = require('fs');
-
-
-
-require('./config/passport');
-
-app.use(cors({
+// Configuración de CORS
+app.use(
+  cors({
     origin: 'http://localhost:4200',
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     allowedHeaders: 'Content-Type,Authorization',

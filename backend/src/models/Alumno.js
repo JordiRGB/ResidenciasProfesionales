@@ -6,7 +6,7 @@ const alumnoSchema = new Schema(
     {
         matricula: { type: Number, required: [true, "matricula is required"] },
         nombreCom: { type: String, required: [true, "nombre is required"] },
-        telefono: { type: Number, required: [true, "apellido is required"] },
+        telefono: { type: Number, required: [true, "telefono is required"] },
         casoEsta: { type: String, required: [true, "email is required"] },
         direccion: { type: String, required: [true, "direccion is required"] },
         carrera: { type: String, required: [true, "carrera is required"] },
@@ -16,7 +16,7 @@ const alumnoSchema = new Schema(
         motivosAca: { type: String, required: [true, "motivosAca is required"] },
         motivosPer: { type: String, required: [true, "MotivosPer is required"] },
         evidencia: { type: String, required: [true, "evidencias is required"] },
-        motivoComi:{ type: String}
+        motivoComi: { type: String},
     },
     {
         timestamps: true,
