@@ -43,17 +43,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.set('port', process.env.PORT || 4000);
 
-// Routes
-app.use('/api', require('./routes/user.route'));
-app.use('/api', require('./routes/alumnos.route'));
-
-<<<<<<< HEAD
 //Routes
 
 app.use('/api',require('./routes/user.route'));
 app.use('/api',require('./routes/alumnos.route'));
 app.use('/api',require('./routes/acta.route'));
 module.exports = app;
-=======
-module.exports = app;
->>>>>>> jordi/comiteNew
