@@ -9,9 +9,6 @@ const fileUpload = require('express-fileupload');
 
 const fs = require('fs');
 
-
-
-
 // Utilizamos promisify para convertir fs.unlink en una función que devuelve una promesa
 const unlinkAsync = require('util').promisify(fs.unlink);
 
@@ -45,71 +42,65 @@ alumnoCtrl.getAlumnos = async (req, res) => {
 
 alumnoCtrl.createAlumno = async (req, res) => {
     try {
-      const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
-  
-      if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).json({ message: 'No se ha seleccionado ningún archivo.' });
-      }
-  
-      const evidencia = req.files.evidencia;
-  
-      // Renombrar el archivo para evitar conflictos
-      const fileName = evidencia.name;
-      evidencia.mv(`./uploads/${fileName}`, function(err) {
-        if (err) {
-          return res.status(500).json({ message: 'Error al subir el archivo.' });
+        const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
+    
+        if (!req.files || Object.keys(req.files).length === 0) {
+          return res.status(400).json({ message: 'No se ha seleccionado ningún archivo.' });
         }
-      });
-  
-      // Crear el nuevo alumno en la base de datos
-      const newAlumno = await Alumno.create({
-        matricula,
-        nombreCom,
-        telefono,
-        casoEsta,
-        direccion,
-        carrera,
-        casoTipo,
-        semestre,
-        correo,
-        motivosAca,
-        motivosPer,
-<<<<<<< HEAD
-        evidencia,
-      });  
-      res.status(201).json(newAlumno);
-=======
-        evidencia: fileName,
-        motivoComi: '', // Agrega un campo vacío para el motivo de rechazo
-      });
-  
-      // Configuración del transporte para nodemailer (ajustar según tu proveedor de correo)
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: USER_COMI,
-          pass: EMAIL_COMI,
-        },
-      });
-  
-      // Contenido del correo electrónico
-      const mailOptions = {
-        from: USER_COMI,
-        to: correo,
-        subject: 'Solicitud recibida',
-        text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve sera revizada, te pedimos estar atento, \nSaludos!!`,
-      };
-  
-      // Envía el correo electrónico
-      await transporter.sendMail(mailOptions);
-  
-      // Respuesta a la solicitud del estudiante
-      res.status(201).json({ message: 'Alumno creado con éxito. Se ha enviado un correo de confirmación.' });
->>>>>>> Solis/API
-    } catch (error) {
-      console.error('Error al crear el alumno o enviar el correo electrónico:', error);
-      res.status(500).json({ message: 'Error en el servidor' });
-    }
+    
+        const evidencia = req.files.evidencia;
+    
+        // Renombrar el archivo para evitar conflictos
+        const fileName = evidencia.name;
+        evidencia.mv(`./uploads/${fileName}`, function(err) {
+          if (err) {
+            return res.status(500).json({ message: 'Error al subir el archivo.' });
+          }
+        });
+    
+        // Crear el nuevo alumno en la base de datos
+        const newAlumno = await Alumno.create({
+          matricula,
+          nombreCom,
+          telefono,
+          casoEsta,
+          direccion,
+          carrera,
+          casoTipo,
+          semestre,
+          correo,
+          motivosAca,
+          motivosPer,
+          evidencia: fileName,
+          motivoComi: '', // Agrega un campo vacío para el motivo de rechazo
+        });
+    
+        // Configuración del transporte para nodemailer (ajustar según tu proveedor de correo)
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: USER_COMI,
+            pass: EMAIL_COMI,
+          },
+        });
+    
+        // Contenido del correo electrónico
+        const mailOptions = {
+          from: USER_COMI,
+          to: correo,
+          subject: 'Solicitud recibida',
+          text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve sera revizada, te pedimos estar atento, \nSaludos!!`,
+        };
+    
+        // Envía el correo electrónico
+        await transporter.sendMail(mailOptions);
+    
+        // Respuesta a la solicitud del estudiante
+        res.status(201).json({ message: 'Alumno creado con éxito. Se ha enviado un correo de confirmación.' });
+      } catch (error) {
+        console.error('Error al crear el alumno o enviar el correo electrónico:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+      }
   };
   
 
