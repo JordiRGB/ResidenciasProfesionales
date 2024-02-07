@@ -7,6 +7,7 @@ import { PagRestablecerPassComponent } from './componentes/pag-restablecer-pass/
 import { PagSignUpComponent}from './componentes/pag-sign-up/pag-sign-up.component';
 import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';
 import { PagActaTwoComponent } from './componentes/pag-acta-two/pag-acta-two.component';
+import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.component';
 const routes: Routes = [
   { path: 'inicio', component: PagInicioComponent },
   { path: 'regcaso', component: PagRegCasoComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'restablecer', component: PagRestablecerPassComponent },
   { path: 'pagActa', component: PagActaComponent},
   { path: 'pagActaTwo', component: PagActaTwoComponent},
+  { path: 'RevAlumno', component: RevAlumnoComponent},
   { path: '**', component: PagInicioComponent }, // Manejo de rutas no encontradas
   
 ];

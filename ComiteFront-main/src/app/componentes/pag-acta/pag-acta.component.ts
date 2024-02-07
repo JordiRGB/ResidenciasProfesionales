@@ -57,14 +57,14 @@ export class PagActaComponent implements OnInit {
   }
 
   asistentes = [
-    { nombre: 'M. en C. Roberto Leguízamo Jiménez', cargo: 'Director Académico y Presidente del Comité Académico', presente: false },
+    { nombre: 'M. en C. Roberto Leguízamo Jiménez', cargo: 'Director Académico', cargoSec:'Presidente del Comité Académico', presente: false },
     { nombre: 'C.D. Vicente Fernando Carbajal Gutiérrez', cargo: 'Subdirector de Servicios Escolares', presente: false },
     { nombre: 'Ing. Máximo Livera Leónides', cargo: 'Jefe de División de Ingeniería Electromecánica', presente: false },
     { nombre: 'Lic. Marino Zúñiga Domínguez', cargo: 'Jefe de División de Ingeniería Informática', presente: false },
     { nombre: 'M. en T.I. Blanca Inés Valencia Vázquez', cargo: 'Jefa de División de Ingeniería en Sistemas Computacionales', presente: false },
     { nombre: 'Lic. Verónica Sánchez Lara', cargo: 'Jefa de Departamento de Control Escolar', presente: false },
     { nombre: 'Ing. Rene Rivera Roldan', cargo: ' Jefe de División de Ingeniería Electrónica', presente: false },
-    { nombre: 'M.R.I. Vianca Lisseth Pérez Cruz', cargo: 'Jefa de División de Ingeniería Industrial y Secretaria de Comité Académico', presente: false },
+    { nombre: 'M.R.I. Vianca Lisseth Pérez Cruz', cargo: 'Jefa de División de Ingeniería Industrial', cargoSec: 'Secretaria de Comité Académico', presente: false },
   ];
 
   Pdatos(): void {
