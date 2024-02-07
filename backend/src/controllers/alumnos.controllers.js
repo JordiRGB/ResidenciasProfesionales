@@ -39,6 +39,31 @@ alumnoCtrl.getAlumnos = async (req, res) => {
   }
 };
 
+alumnoCtrl.getAlumnos = async (req, res) => {
+    try {
+      const alumnos = await Alumno.find();
+      const alumnosWithFileURLs = alumnos.map(alumno => {
+        // Obtener el nombre del archivo de evidencia del alumno
+        const evidenciaFileName = alumno.evidencia;
+  
+        // Crear la URL completa del archivo PDF
+        const fileURL = path.join(__dirname, 'uploads', evidenciaFileName);
+  
+        // Devolver la información del alumno con la URL del archivo PDF
+        return {
+          ...alumno.toObject(),
+          evidenciaURL: fileURL,
+        };
+      });
+  
+      res.status(200).json(alumnosWithFileURLs);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+      console.log(error);
+    }
+  };
+
+
 
 
 alumnoCtrl.createAlumno = async (req, res) => {

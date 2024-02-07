@@ -19,6 +19,8 @@ import { AceptadosComponent } from './componentes/aceptados/aceptados.component'
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -52,6 +54,8 @@ import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.componen
   imports: [
     BrowserModule,
     AppRoutingModule,
+    PdfViewerModule,
+    SweetAlert2Module,
     BrowserAnimationsModule,
     MatButtonModule,
     FormsModule,
