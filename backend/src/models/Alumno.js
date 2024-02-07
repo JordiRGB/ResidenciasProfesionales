@@ -5,6 +5,8 @@ const {Schema , model}= require('mongoose');
 const alumnoSchema = new Schema(
     {
         matricula: { type: Number, required: [true, "matricula is required"] },
+        nombreCom: { type: String, required: [true, "nombre is required"] },
+        telefono: { type: Number, required: [true, "telefono is required"] },
         nombreCom: { type: String, required: [true, "nombreCom is required"] },
         telefono: { type: Number, required: [true, "telefono is required"] },
         casoEsta: { type: String, required: [true, "email is required"] },
@@ -28,8 +30,10 @@ const alumnoSchema = new Schema(
 const Alumno = model('Alumno', alumnoSchema);
 
 // Creamos un modelo a partir del mismo schema para Reciclaje
-// Creamos un modelo a partir del mismo schema para Reciclaje
 const Reciclaje = model('Reciclaje', alumnoSchema);
 
 
-module.exports = { Alumno, Reciclaje };
+
+
+
+module.exports = { Alumno, Reciclaje};

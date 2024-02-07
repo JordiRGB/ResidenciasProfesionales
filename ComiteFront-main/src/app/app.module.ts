@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagInicioComponent } from './componentes/pag-inicio/pag-inicio.component';
@@ -13,12 +12,18 @@ import { PagRegCasoComponent } from './componentes/pag-reg-caso/pag-reg-caso.com
 import { PagLogInComponent } from './componentes/pag-log-in/pag-log-in.component';
 import { PagRestablecerPassComponent } from './componentes/pag-restablecer-pass/pag-restablecer-pass.component';
 import { PagSignUpComponent } from './componentes/pag-sign-up/pag-sign-up.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
+import { AceptadosComponent } from './componentes/aceptados/aceptados.component';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
+import { ToastrModule } from 'ngx-toastr';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyNavbarComponent } from './componentes/my-navbar/my-navbar.component';
 import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';
@@ -43,16 +48,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     PagActaComponent,
     PagActaTwoComponent,
     HistorialComponent,
+    AceptadosComponent,
   ],
   imports: [
     BrowserModule,
+    PdfViewerModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
     FormsModule,
     HttpClientModule,
     MatFormFieldModule,
+    ToastrModule.forRoot(),
     MatInputModule,
+    SweetAlert2Module.forRoot(),
     ReactiveFormsModule,
     MatCheckboxModule
   ],

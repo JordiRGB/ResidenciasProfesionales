@@ -5,22 +5,26 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 
-usersCtrl.signup =  async (req, res)=>{
-  const{name,email, password}= req.body;
-  const newUser = new User({name,email, password})
+usersCtrl.signup = async (req, res) => {
+  const { name, email, password } = req.body;
 
-  newUser.password = await newUser.encryptPasswords(newUser.password);
-  newUser.save()
-  .then(savedUser => {
-    console.log('Usuario guardado con contraseña encriptada:', savedUser);
-  })
-  .catch(error => {
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      name: name,
+      email: email,
+      password: hashedPassword
+    });
+
+    await newUser.save();
+
+    const token = jwt.sign({ _id: newUser._id }, 'secretkey');
+    res.status(200).json({ token });
+  } catch (error) {
     console.error('Error al guardar el usuario:', error);
-
-  });
-
-  const token = jwt.sign({_id: newUser._id}, 'secretkey')
-  res.status(200).json({token})
+    res.status(500).json({ message: 'Error del servidor' });
+  }
 };
 
 usersCtrl.signin = (req, res, next) => {
@@ -143,6 +147,9 @@ usersCtrl.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Agregar un registro para ver el valor de id
+    console.log('Valor de id:', id);
+
     // Utilizamos deleteOne en lugar de remove
     const result = await User.deleteOne({ _id: id });
 
@@ -156,5 +163,6 @@ usersCtrl.deleteUser = async (req, res) => {
     res.status(500).json({ message: "Error del servidor" });
   }
 };
+
 
 module.exports = usersCtrl;
