@@ -28,8 +28,12 @@ import { MyNavbarComponent } from './componentes/my-navbar/my-navbar.component';
 import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';
 import { PagActaTwoComponent } from './componentes/pag-acta-two/pag-acta-two.component';
 import { DataService } from './services/data.service';
+<<<<<<< HEAD
 import { HistorialComponent } from './componentes/historial/historial.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+=======
+import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.component';
+>>>>>>> origin/Ruiz
 
 
 @NgModule({
@@ -48,6 +52,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AceptadosComponent,
     PagActaComponent,
     PagActaTwoComponent,
+    RevAlumnoComponent,
   ],
   imports: [
     BrowserModule,

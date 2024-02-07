@@ -23,6 +23,7 @@
     "@material/web": "^1.0.1",
     "@sweetalert2/ngx-sweetalert2": "^12.2.0",
     "bootstrap": "^5.3.2",
+<<<<<<< HEAD
     "jquery": "^3.7.1",
     "mongoose": "^7.6.1",
     "ng2-pdf-viewer": "^10.0.0",
@@ -31,6 +32,11 @@
     "primeng": "^16.9.1",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.10.4",
+=======
+    "pdfmake": "^0.2.9",
+    "rxjs": "~7.8.0",
+    "slick-carousel": "^1.8.1",
+>>>>>>> origin/Ruiz
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

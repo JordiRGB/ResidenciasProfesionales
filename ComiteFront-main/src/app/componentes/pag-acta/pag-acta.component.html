@@ -14,10 +14,11 @@
     En la Sala de Juntas de la Dirección Académica del Edificio Bicentenario de la Independencia del Tecnológico de Estudios Superiores de Chalco “TESCHA”, ubicado en la Carretera Federal México-Cuautla s/n y Carretera Chalco-Miraflores, La Candelaria Tlapala, Chalco, Estado de México, siendo las {{currentDateAndTime.time }} del dia {{ currentDateAndTime.date }} se reunieron de manera virtual en segunda convocatoria, a fin de celebrar la {{romano}} Sesión {{tipoSesion}} del Comité Académico del Tecnológico de Estudios Superiores de Chalco:
     <div *ngFor="let asistente of asistentes">
       <label>
-        <input type="checkbox" [(ngModel)]="asistente.presente"> {{ asistente.nombre }}, {{ asistente.cargo }}
-      </label>
+        <input type="checkbox" [(ngModel)]="asistente.presente"> {{ asistente.nombre }},
+        {{ asistente.cargo }} <span *ngIf="asistente.cargo && asistente.cargoSec">y</span> {{ asistente.cargoSec }}
+    </label>
     </div>
-    La sesión se efectuó conforme al siguiente:
+    <p > La sesión se efectuó conforme al siguiente:</p>
   </div>
   <p class="p">ORDEN DEL DIA </p> 
   <div class="form-check">
@@ -41,7 +42,7 @@
   <div class="form-check1">
     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
     <label class="form-check-label" for="flexCheckDefault">
-      3.1 Presentación y análisis de los casos de estudiantes para los que fue citadi el Comité Academico.
+      3.1 Presentación y análisis de los casos de estudiantes para los que fue citado el Comité Academico.
     </label>
   </div>
   <div class="form-check">

@@ -90,6 +90,12 @@ app.use('/api', require('./routes/roles.route'));
 //Routes
 
 app.use('/api',require('./routes/user.route'));
-app.use('/api',require('./routes/alumnos.route'));
 app.use('/api',require('./routes/acta.route'));
+<<<<<<< HEAD
 module.exports = app;
+=======
+app.use('/api',require('./routes/alumnos.route'));
+
+
+module.exports = app;
+>>>>>>> origin/Ruiz

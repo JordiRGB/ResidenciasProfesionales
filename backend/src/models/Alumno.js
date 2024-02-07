@@ -15,8 +15,12 @@ const alumnoSchema = new Schema(
         correo: { type: String, required: [true, "correo is required"] },
         motivosAca: { type: String, required: [true, "motivosAca is required"] },
         motivosPer: { type: String, required: [true, "MotivosPer is required"] },
+<<<<<<< HEAD
         evidencia: { type: String, required: [true, "evidencia is required"] },
         motivoComi: { type: String},
+=======
+        evidencia: { type: String}
+>>>>>>> origin/Ruiz
     },
     {
         timestamps: true,
@@ -30,8 +34,17 @@ const Alumno = model('Alumno', alumnoSchema);
 // Creamos un modelo a partir del mismo schema para Reciclaje
 const Reciclaje = model('Reciclaje', alumnoSchema);
 
+<<<<<<< HEAD
 
 
 
 
 module.exports = { Alumno, Reciclaje};
+=======
+// Creamos un modelo a partir del mismo schema para Aceptados
+const Aceptados = model('Aceptados', alumnoSchema);
+
+
+
+module.exports = { Alumno, Reciclaje, Aceptados};
+>>>>>>> origin/Ruiz

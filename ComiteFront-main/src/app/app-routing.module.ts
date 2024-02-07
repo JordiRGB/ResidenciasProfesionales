@@ -12,7 +12,11 @@ import { AceptadosComponent } from './componentes/aceptados/aceptados.component'
 
 import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';
 import { PagActaTwoComponent } from './componentes/pag-acta-two/pag-acta-two.component';
+<<<<<<< HEAD
 import { HistorialComponent } from './componentes/historial/historial.component';
+=======
+import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.component';
+>>>>>>> origin/Ruiz
 const routes: Routes = [
   { path: 'inicio', component: PagInicioComponent },
   { path: 'regcaso', component: PagRegCasoComponent },
@@ -24,8 +28,12 @@ const routes: Routes = [
   { path: 'administrador', component: AdministradorComponent},
   { path: 'pagActa', component: PagActaComponent},
   { path: 'pagActaTwo', component: PagActaTwoComponent},
+<<<<<<< HEAD
   { path: 'historial', component: HistorialComponent},
   {path: 'Aceptado', component: AceptadosComponent},
+=======
+  { path: 'RevAlumno', component: RevAlumnoComponent},
+>>>>>>> origin/Ruiz
   { path: '**', component: PagInicioComponent }, // Manejo de rutas no encontradas
   
 ];
