@@ -292,6 +292,20 @@ td button {
     background-color: #ccc;
 }
 
+.accion-button {
+    width: 40px; /* Ancho deseado */
+    height: 40px; /* Alto deseado */
+    padding: 0; /* Elimina el relleno interno */
+    border: none; /* Elimina el borde */
+    background-color: transparent; /* Fondo transparente */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+}
+
+.accion-button i {
+    font-size: 20px; /* Tamaño del icono */
+    color: #000; /* Color del icono */
+}
+
 /* Estilos personalizados para el botón y el menú desplegable */
 .Jefe .btn-secondary {
     background-color: transparent !important; /* Fondo transparente */
@@ -351,12 +365,13 @@ table tr td .rechazar{
     justify-content: center; /* Centra horizontalmente el contenido del botón */
     align-items: center; /* Centra verticalmente el contenido del botón */
 }
+
 table tr td .pape{
     width: 40px; /* Ancho deseado */
     height: 40px; /* Alto deseado */
     padding: 0; /* Elimina el relleno interno */
     border: 2px solid black; /* Elimina el borde */
-    background-color: rgb(143, 219, 42); /* Cambia el color de fondo del botón según tus preferencias */
+    background-color: rgb(73, 255, 27); /* Cambia el color de fondo del botón según tus preferencias */
     color: #070707; /* Cambia el color del texto del botón según tus preferencias */
     border-radius: 50%; /* Hace que el botón sea circular */
     cursor: pointer; /* Cambia el cursor al pasar el ratón */

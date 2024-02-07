@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pag-log-in',
@@ -19,6 +20,12 @@ export class PagLogInComponent {
   ) {}
 
   Signin() {
+    // Verificar campos vacíos antes de enviar la solicitud
+    if (!this.user.email || !this.user.password) {
+      Swal.fire('Error', 'Por favor, completa todos los campos.', 'error');
+      return;
+    }
+
     this.authServices.signIn(this.user)
       .subscribe(
         res => {
@@ -30,7 +37,7 @@ export class PagLogInComponent {
           console.log(err);
           // Agregar alerta si la contraseña es incorrecta
           if (err.status === 401) {
-            alert('Contraseña incorrecta. Por favor, inténtalo de nuevo.');
+            Swal.fire('Error', 'Contraseña o Usuario incorrecto. Por favor, inténtalo de nuevo.', 'error');
           }
         }
       );

@@ -1,5 +1,4 @@
 const { Router } = require('express')
-const fileUpload = require('express-fileupload');
 const router = Router();
 const { getAlumno, createAlumno, updateJefes, updateSecre, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, getAlumnosAceptados } = require('../controllers/alumnos.controllers');
 
@@ -19,5 +18,4 @@ router.post('/restaurar/alumno/:id', restaurarAlumno);
 router.get('/get/alumnos/aceptados', getAlumnosAceptados);
 
 module.exports = router;
-
 

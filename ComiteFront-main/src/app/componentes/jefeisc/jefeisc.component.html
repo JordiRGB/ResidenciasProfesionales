@@ -40,8 +40,8 @@
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
     <a href="#"><i class="material-icons">person</i> Solicitud de alumnos</a>
-    <a href="#"><i class="material-icons">book</i> Compendio de casos</a>
-    <a href="#"><i class="material-icons">check_circle</i> Casos Aceptados</a>
+    <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
+    <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
     <a href="#"><i class="material-icons">description</i> Acta LXX</a>
     <a href="#"><i class="material-icons">history</i> Historial de casos</a>
     <a href="papelera"><i class="material-icons">delete</i>papelera</a>
@@ -81,19 +81,19 @@
                     <td>{{ alumno.carrera }}</td>
                     <td>{{ alumno.casoTipo }}</td>
                     <td>
-                      <!-- Utiliza un enlace para abrir el PDF al hacer clic -->
-                      <a [href]="alumno.evidencia.pdfPath" target="_blank">{{ alumno.evidencia }}</a>
-                  </td>
+                      <a [href]="'uploads/' + alumno.evidencia" download="{{ alumno.evidencia }}">{{ alumno.evidencia }}</a>
+                    </td>
                     <td>{{ alumno.casoEsta }}</td>
                     <td>
                       <div class="botones-container">
-                      <button class="Aceptar">
-                        <i class="material-icons">check_circle</i>
-                      </button>
-                      <button class="rechazar">
-                        <i class="material-icons">cancel</i>
-                      </button>
-                      <button class="pape">
+                        <button class="Aceptar" (click)="aceptarAlumno(alumno._id)">
+                          <i class="material-icons">check_circle</i>
+                        </button>
+                        
+                        <button class="rechazar" (click)="rechazarAlumno(alumno._id, motivo)">
+                          <i class="material-icons">cancel</i>
+                        </button>
+                      <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)">
                         <i class="material-icons">delete</i>
                       </button>
                     </div>
