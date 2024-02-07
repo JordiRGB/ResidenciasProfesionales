@@ -20,7 +20,6 @@ import { AceptadosComponent } from './componentes/aceptados/aceptados.component'
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
-import { ToastrModule } from 'ngx-toastr';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
@@ -47,20 +46,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MyNavbarComponent,
     HistorialComponent,
     AceptadosComponent,
-    
+    PagActaComponent,
+    PagActaTwoComponent,
   ],
   imports: [
     BrowserModule,
-    PdfViewerModule,
     AppRoutingModule,
+    PdfViewerModule,
+    SweetAlert2Module,
     BrowserAnimationsModule,
     MatButtonModule,
     FormsModule,
     HttpClientModule,
     MatFormFieldModule,
-    ToastrModule.forRoot(),
     MatInputModule,
-    SweetAlert2Module.forRoot(),
     ReactiveFormsModule,
     MatCheckboxModule
   ],
