@@ -52,7 +52,6 @@ html, body, ul, li, div {
     color: #fff;
     padding: 10px 20px;
     width: 100%;
-    background-image: url('src/assets/images/Triangulos.png'); /* Reemplaza 'ruta_de_tu_imagen.jpg' con la ruta correcta de tu imagen */
     background-size: cover; /* Ajusta el tamaño de la imagen al contenedor */
     background-position: left top; /* Alinea la imagen a la izquierda arriba */
     background-repeat: no-repeat; /* Evita la repetición de la imagen de fondo */
@@ -342,3 +341,86 @@ html, body, ul, li, div {
     background-color: transparent !important; /* Fondo transparente al pasar el ratón */
     color: black !important; /* Color de texto en negro al pasar el ratón */
   }
+  /* Define estilos generales para el cuerpo de la página o cualquier otro elemento necesario */
+
+.icon-heading {
+  display: inline-block;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.icon-heading i {
+  font-size: 1.5em;
+}
+.custom-button {
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 20px; /* Bordes circulares */
+  font-weight: bold; /* Letras en negritas */
+
+}
+
+.editar {
+  background-color: #e8ff68; /* Color azul */
+  color: rgb(0, 0, 0);
+  border: none;
+}
+
+.eliminar {
+  background-color: #da4251; /* Color rojo */
+  color: rgb(5, 5, 5);
+  border: none;
+}
+
+.custom-button:hover {
+  opacity: 0.8; 
+}
+/* Primer diseño  
+form {
+  display: grid;
+  gap: 10px;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+*/
+
+ /* segundo diseño 
+form {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+*/
+
