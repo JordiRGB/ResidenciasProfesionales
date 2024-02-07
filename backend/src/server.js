@@ -87,14 +87,9 @@ app.use('/api', require('./routes/user.route'));
 app.use('/api', require('./routes/alumnos.route'));
 app.use('/api', require('./routes/roles.route'));
 
-<<<<<<< HEAD
 //Routes
 
 app.use('/api',require('./routes/user.route'));
 app.use('/api',require('./routes/alumnos.route'));
 app.use('/api',require('./routes/acta.route'));
 module.exports = app;
-=======
-module.exports = app;
-
->>>>>>> jordi/comiteNew

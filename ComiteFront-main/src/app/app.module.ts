@@ -45,10 +45,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AdministradorComponent,
     PapeleraComponent,
     MyNavbarComponent,
-    PagActaComponent,
-    PagActaTwoComponent,
     HistorialComponent,
     AceptadosComponent,
+    
   ],
   imports: [
     BrowserModule,

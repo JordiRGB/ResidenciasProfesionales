@@ -5,8 +5,6 @@ const {Schema , model}= require('mongoose');
 const alumnoSchema = new Schema(
     {
         matricula: { type: Number, required: [true, "matricula is required"] },
-        nombreCom: { type: String, required: [true, "nombre is required"] },
-        telefono: { type: Number, required: [true, "telefono is required"] },
         nombreCom: { type: String, required: [true, "nombreCom is required"] },
         telefono: { type: Number, required: [true, "telefono is required"] },
         casoEsta: { type: String, required: [true, "email is required"] },
