@@ -55,10 +55,6 @@ restaurarAlumno(alumnoId: string): Observable<any> {
   return this.http.post(url, {});
 }
 
-// Metodo para mostrar a la coleccion de Aceptados 
-getAceptadosAlumnos(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/get/aceptados/alumnos`);
-}
 // Metodo para mostrar a la coleccion de USERS
 getAllUsers(): Observable<any[]> {
   return this.http.get<any[]>(`${this.URL}/users/get`);
@@ -71,25 +67,15 @@ updateUsuario(id: string, datosUsuario: any): Observable<any> {
   const url = `${this.URL}/users/update/${id}`;
   return this.http.put(url, datosUsuario);
 }
-
 createUser(newUser: any): Observable<any> {
   return this.http.post<any>(`${this.URL}/users/create`, newUser);
 }
-rechazarAlumno(id: string, motivoRechazo: string): Observable<any> {
-  const url = `${this.URL }/rechazar/${id}`;
-  const body = { motivoRechazo };
-
-  return this.http.put(url, body);
+aceptarAlumno(alumnoId: string): Observable<any> {
+  return this.http.put<any>(`${this.URL}/updateJefes/${alumnoId}`, { casoEsta: 'Aceptado' });
 }
-aceptarAlumno(id: string): Observable<any> {
-  const url = `${this.URL}/aceptar/${id}`;
 
-  const body = {};
-
-  return this.http.put(url, body);
-}
-esAlumnoAceptado(casoEsta: string): boolean {
-  return casoEsta === 'Aceptado';
+rechazarAlumno(alumnoId: string, motivoComi: string): Observable<any> {
+  return this.http.put<any>(`${this.URL}/updateJefes/${alumnoId}`, { casoEsta: 'Rechazar', motivoComi });
 }
 }
 

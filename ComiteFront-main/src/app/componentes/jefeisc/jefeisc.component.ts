@@ -31,6 +31,7 @@ interface Alumno {
 })
 export class JefeiscComponent implements OnInit {
   Alumno: Alumno[] = [];
+  motivo: string = '';
 
   constructor(private authService: AuthService) {
     
@@ -83,79 +84,39 @@ export class JefeiscComponent implements OnInit {
       }
     );
   }
-
-  aceptarAlumno(id: string, casoEsta: string): void {
-    if (this.esAlumnoRechazado(casoEsta)) {
-      Swal.fire('Error', 'Este alumno ya ha sido rechazado y no puede ser aceptado nuevamente.', 'error');
-      return;
-    }
-    if (this.authService.esAlumnoAceptado(casoEsta)) {
-      Swal.fire('Error', 'Este alumno ya ha sido aceptado y no puede ser aceptado nuevamente.', 'error');
-      return;
-    }
-  
-  
-    this.authService.aceptarAlumno(id).subscribe(
+  aceptarAlumno(idAlumno: string) {
+    this.authService.aceptarAlumno(idAlumno).subscribe(
       (response) => {
-        console.log('Alumno aceptado con éxito', response);
-  
-        Swal.fire('Éxito', 'Alumno aceptado con éxito', 'success');
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // Mostrar mensaje de éxito con SweetAlert2
+        Swal.fire('Éxito', 'Alumno aceptado correctamente', 'success');
+
+        // Actualizar la lista de alumnos después de aceptar uno
+        this.getAlumnos();
       },
       (error) => {
-        console.error('Error al aceptar al alumno', error);
-        Swal.fire('Error', 'Error al aceptar el alumno', 'error');
+        console.error('Error al aceptar alumno:', error);
+        // Mostrar mensaje de error con SweetAlert2
+        Swal.fire('Error', 'Error al aceptar alumno', 'error');
       }
     );
   }
-  
-  //botón de rechazo
-  rechazarAlumno(alumnoId: string, casoEsta: string): void {
-    if (this.esAlumnoRechazado(casoEsta)) {
-      Swal.fire('Error', 'Este alumno ya ha sido rechazado y no puede ser rechazado nuevamente.', 'error');
-      return;
-    }
-  
-    Swal.fire({
-      title: 'Motivo de Rechazo',
-      input: 'text',
-      inputLabel: 'Ingrese el motivo de rechazo',
-      inputValidator: (value) => {
-        if (!value) {
-          return 'El motivo de rechazo es requerido';
-        }
-        return null;
+
+  rechazarAlumno(idAlumno: string, motivo: string) {
+    this.authService.rechazarAlumno(idAlumno, motivo).subscribe(
+      (response) => {
+        // Mostrar mensaje de éxito con SweetAlert2
+        Swal.fire('Éxito', 'Alumno rechazado correctamente', 'success');
+
+        // Actualizar la lista de alumnos después de rechazar uno
+        this.getAlumnos();
       },
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Rechazar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const motivoRechazo = result.value;
-  
-        this.authService.rechazarAlumno(alumnoId, motivoRechazo).subscribe(
-          (response) => {
-            console.log('Alumno rechazado con éxito', response);
-  
-            Swal.fire('Éxito', 'Alumno rechazado con éxito', 'success');
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
-          },
-          (error) => {
-            console.error('Error al rechazar al alumno', error);
-            Swal.fire('Error', 'Error al rechazar el alumno', 'error');
-          }
-        );
+      (error) => {
+        console.error('Error al rechazar alumno:', error);
+        // Mostrar mensaje de error con SweetAlert2
+        Swal.fire('Error', 'Error al rechazar alumno', 'error');
       }
-    });
+    );
   }
-  
-  
-  private esAlumnoRechazado(casoEsta: string): boolean {
-    return casoEsta.toLowerCase() === 'rechazado';
-  }
-  
+
+ 
 }

@@ -6,6 +6,8 @@ const cors = require('cors');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const path = require('path');
+
 
 // Crear la aplicación Express
 const app = express();

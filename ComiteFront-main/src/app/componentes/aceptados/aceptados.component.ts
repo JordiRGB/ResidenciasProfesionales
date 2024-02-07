@@ -11,20 +11,9 @@ export class AceptadosComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.cargarAceptadosAlumnos();
+  ngOnInit() {
+    
   }
 
-  cargarAceptadosAlumnos(): void {
-    this.authService.getAceptadosAlumnos().subscribe(
-      (data) => {
-        this.aceptadosAlumnos = data;
-      },
-      (error) => {
-        console.error('Error al cargar los alumnos aceptados', error);
-      }
-    );
-  }
-
-  
+ 
 }
