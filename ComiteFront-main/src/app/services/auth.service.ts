@@ -34,7 +34,7 @@ export class AuthService {
   signIn(user: any): Observable<any> {
     return this.http.post<any>(this.URL + '/users/signin', user);
   }
-  registrarCaso(datosCaso: any): Observable<any> {
+  registrarCaso(datosCaso: FormData): Observable<any> {
     return this.http.post<any>(this.URL+ '/create/alumno', datosCaso);
   }
 
