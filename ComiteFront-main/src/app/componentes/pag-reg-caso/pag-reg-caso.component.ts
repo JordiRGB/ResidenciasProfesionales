@@ -23,9 +23,10 @@ export class PagRegCasoComponent {
     motivosAca: '',
     motivosPer: '',
     evidencia: '',
+    motivoComi: '',
   };
 
-  correosCoinciden: boolean = true;
+  correosCoinciden: boolean = false;
   confirmarCorreoInput: any;
   casoForm: FormGroup;
 
@@ -40,9 +41,10 @@ export class PagRegCasoComponent {
       casoTipo: ['', Validators.required],
       semestre: ['', Validators.required],
       correo: ['', Validators.required],
+      confirmarcorreo: ['', Validators.required], // Agrega este campo al formularios
       motivosAca: ['', Validators.required],
       motivosPer: ['', Validators.required],
-      evidencia: [null, Validators.required],
+      evidencia: ['', Validators.required],
     })
   }
 
@@ -65,45 +67,79 @@ export class PagRegCasoComponent {
       }
     }
   }
-
+  //verificacion de correos
   verificarCorreos(): void {
-    if (this.confirmarCorreoInput) {
-      this.correosCoinciden = this.datosCaso.correo === this.confirmarCorreoInput.value;
+    const correo = this.casoForm.get('correo')?.value;
+    const confirmarCorreo = this.casoForm.get('confirmarcorreo')?.value;
+  
+    if (correo && confirmarCorreo) {
+      this.correosCoinciden = correo === confirmarCorreo;
     } else {
-      console.error('Elemento confirmarCorreoInput no encontrado.');
+      this.correosCoinciden = false;
     }
   }
 
-  registrarCaso(): void {
-    const CASO: DatosCaso = {
-      matricula: this.casoForm.get('matricula')?.value,
-      nombreCom: this.casoForm.get('nombreCom')?.value,
-      telefono: this.casoForm.get('numero')?.value,
-      direccion: this.casoForm.get('direccion')?.value,
-      carrera: this.casoForm.get('carrera')?.value,
-      casoEsta: this.casoForm.get('casoEsta')?.value,
-      casoTipo: this.casoForm.get('casoTipo')?.value,
-      semestre: this.casoForm.get('semestre')?.value,
-      correo: this.casoForm.get('correo')?.value,
-      motivosAca: this.casoForm.get('motivosAca')?.value,
-      motivosPer: this.casoForm.get('motivosPer')?.value,
-      evidencia: this.casoForm.get('evidencia')?.value,
+  onFileChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const file = inputElement.files?.[0];
+
+    if (file) {
+      if (!file.type.includes('pdf')) {
+        // Restablecer el campo de archivo
+        this.casoForm.get('evidencia')?.reset();
+        console.error('El archivo seleccionado no es un PDF');
+        // También podrías mostrar un mensaje al usuario indicando que solo se aceptan archivos PDF
+      } else {
+        console.log('Archivo seleccionado:', file);
+      }
     }
+  }
+  
+  
 
+  registrarCaso(): void {
     if (this.correosCoinciden) {
-      console.log('Los correos coinciden');
-      console.log(this.datosCaso.correo);
-      console.log(this.confirmarCorreoInput);
+      const formData = new FormData();
+      formData.append('matricula', this.casoForm.get('matricula')?.value);
+      formData.append('nombreCom', this.casoForm.get('nombreCom')?.value);
+      formData.append('telefono', this.casoForm.get('telefono')?.value);
+      formData.append('direccion', this.casoForm.get('direccion')?.value);
+      formData.append('carrera', this.casoForm.get('carrera')?.value);
+      formData.append('casoEsta', this.casoForm.get('casoEsta')?.value);
+      formData.append('casoTipo', this.casoForm.get('casoTipo')?.value);
+      formData.append('semestre', this.casoForm.get('semestre')?.value);
+      formData.append('correo', this.casoForm.get('correo')?.value);
+      formData.append('motivosAca', this.casoForm.get('motivosAca')?.value);
+      formData.append('motivosPer', this.casoForm.get('motivosPer')?.value);
+      const evidenciaInput = this.casoForm.get('evidencia')?.value as File;
+      console.log('evidenciaInput:', evidenciaInput); // Verifica que esto sea un archivo válido
 
-      this.authService.registrarCaso(CASO).subscribe(
+      if (evidenciaInput) {
+        console.log('Tipo de archivo seleccionado:', evidenciaInput.type);
+        /*if (evidenciaInput.type === 'application/pdf') {
+          formData.append('evidencia', evidenciaInput);
+          console.log('Archivo seleccionado');
+        } else {
+          console.error('El archivo seleccionado no es un PDF 2');
+          return; // Salir del método si no es un PDF
+        }*/
+        formData.append('evidencia', evidenciaInput);
+        
+      } else {
+        console.error('No se ha seleccionado ningún archivo');
+        return; // Salir del método si no hay archivo seleccionado
+      }    
+
+      this.authService.registrarCaso(formData).subscribe(
         (res) => {
-          console.log(CASO);
-          console.log(res);
+          console.log(formData)
+          console.log('Caso registrado correctamente:', res);
           // Después de registrar el caso, redirige a la página de visualización
         },
         (err) => {
-          console.log(CASO);
-          console.log(err);
+          console.log(formData)
+          console.error('Error al registrar el caso:', err);
+          // Manejar el error, mostrar mensaje al usuario, etc.
         }
       );
     } else {
