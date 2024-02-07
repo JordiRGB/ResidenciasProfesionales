@@ -91,8 +91,4 @@ app.use('/api', require('./routes/roles.route'));
 
 app.use('/api',require('./routes/user.route'));
 app.use('/api',require('./routes/acta.route'));
-<<<<<<< HEAD
 module.exports = app;
-=======
-module.exports = app;
->>>>>>> jordi/comiteNew

@@ -1,5 +1,4 @@
 const alumnoCtrl = {};
-<<<<<<< HEAD
 const { Alumno, Reciclaje } = require('../models/Alumno.js'); // Corrección en esta línea;
 const EMAIL_COMI = process.env.EMAIL_COMI;
 const USER_COMI = process.env.USER_COMI;
@@ -8,9 +7,6 @@ const nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
 
 
-=======
-const { Alumno, Reciclaje, Aceptados } = require('../models/Alumno.js');
->>>>>>> origin/Ruiz
 const fs = require('fs');
 const mongoose = require('mongoose');
 
