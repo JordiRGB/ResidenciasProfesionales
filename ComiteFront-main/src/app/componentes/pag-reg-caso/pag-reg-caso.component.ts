@@ -59,7 +59,7 @@ export class PagRegCasoComponent {
     const myCarousel = document.getElementById('carouselExampleIndicators');
     if (myCarousel) {
       new Carousel(myCarousel, {
-        interval: 4000, // Cambio cada 2 segundos
+        interval: 3000, // Cambio cada 3 segundos
         wrap: true // Permite que el carrusel vuelva al principio después de llegar al final
       });
     }
