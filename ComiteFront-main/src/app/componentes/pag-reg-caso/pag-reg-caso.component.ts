@@ -6,11 +6,13 @@ import { HttpHeaders } from '@angular/common/http';
 import { Buffer } from 'buffer';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Carousel } from 'bootstrap';
+
 
 @Component({
   selector: 'app-pag-reg-caso',
   templateUrl: './pag-reg-caso.component.html',
-  styleUrls: ['./pag-reg-caso.component.css']
+  styleUrls: ['./pag-reg-caso.component.css'],
 })
 export class PagRegCasoComponent {
   datosCaso: DatosCaso = {
@@ -54,8 +56,16 @@ export class PagRegCasoComponent {
   ngOnInit(): void {
     this.authService.initDatosCasoForm();
     this.confirmarCorreoInput = document.getElementById('confirmarcorreo');
+    const myCarousel = document.getElementById('carouselExampleIndicators');
+    if (myCarousel) {
+      new Carousel(myCarousel, {
+        interval: 4000, // Cambio cada 2 segundos
+        wrap: true // Permite que el carrusel vuelva al principio después de llegar al final
+      });
+    }
   }
 
+  
   ngAfterViewInit(): void {
     this.myFunction();
   }
