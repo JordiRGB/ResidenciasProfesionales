@@ -76,12 +76,24 @@ updateUsuario(id: string, datosUsuario: any): Observable<any> {
 createUser(newUser: any): Observable<any> {
   return this.http.post<any>(`${this.URL}/users/create`, newUser);
 }
-aceptarAlumno(alumnoId: string): Observable<any> {
-  return this.http.put<any>(`${this.URL}/updateJefes/${alumnoId}`, { casoEsta: 'Aceptado' });
+rechazarSolicitudAlumno(id: string, motivoRechazo: string): Observable<any> {
+  const url = `${this.URL}/rechazar/alumnoJefes/${id}`;
+  const body = { motivoRechazo };
+  return this.http.put(url, body);
 }
-
-rechazarAlumno(alumnoId: string, motivoComi: string): Observable<any> {
-  return this.http.put<any>(`${this.URL}/updateJefes/${alumnoId}`, { casoEsta: 'Rechazar', motivoComi });
+aceptarAlumnoJefe(id: string): Observable<any> {
+  return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
+}
+getAlumnosAceptados(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
+}
+rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
+  const url = `${this.URL}/rechazar/alumnoComi/${id}`;
+  const body = { motivoRechazo };
+  return this.http.put(url, body);
+}
+aceptarAlumnoComi(id: string): Observable<any> {
+  return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
 }
 }
 
