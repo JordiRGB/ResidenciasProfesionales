@@ -95,6 +95,9 @@ rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
 aceptarAlumnoComi(id: string): Observable<any> {
   return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
 }
+getRoles(): Observable<string[]> {
+  return this.http.get<string[]>(`${this.URL}/roles/get`);
+}
 }
 
 
