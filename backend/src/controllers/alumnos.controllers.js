@@ -744,7 +744,21 @@ alumnoCtrl.getAlumnosAceptados = async (req, res) => {
     }
   };
 
-
+alumnoCtrl.historialJefe = async (req, res) => {
+    try {
+      // Busca los alumnos con "Aceptado Jef" o "Rechazado Jef" en el campo casoEsta
+      const historialJefe = await Alumno.find({
+        $or: [{ casoEsta: 'Aceptado Jef' }, { casoEsta: 'Rechazado Jef' }]
+      });
+  
+      // Envía la lista de alumnos como respuesta
+      res.status(200).json({ historialJefe });
+    } catch (error) {
+      console.error('Error al obtener el historial del jefe:', error);
+      res.status(500).json({ message: 'Error en el servidor' });
+    }
+  };
+  
 
 module.exports = alumnoCtrl;
 
