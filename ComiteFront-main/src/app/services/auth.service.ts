@@ -135,7 +135,3 @@ getRoles(): Observable<string[]> {
   return this.http.get<string[]>(`${this.URL}/roles/get`);
 }
 }
-
-
-
-

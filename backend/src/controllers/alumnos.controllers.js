@@ -84,11 +84,6 @@ alumnoCtrl.getAlumnos = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los alumnos.' });
     }
 };
-
-
-
-
-
 alumnoCtrl.createAlumno = async (req, res) => {
     try {
         const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
@@ -154,9 +149,6 @@ alumnoCtrl.createAlumno = async (req, res) => {
         res.status(500).json({ message: 'Error al crear el alumno.' });
     }
 };
-
-
-
 alumnoCtrl.updateJefes = async (req, res) => {
     try {
         const { id } = req.params;
@@ -274,8 +266,6 @@ alumnoCtrl.updateJefes = async (req, res) => {
         console.error(error);
     }
 };
-
-
 alumnoCtrl.rechazarJefe = async (req, res) => {
     try {
         const { id } = req.params;
@@ -356,9 +346,6 @@ alumnoCtrl.aceptarJefe = async (req, res) => {
         console.error(error);
     }
 };
-
-
-
 alumnoCtrl.updateSecre = async (req, res) => {
     try {
         const { id } = req.params;
@@ -446,7 +433,6 @@ alumnoCtrl.updateSecre = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.rechazarComi = async (req, res) => {
     try {
         const { id } = req.params;
@@ -487,7 +473,6 @@ alumnoCtrl.rechazarComi = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.aceptarComi = async (req, res) => {
     try {
         const { id } = req.params;
@@ -527,7 +512,6 @@ alumnoCtrl.aceptarComi = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.deleteAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -583,7 +567,6 @@ alumnoCtrl.reciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
     try {
         const reciclajes = await Reciclaje.find();
@@ -593,7 +576,6 @@ alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -619,7 +601,6 @@ alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.restaurarAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -656,7 +637,6 @@ alumnoCtrl.restaurarAlumno = async (req, res) => {
     }
 };
  //reciclaje
-
 alumnoCtrl.reciclajeAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -687,7 +667,6 @@ alumnoCtrl.reciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
     try {
         const reciclajes = await Reciclaje.find();
@@ -697,7 +676,6 @@ alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -723,7 +701,6 @@ alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.restaurarAlumno = async (req, res) => {
     try {
         const { id } = req.params;

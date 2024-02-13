@@ -20,8 +20,8 @@ const storage = multer.diskStorage({
 
 router.get('/get/alumno/:matricula', getAlumno);
 router.get('/get/alumnos', getAlumnos);
-router.put('/update/alumnoJefes/:id', updateJefes );
-router.put('/update/alumnoSecre/:id', updateSecre );
+//router.put('/update/alumnoJefes/:id', updateJefes );
+//router.put('/update/alumnoSecre/:id', updateSecre );
 router.post('/create/alumno', upload.single('evidencia'), createAlumno);
 router.delete('/delete/alumno/:id', deleteAlumno);
 router.post('/reciclaje/alumno/:id', reciclajeAlumno);
