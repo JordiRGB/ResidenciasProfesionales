@@ -4,16 +4,6 @@ const EMAIL_COMI = process.env.EMAIL_COMI;
 const USER_COMI = process.env.USER_COMI;
 const nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
-<<<<<<< HEAD
-<<<<<<< HEAD
-const path = require('path');
-
-
-
-=======
->>>>>>> 825e46e850f7bfe472267e2393a30c008df5bbea
-=======
->>>>>>> e6206bb252745e22f9cfd7afb8037157f35d1256
 const fs = require('fs');
 const mongoose = require('mongoose');
 // Utilizamos promisify para convertir fs.unlink en una función que devuelve una promesa

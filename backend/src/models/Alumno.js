@@ -7,7 +7,7 @@ const alumnoSchema = new Schema(
         matricula: { type: Number, required: [true, "matricula is required"] },
         nombreCom: { type: String, required: [true, "nombreCom is required"] },
         telefono: { type: Number, required: [true, "telefono is required"] },
-        casoEsta: { type: String, required: [true, "email is required"] },
+        casoEsta: { type: String, required: [true, "casoEsta is required"] },
         direccion: { type: String, required: [true, "direccion is required"] },
         carrera: { type: String, required: [true, "carrera is required"] },
         casoTipo: { type: String, required: [true, "casoTipo is required"] },

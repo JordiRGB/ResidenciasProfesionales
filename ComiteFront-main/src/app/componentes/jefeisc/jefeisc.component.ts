@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { Buffer } from 'buffer';
+
 
 interface Alumno {
     _id: string;
@@ -16,7 +18,7 @@ interface Alumno {
     correo: string;
     motivosAca: string;
     motivosPer: string;
-    evidencia: string;
+    evidencia: { data: Buffer, contentType: string };
     pdfPath: string;
     motivoRechazo: string;  
     rechazado: boolean;
@@ -121,8 +123,12 @@ export class JefeiscComponent implements OnInit {
     });
   }
   aceptarAlumnoJefe(id: string): void {
+    console.log(id);
     this.authService.aceptarAlumnoJefe(id).subscribe(
-      response => {
+      _response => {
+        if (_response && _response.evidencia) {
+          _response.evidencia = new Buffer(_response.evidencia.data, 'base64'); // Convertir el campo evidencia a Buffer
+        }
         Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success' );
         setTimeout(() => {
           window.location.reload();
@@ -139,5 +145,5 @@ export class JefeiscComponent implements OnInit {
       }
     );
   }
-  }
+}
  

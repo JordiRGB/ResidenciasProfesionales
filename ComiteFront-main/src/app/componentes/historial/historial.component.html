@@ -40,8 +40,8 @@
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
                 <a href="#"><i class="material-icons">person</i> Solicitud de alumnos</a>
-                <a href="#"><i class="material-icons">book</i> Compendio de casos</a>
-                <a href="#"><i class="material-icons">check_circle</i> Casos Aceptados</a>
+                <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
+                <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
                 <a href="#"><i class="material-icons">description</i> Acta LXX</a>
                 <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
                 <a href="papelera"><i class="material-icons">delete</i>papelera</a>
@@ -68,7 +68,7 @@
                         <th>CARRERA</th>
                         <th>TIPO DE CASO</th>
                         <th>EVIDENCIA</th>
-                        <th style="text-align: center;">ESTADO</th>
+                        <th>ESTADO</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,12 +77,8 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td><!-- Utiliza un enlace para abrir el PDF al hacer clic --></td>
                     <td>
-                      <!-- Utiliza un enlace para abrir el PDF al hacer clic -->
-                    </td>
-                    <td>
-                        <mat-checkbox class="example-margin">Abierto</mat-checkbox>
-                        <mat-checkbox class="example-margin">Cerrado</mat-checkbox>
                     </td>
                 </tbody>
             </table>
@@ -91,8 +87,6 @@
             <button id="vaciarDatos" class="btn btn-primary custom-button">
               <i class="fas fa-folder"></i> Vaciar Datos
             </button> -->
-              
-          
         </div>
     </main>
     <br>

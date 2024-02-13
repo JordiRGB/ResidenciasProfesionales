@@ -63,23 +63,6 @@
     
       return this.http.post(`${this.URL}/create/alumno`, formData, options);
     }
-    
-    
-    
-    
-  /*
-  formData.append('matricula', datosCaso.matricula.toString());
-      formData.append('nombreCom', datosCaso.nombreCom);
-      formData.append('telefono', datosCaso.telefono.toString());
-      formData.append('direccion', datosCaso.direccion);
-      formData.append('carrera', datosCaso.carrera);
-      formData.append('casoEsta', datosCaso.casoEsta);
-      formData.append('casoTipo', datosCaso.casoTipo);
-      formData.append('semestre', datosCaso.semestre.toString());
-      formData.append('correo', datosCaso.correo);
-      formData.append('motivosAca', datosCaso.motivosAca);
-      formData.append('motivosPer', datosCaso.motivosPer);
-      */
     // Método para mostrar los datos de la colección "Alumno"
     getAlumnos(): Observable<any[]> {
       return this.http.get<any[]>(`${this.URL}/get/alumnos`);
@@ -96,9 +79,6 @@
       const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
       return this.http.post(url, {});
     }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
     // Metodo para mostrar a la coleccion de USERS
     getAllUsers(): Observable<any[]> {
       return this.http.get<any[]>(`${this.URL}/users/get`);
@@ -121,53 +101,29 @@
     rechazarAlumno(alumnoId: string, motivoComi: string): Observable<any> {
       return this.http.put<any>(`${this.URL}/updateJefes/${alumnoId}`, { casoEsta: 'Rechazar', motivoComi });
     }
+    getAlumnosAceptados(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
     }
-=======
-=======
->>>>>>> e6206bb252745e22f9cfd7afb8037157f35d1256
-// Metodo para mostrar a la coleccion de USERS
-getAllUsers(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/users/get`);
-}
-deleteUser(userId: string): Observable<any> {
-  const url = `${this.URL}/users/delete/${userId}`;
-  return this.http.delete(url);
-}
-updateUsuario(id: string, datosUsuario: any): Observable<any> {
-  const url = `${this.URL}/users/update/${id}`;
-  return this.http.put(url, datosUsuario);
-}
-createUser(newUser: any): Observable<any> {
-  return this.http.post<any>(`${this.URL}/users/create`, newUser);
-}
-rechazarSolicitudAlumno(id: string, motivoRechazo: string): Observable<any> {
-  const url = `${this.URL}/rechazar/alumnoJefes/${id}`;
-  const body = { motivoRechazo };
-  return this.http.put(url, body);
-}
-aceptarAlumnoJefe(id: string): Observable<any> {
-  return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
-}
-getAlumnosAceptados(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
-}
-rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
-  const url = `${this.URL}/rechazar/alumnoComi/${id}`;
-  const body = { motivoRechazo };
-  return this.http.put(url, body);
-}
-aceptarAlumnoComi(id: string): Observable<any> {
-  return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
-}
-getRoles(): Observable<string[]> {
-  return this.http.get<string[]>(`${this.URL}/roles/get`);
-}
-}
-<<<<<<< HEAD
->>>>>>> 825e46e850f7bfe472267e2393a30c008df5bbea
-=======
->>>>>>> e6206bb252745e22f9cfd7afb8037157f35d1256
-
+    aceptarAlumnoComi(id: string): Observable<any> {
+      return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
+    }
+    rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
+      const url = `${this.URL}/rechazar/alumnoComi/${id}`;
+      const body = { motivoRechazo };
+      return this.http.put(url, body);
+    }
+    rechazarSolicitudAlumno(id: string, motivoRechazo: string): Observable<any> {
+      const url = `${this.URL}/rechazar/alumnoJefes/${id}`;
+      const body = { motivoRechazo };
+      return this.http.put(url, body);
+    }
+    aceptarAlumnoJefe(id: string): Observable<any> {
+      return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
+    }
+    getRoles(): Observable<string[]> {
+      return this.http.get<string[]>(`${this.URL}/roles/get`);
+    }
+  }
 
 
 
