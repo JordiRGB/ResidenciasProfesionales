@@ -18,12 +18,10 @@ interface Alumno {
     correo: string;
     motivosAca: string;
     motivosPer: string;
-    evidencia: { data: Buffer, contentType: string };
+    evidencia: Buffer | null;
     pdfPath: string;
     motivoRechazo: string;  
     rechazado: boolean;
-  
-  
 }
 
 @Component({
@@ -36,10 +34,7 @@ export class JefeiscComponent implements OnInit {
   motivo: string = '';
 
   constructor(private authService: AuthService) {
-    
   }
-  
-
   ngOnInit() {
     this.getAlumnos();
   }

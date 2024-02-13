@@ -1,6 +1,7 @@
 import { Buffer } from 'buffer';
 
 export interface DatosCaso {
+    _id: string;
     matricula: number;
     nombreCom: string;
     telefono: number;

@@ -16,6 +16,7 @@ import { Carousel } from 'bootstrap';
 })
 export class PagRegCasoComponent {
   datosCaso: DatosCaso = {
+    _id:'',
     matricula: 0,
     nombreCom: '',
     telefono: 0,
