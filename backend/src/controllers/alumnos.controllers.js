@@ -8,7 +8,6 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 // Utilizamos promisify para convertir fs.unlink en una función que devuelve una promesa
 const unlinkAsync = require('util').promisify(fs.unlink);
-const path = require('path');
 
 alumnoCtrl.getAlumno = async (req, res) => {
   try {

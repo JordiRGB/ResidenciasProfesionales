@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
@@ -122,22 +122,23 @@ export class JefeiscComponent implements OnInit {
   }
   aceptarAlumnoJefe(id: string): void {
     this.authService.aceptarAlumnoJefe(id).subscribe(
-      response => {
-        Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success' );
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      },
-      error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
-        });
-        console.error('Error al aceptar alumno jefe:', error);
-        // Aquí puedes manejar el error según sea necesario
-      }
+        response => {
+            Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success' );
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        },
+        error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
+            });
+            console.error('Error al aceptar alumno jefe:', error);
+            // Aquí puedes manejar el error según sea necesario
+        }
     );
-  }
+}
+
   }
  

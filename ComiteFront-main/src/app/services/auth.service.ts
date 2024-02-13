@@ -117,21 +117,21 @@ rechazarSolicitudAlumno(id: string, motivoRechazo: string): Observable<any> {
   const body = { motivoRechazo };
   return this.http.put(url, body);
 }
-aceptarAlumnoJefe(id: string): Observable<any> {
-  return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
-}
-getAlumnosAceptados(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
-}
 rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
   const url = `${this.URL}/rechazar/alumnoComi/${id}`;
   const body = { motivoRechazo };
   return this.http.put(url, body);
+}
+aceptarAlumnoJefe(id: string): Observable<any> {
+  return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
 }
 aceptarAlumnoComi(id: string): Observable<any> {
   return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
 }
 getRoles(): Observable<string[]> {
   return this.http.get<string[]>(`${this.URL}/roles/get`);
+}
+getAlumnosAceptados(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
 }
 }

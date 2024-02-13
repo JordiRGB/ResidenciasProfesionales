@@ -80,7 +80,6 @@ export class AceptadosComponent implements OnInit {
           text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
         });
         console.error('Error al aceptar alumno jefe:', error);
-        // Aquí puedes manejar el error según sea necesario
       }
     );
   }
