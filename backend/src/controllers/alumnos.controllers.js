@@ -4,6 +4,13 @@ const EMAIL_COMI = process.env.EMAIL_COMI;
 const USER_COMI = process.env.USER_COMI;
 const nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
+<<<<<<< HEAD
+=======
+const path = require('path');
+
+
+
+>>>>>>> main
 const fs = require('fs');
 const mongoose = require('mongoose');
 // Utilizamos promisify para convertir fs.unlink en una función que devuelve una promesa
@@ -23,16 +30,6 @@ alumnoCtrl.getAlumno = async (req, res) => {
   } catch (error) {
       res.status(500).json({ message: "Server error" });
       console.error(error);
-  }
-};
-
-alumnoCtrl.getAlumnos = async (req, res) => {
-  try {
-      const alumnos = await Alumno.find()
-      res.status(200).json(alumnos)
-  } catch (error) {
-      req.status(500).json({ message:error.message })
-      console.log(error);
   }
 };
 
@@ -57,8 +54,44 @@ alumnoCtrl.getAlumnos = async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: error.message });
       console.log(error);
-    }
-  };
+  }
+};
+
+alumnoCtrl.getAlumnos = async (req, res) => {
+    try {
+        // Obtener todos los alumnos de la base de datos
+        const alumnos = await Alumno.find();
+
+        // Mapear los alumnos para ajustar la respuesta
+        const alumnosConEvidencia = alumnos.map(alumno => {
+            return {
+                matricula: alumno.matricula,
+                nombreCom: alumno.nombreCom,
+                telefono: alumno.telefono,
+                casoEsta: alumno.casoEsta,
+                direccion: alumno.direccion,
+                carrera: alumno.carrera,
+                casoTipo: alumno.casoTipo,
+                semestre: alumno.semestre,
+                correo: alumno.correo,
+                motivosAca: alumno.motivosAca,
+                motivosPer: alumno.motivosPer,
+                evidencia: { 
+                    fileName: `evidencia_${alumno._id}.pdf`, // Nombre del archivo
+                    contentType: alumno.evidencia.contentType, // Tipo de contenido
+                    // Puedes agregar la URL de descarga del archivo aquí si es necesario
+                },
+                motivoComi: alumno.motivoComi,
+            };
+        });
+
+        res.status(200).json(alumnosConEvidencia);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los alumnos.' });
+    }
+};
+
 
 
 
@@ -66,66 +99,69 @@ alumnoCtrl.getAlumnos = async (req, res) => {
 alumnoCtrl.createAlumno = async (req, res) => {
     try {
         const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
-    
-        if (!req.files || Object.keys(req.files).length === 0) {
-          return res.status(400).json({ message: 'No se ha seleccionado ningún archivo.' });
+
+        // Verificar si se ha subido un archivo
+        if (!req.file) {
+            return res.status(400).json({ message: 'No se ha proporcionado un archivo de evidencia.' });
         }
-    
-        const evidencia = req.files.evidencia;
-    
-        // Renombrar el archivo para evitar conflictos
-        const fileName = evidencia.name;
-        evidencia.mv(`./uploads/${fileName}`, function(err) {
-          if (err) {
-            return res.status(500).json({ message: 'Error al subir el archivo.' });
-          }
-        });
-    
-        // Crear el nuevo alumno en la base de datos
+
+        // Leer el contenido del archivo PDF
+        const evidenciaData = fs.readFileSync(req.file.path);
+        const evidenciaContentType = req.file.mimetype;
+
+        // Cambiar el tamaño del Buffer de la evidencia si es necesario (opcional)
+        // Aquí puedes ajustar el tamaño del Buffer según tus necesidades
+        const nuevoTamaño = 1024 * 1024; // 1 MB en bytes
+        const evidenciaDataAjustada = Buffer.alloc(nuevoTamaño);
+        evidenciaData.copy(evidenciaDataAjustada);
+
+        // Crear el alumno con la evidencia como un buffer
         const newAlumno = await Alumno.create({
-          matricula,
-          nombreCom,
-          telefono,
-          casoEsta,
-          direccion,
-          carrera,
-          casoTipo,
-          semestre,
-          correo,
-          motivosAca,
-          motivosPer,
-          evidencia: fileName,
-          motivoComi: '', // Agrega un campo vacío para el motivo de rechazo
+            matricula,
+            nombreCom,
+            telefono,
+            casoEsta,
+            direccion,
+            carrera,
+            casoTipo,
+            semestre,
+            correo,
+            motivosAca,
+            motivosPer,
+            evidencia: { data: evidenciaDataAjustada, contentType: evidenciaContentType },
+            motivoComi: '', // Agrega un campo vacío para el motivo de rechazo
         });
-    
+
+        // Eliminar el archivo temporal después de leer su contenido (opcional)
+        fs.unlinkSync(req.file.path);
+
         // Configuración del transporte para nodemailer (ajustar según tu proveedor de correo)
         const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: USER_COMI,
-            pass: EMAIL_COMI,
-          },
+            service: 'gmail',
+            auth: {
+                user: USER_COMI, // Cambia esto por tu correo electrónico
+                pass: EMAIL_COMI, // Cambia esto por tu contraseña
+            },
         });
-    
+
         // Contenido del correo electrónico
         const mailOptions = {
-          from: USER_COMI,
-          to: correo,
-          subject: 'Solicitud recibida',
-          text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve sera revizada, te pedimos estar atento, \nSaludos!!`,
+            from: USER_COMI, // Cambia esto por tu correo electrónico
+            to: correo,
+            subject: 'Solicitud recibida',
+            text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve será revisada. Te pedimos estar atento.\nSaludos!!`,
         };
-    
+
         // Envía el correo electrónico
         await transporter.sendMail(mailOptions);
-    
-        // Respuesta a la solicitud del estudiante
-        res.status(201).json({ message: 'Alumno creado con éxito. Se ha enviado un correo de confirmación.' });
-      } catch (error) {
-        console.error('Error al crear el alumno o enviar el correo electrónico:', error);
-        res.status(500).json({ message: 'Error en el servidor' });
-      }
-  };
-  
+
+        res.status(201).json(newAlumno);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al crear el alumno.' });
+    }
+};
+
 
 
 alumnoCtrl.updateJefes = async (req, res) => {
@@ -148,11 +184,11 @@ alumnoCtrl.updateJefes = async (req, res) => {
         };
 
         // Agregar motivoComi solo si casoEsta es "Aceptado"
-        if (casoEsta === "Aceptado") {
+        if (casoEsta === "AceptadoJefe") {
             updateFields.motivoComi = 'Aceptado por Jefe/a de Carrera';
         } else {
             // Agregar motivoComi solo si casoEsta es "Rechazar"
-            if (casoEsta === "Rechazar") {
+            if (casoEsta === "RechazarJefe") {
                 updateFields.motivoComi = motivoComi || 'Motivo no especificado';
                 let jefeNombre, passJefe;//se usara despues
                 

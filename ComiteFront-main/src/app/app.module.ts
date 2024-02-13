@@ -23,7 +23,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatIconModule } from '@angular/material/icon';
 
-
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyNavbarComponent } from './componentes/my-navbar/my-navbar.component';
 import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';

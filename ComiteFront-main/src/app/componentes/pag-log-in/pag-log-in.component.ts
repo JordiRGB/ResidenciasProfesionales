@@ -35,11 +35,13 @@ export class PagLogInComponent {
         },
         err => {
           console.log(err);
-          // Agregar alerta si la contraseña es incorrecta
+          // Agregar alerta si la contraseña o usuario son incorrectos
           if (err.status === 401) {
             Swal.fire('Error', 'Contraseña o Usuario incorrecto. Por favor, inténtalo de nuevo.', 'error');
+          } else {
+            Swal.fire('Error', 'Hubo un problema durante el inicio de sesión. Por favor, inténtalo de nuevo.', 'error');
           }
         }
-      );
-  }
+      );
+  }
 }

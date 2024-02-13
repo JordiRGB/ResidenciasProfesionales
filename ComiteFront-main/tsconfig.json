@@ -2,6 +2,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "types": [
+      "node"
+    ],
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -25,9 +28,16 @@
     ]
   },
   "angularCompilerOptions": {
+    "allowedCommonJsDependencies": [
+      "pdfjs-dist",
+      "pdfmake",
+      "sweetalert2",
+      "buffer"
+    ],
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  
 }
