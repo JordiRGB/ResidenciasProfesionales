@@ -20,15 +20,9 @@ const storage = multer.diskStorage({
 
 router.get('/get/alumno/:matricula', getAlumno);
 router.get('/get/alumnos', getAlumnos);
-<<<<<<< HEAD
-//router.put('/update/alumnoJefes/:id', updateJefes );
-//router.put('/update/alumnoSecre/:id', updateSecre );
-router.post('/create/alumno', createAlumno);
-=======
 router.put('/update/alumnoJefes/:id', updateJefes );
 router.put('/update/alumnoSecre/:id', updateSecre );
 router.post('/create/alumno', upload.single('evidencia'), createAlumno);
->>>>>>> main
 router.delete('/delete/alumno/:id', deleteAlumno);
 router.post('/reciclaje/alumno/:id', reciclajeAlumno);
 router.get('/get/reciclaje/alumnos', getReciclajeAlumnos);
@@ -36,7 +30,6 @@ router.delete('/delete/reciclaje/alumno/:id', deleteReciclajeAlumno);
 router.post('/restaurar/alumno/:id', restaurarAlumno);
 router.get('/get/alumnos/aceptados', getAlumnosAceptados);
 
-<<<<<<< HEAD
 router.put('/rechazar/alumnoJefes/:id', rechazarJefe);
 router.put('/aceptar/alumnoJefes/:id', aceptarJefe);
 router.put('/rechazar/alumnoComi/:id', rechazarComi);
@@ -46,6 +39,3 @@ router.get('/historial/jefe', historialJefe);
 
 module.exports = router;
 
-=======
-module.exports = router;
->>>>>>> main
