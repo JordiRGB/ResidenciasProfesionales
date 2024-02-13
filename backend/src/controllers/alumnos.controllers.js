@@ -748,7 +748,6 @@ alumnoCtrl.historialJefe = async (req, res) => {
     try {
       const historialJefe = await Alumno.find({
         $or: [
-          { casoEsta: 'Aceptado Jef' },
           { casoEsta: 'Rechazado Jef' },
           { casoEsta: 'Aceptado Comi' },
           { casoEsta: 'Rechazado Comi' }
