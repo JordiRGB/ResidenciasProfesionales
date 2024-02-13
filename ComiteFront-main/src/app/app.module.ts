@@ -20,6 +20,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyNavbarComponent } from './componentes/my-navbar/my-navbar.component';
@@ -59,6 +60,7 @@ import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.componen
     HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule, 
     ReactiveFormsModule,
     MatCheckboxModule
   ],

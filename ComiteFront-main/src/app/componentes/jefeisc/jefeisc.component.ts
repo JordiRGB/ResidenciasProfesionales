@@ -84,39 +84,60 @@ export class JefeiscComponent implements OnInit {
       }
     );
   }
-  aceptarAlumno(idAlumno: string) {
-    this.authService.aceptarAlumno(idAlumno).subscribe(
-      (response) => {
-        // Mostrar mensaje de éxito con SweetAlert2
-        Swal.fire('Éxito', 'Alumno aceptado correctamente', 'success');
-
-        // Actualizar la lista de alumnos después de aceptar uno
-        this.getAlumnos();
+  
+  rechazarSolicitudAlumno(id: string): void {
+    Swal.fire({
+      title: 'Motivo de Rechazo',
+      input: 'text',
+      inputLabel: 'Ingrese el motivo de rechazo',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'El motivo de rechazo es requerido';
+        }
+        return null;
       },
-      (error) => {
-        console.error('Error al aceptar alumno:', error);
-        // Mostrar mensaje de error con SweetAlert2
-        Swal.fire('Error', 'Error al aceptar alumno', 'error');
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Rechazar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const motivoRechazo = result.value;
+
+        this.authService.rechazarSolicitudAlumno(id, motivoRechazo).subscribe(
+          (response) => {
+            console.log('Solicitud rechazada con éxito', response);
+
+            Swal.fire('Éxito', 'Solicitud rechazada con éxito', 'success');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          },
+          (error) => {
+            console.error('Error al rechazar la solicitud', error);
+            Swal.fire('Error', 'Error al rechazar la solicitud', 'error');
+          }
+        );
+      }
+    });
+  }
+  aceptarAlumnoJefe(id: string): void {
+    this.authService.aceptarAlumnoJefe(id).subscribe(
+      response => {
+        Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success' );
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      },
+      error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
+        });
+        console.error('Error al aceptar alumno jefe:', error);
+        // Aquí puedes manejar el error según sea necesario
       }
     );
   }
-
-  rechazarAlumno(idAlumno: string, motivo: string) {
-    this.authService.rechazarAlumno(idAlumno, motivo).subscribe(
-      (response) => {
-        // Mostrar mensaje de éxito con SweetAlert2
-        Swal.fire('Éxito', 'Alumno rechazado correctamente', 'success');
-
-        // Actualizar la lista de alumnos después de rechazar uno
-        this.getAlumnos();
-      },
-      (error) => {
-        console.error('Error al rechazar alumno:', error);
-        // Mostrar mensaje de error con SweetAlert2
-        Swal.fire('Error', 'Error al rechazar alumno', 'error');
-      }
-    );
   }
-
  
-}

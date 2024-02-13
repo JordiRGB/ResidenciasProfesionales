@@ -1,7 +1,0 @@
-diff a/ComiteFront-main/src/app/componentes/jefeisc/jefeisc.component.ts b/ComiteFront-main/src/app/componentes/jefeisc/jefeisc.component.ts	(rejected hunks)
-@@ -25,5 +25,4 @@
-       }
-     );
-   }
--  
- }
