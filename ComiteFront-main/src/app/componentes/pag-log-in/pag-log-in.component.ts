@@ -31,7 +31,7 @@ export class PagLogInComponent {
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
-          this.router.navigate(['/inicio']);
+          this.router.navigate(['/jefes']);
         },
         err => {
           console.log(err);

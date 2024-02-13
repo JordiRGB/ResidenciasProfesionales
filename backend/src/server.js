@@ -11,6 +11,7 @@ const path = require('path');
 
 // Crear la aplicación Express
 const app = express();
+require('./config/passport')
 
 // Bodyparser
 app.use(bodyParser.json());

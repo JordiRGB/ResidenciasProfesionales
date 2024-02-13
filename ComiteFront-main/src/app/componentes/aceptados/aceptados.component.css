@@ -290,18 +290,18 @@ html, body, ul, li, div {
 
 /* Estilos generales para todos los botones */
 .btn {
-  margin-right: 5px; /* Ajusta el margen derecho entre los botones según tu preferencia */
+  background-color: #000408; /* Azul Bootstrap como ejemplo */
+  color: white; /* Color del texto */
 }
-
 /* Estilos específicos para el botón de Evidencia */
 .btn-secondary {
-  background-color: #08b408; /* Cambia el color de fondo según tu preferencia */
+  background-color: #fde405; /* Cambia el color de fondo según tu preferencia */
   color: #000000; /* Cambia el color del texto según tu preferencia */
 }
 
 /* Estilos específicos para el botón de Seguimiento */
 .btn-info {
-  background-color: #d5ec03da; /* Cambia el color de fondo según tu preferencia */
+  background-color: #01d37bda; /* Cambia el color de fondo según tu preferencia */
   color: #000000; /* Cambia el color del texto según tu preferencia */
 }
 
