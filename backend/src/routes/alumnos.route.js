@@ -37,8 +37,11 @@ router.post('/restaurar/alumno/:id', restaurarAlumno);
 router.get('/get/alumnos/aceptados', getAlumnosAceptados);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 module.exports = router;
 =======
+=======
+>>>>>>> e6206bb252745e22f9cfd7afb8037157f35d1256
 router.put('/rechazar/alumnoJefes/:id', rechazarJefe);
 router.put('/aceptar/alumnoJefes/:id', aceptarJefe);
 router.put('/rechazar/alumnoComi/:id', rechazarComi);
@@ -48,4 +51,7 @@ router.get('/historial/jefe', historialJefe);
 
 module.exports = router;
 
+<<<<<<< HEAD
 >>>>>>> 825e46e850f7bfe472267e2393a30c008df5bbea
+=======
+>>>>>>> e6206bb252745e22f9cfd7afb8037157f35d1256

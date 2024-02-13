@@ -98,6 +98,7 @@
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Metodo para mostrar a la coleccion de USERS
     getAllUsers(): Observable<any[]> {
       return this.http.get<any[]>(`${this.URL}/users/get`);
@@ -122,6 +123,8 @@
     }
     }
 =======
+=======
+>>>>>>> e6206bb252745e22f9cfd7afb8037157f35d1256
 // Metodo para mostrar a la coleccion de USERS
 getAllUsers(): Observable<any[]> {
   return this.http.get<any[]>(`${this.URL}/users/get`);
@@ -160,7 +163,10 @@ getRoles(): Observable<string[]> {
   return this.http.get<string[]>(`${this.URL}/roles/get`);
 }
 }
+<<<<<<< HEAD
 >>>>>>> 825e46e850f7bfe472267e2393a30c008df5bbea
+=======
+>>>>>>> e6206bb252745e22f9cfd7afb8037157f35d1256
 
 
 
