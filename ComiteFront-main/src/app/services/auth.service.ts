@@ -63,59 +63,63 @@
     
       return this.http.post(`${this.URL}/create/alumno`, formData, options);
     }
+    //historial de casos 
+    obtenerHistorialCasos(): Observable<any[]>{
+      return this.http.get<any[]>(`${this.URL}/historial/jefe`);
+    }
 
-   // Método para mostrar los datos de la colección "Alumno"
-   getAlumnos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.URL}/get/alumnos`);
+    // Método para mostrar los datos de la colección "Alumno"
+    getAlumnos(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.URL}/get/alumnos`);
+    }
+    // Metodo para mover un registro a la coleccion de reciclaje "Alumno"
+    moverAlumno(alumnoId: string): Observable<any> {
+      const url = `${this.URL}/reciclaje/alumno/${alumnoId}`;
+      return this.http.post(url, {});
+    }
+    getAlumnosReciclaje(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos`);
+    }
+    restaurarAlumno(alumnoId: string): Observable<any> {
+      const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
+      return this.http.post(url, {});
+    }
+
+    // Metodo para mostrar a la coleccion de USERS
+    getAllUsers(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.URL}/users/get`);
+    }
+    deleteUser(userId: string): Observable<any> {
+      const url = `${this.URL}/users/delete/${userId}`;
+      return this.http.delete(url);
+    }
+    updateUsuario(id: string, datosUsuario: any): Observable<any> {
+      const url = `${this.URL}/users/update/${id}`;
+      return this.http.put(url, datosUsuario);
+    }
+    createUser(newUser: any): Observable<any> {
+      return this.http.post<any>(`${this.URL}/users/create`, newUser);
+    }
+    rechazarSolicitudAlumno(id: string, motivoRechazo: string): Observable<any> {
+      const url = `${this.URL}/rechazar/alumnoJefes/${id}`;
+      const body = { motivoRechazo };
+      return this.http.put(url, body);
+    }
+    rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
+      const url = `${this.URL}/rechazar/alumnoComi/${id}`;
+      const body = { motivoRechazo };
+      return this.http.put(url, body);
+    }
+    aceptarAlumnoJefe(id: string): Observable<any> {
+      return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
+    }
+    aceptarAlumnoComi(id: string): Observable<any> {
+      return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
+    }
+    getRoles(): Observable<string[]> {
+      return this.http.get<string[]>(`${this.URL}/roles/get`);
+    }
+    getAlumnosAceptados(): Observable<any[]> {
+      return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
+    }
   }
-// Metodo para mover un registro a la coleccion de reciclaje "Alumno"
-moverAlumno(alumnoId: string): Observable<any> {
-  const url = `${this.URL}/reciclaje/alumno/${alumnoId}`;
-  return this.http.post(url, {});
-}
-getAlumnosReciclaje(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos`);
-}
-restaurarAlumno(alumnoId: string): Observable<any> {
-  const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
-  return this.http.post(url, {});
-}
-
-// Metodo para mostrar a la coleccion de USERS
-getAllUsers(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/users/get`);
-}
-deleteUser(userId: string): Observable<any> {
-  const url = `${this.URL}/users/delete/${userId}`;
-  return this.http.delete(url);
-}
-updateUsuario(id: string, datosUsuario: any): Observable<any> {
-  const url = `${this.URL}/users/update/${id}`;
-  return this.http.put(url, datosUsuario);
-}
-createUser(newUser: any): Observable<any> {
-  return this.http.post<any>(`${this.URL}/users/create`, newUser);
-}
-rechazarSolicitudAlumno(id: string, motivoRechazo: string): Observable<any> {
-  const url = `${this.URL}/rechazar/alumnoJefes/${id}`;
-  const body = { motivoRechazo };
-  return this.http.put(url, body);
-}
-rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
-  const url = `${this.URL}/rechazar/alumnoComi/${id}`;
-  const body = { motivoRechazo };
-  return this.http.put(url, body);
-}
-aceptarAlumnoJefe(id: string): Observable<any> {
-  return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
-}
-aceptarAlumnoComi(id: string): Observable<any> {
-  return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
-}
-getRoles(): Observable<string[]> {
-  return this.http.get<string[]>(`${this.URL}/roles/get`);
-}
-getAlumnosAceptados(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
-}
-}

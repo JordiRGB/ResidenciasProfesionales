@@ -795,22 +795,49 @@ alumnoCtrl.getAlumnosAceptados = async (req, res) => {
     }
   };
   
-alumnoCtrl.historialJefe = async (req, res) => {
+  alumnoCtrl.historialJefe = async (req, res) => {
     try {
-      const historialJefe = await Alumno.find({
-        $or: [
-          { casoEsta: 'Rechazado Jef' },
-          { casoEsta: 'Aceptado Comi' },
-          { casoEsta: 'Rechazado Comi' }
-        ]
-      });
-  
-      res.status(200).json({ historialJefe });
+        const alumnos = await Alumno.find({
+            $or: [
+                { casoEsta: 'Rechazado Jef' },
+                { casoEsta: 'Aceptado Comi' },
+                { casoEsta: 'Rechazado Comi' }
+            ]
+        });
+
+        const alumnosConEvidencia = alumnos.map(alumno => {
+            return {
+                _id: alumno._id,
+                matricula: alumno.matricula,
+                nombreCom: alumno.nombreCom,
+                telefono: alumno.telefono,
+                casoEsta: alumno.casoEsta,
+                direccion: alumno.direccion,
+                carrera: alumno.carrera,
+                casoTipo: alumno.casoTipo,
+                semestre: alumno.semestre,
+                correo: alumno.correo,
+                motivosAca: alumno.motivosAca,
+                motivosPer: alumno.motivosPer,
+                evidencia: {
+                    url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`,
+                    fileName: `evidencia_${alumno._id}.pdf`,
+                    contentType: alumno.contentType,
+                },
+                motivoRechazo: alumno.motivoRechazo,
+                rechazado: alumno.rechazado,
+                pdfPath: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Agregar pdfPath
+                updatedAt: alumno.updatedAt
+            };
+        });
+
+        res.status(200).json({ historialJefe: alumnosConEvidencia });
     } catch (error) {
-      console.error('Error al obtener el historial del jefe:', error);
-      res.status(500).json({ message: 'Error en el servidor' });
+        console.error('Error al obtener el historial del jefe:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
     }
-  };
+};
+
   
   
 

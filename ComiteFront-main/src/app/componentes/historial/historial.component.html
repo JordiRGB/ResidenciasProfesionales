@@ -72,14 +72,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr class="trTableHisto">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><!-- Utiliza un enlace para abrir el PDF al hacer clic --></td>
-                    <td>
-                    </td>
+                  <tr class="trTableHisto" *ngFor="let alumno of Alumno">
+                    <td> {{alumno.matricula}}</td>
+                    <td> {{alumno.nombreCom}}</td>
+                    <td> {{alumno.carrera}}</td>
+                    <td> {{alumno.casoTipo}}</td>
+                    <button class="btn btn-secondary rounded-circle mr-2" (click)="verPDF(alumno.pdfPath)">
+                      <i class="fas fa-file-alt"></i> Ver PDF
+                    </button>
+                    <td> {{alumno.casoEsta}}</td>
                 </tbody>
             </table>
             <!-- Utiliza un enlace para abrir el PDF al hacer clic 
