@@ -78,4 +78,13 @@ export class HistorialComponent  implements OnInit{
   verPDF(pdfPath: string) {
     window.open(pdfPath, '_blank');
   }
+
+  buscarPorMatricula(event: Event) {
+    const matricula = (event.target as HTMLInputElement).value;
+    if (matricula === '') {
+        this.obtenerHistorialJefe(); // Si el campo está vacío, mostrar todos los alumnos
+    } else {
+        this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
+    }
+  }
 }
