@@ -1,4 +1,7 @@
-export class DatosCaso {
+import { Buffer } from 'buffer';
+
+export interface DatosCaso {
+    _id: string;
     matricula: number;
     nombreCom: string;
     telefono: number;
@@ -10,23 +13,9 @@ export class DatosCaso {
     correo: string;
     motivosAca: string;
     motivosPer: string;
-    evidencia: string;
+    evidencia: Buffer |null,
     motivoComi: string;
-
-    constructor(matricula: number, nombreCom: string, telefono: number, direccion: string, carrera: string, casoEsta: string, casoTipo: string, semestre: number, correo: string, motivosAca: string, motivosPer: string, evidencia: string, motivoComi: string){
-        this.matricula = matricula;
-        this.nombreCom = nombreCom;
-        this.telefono = telefono;
-        this.casoEsta = casoEsta;
-        this.direccion = direccion;
-        this.carrera = carrera;
-        this.casoTipo = casoTipo;
-        this.semestre = semestre;
-        this.correo = correo;
-        this.motivosAca = motivosAca;
-        this.motivosPer = motivosPer;
-        this.evidencia = evidencia;
-        this.motivoComi = motivoComi;
-    }
+    pdfPath: string;
+    motivoRechazo: string;  
+    rechazado: boolean;
 }
-

@@ -4,24 +4,26 @@ import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
 interface Alumno {
-    _id: string;
-    matricula: number; 
-    nombreCom: string; 
-    telefono: number; 
-    casoEsta: string;
-    direccion: string;
-    carrera: string;
-    casoTipo: string;
-    semestre: number; 
-    correo: string;
-    motivosAca: string;
-    motivosPer: string;
-    evidencia: string;
-    pdfPath: string;
-    motivoRechazo: string;  
-    rechazado: boolean;
-  
-  
+  _id: string;
+  matricula: number; 
+  nombreCom: string; 
+  telefono: number; 
+  casoEsta: string;
+  direccion: string;
+  carrera: string;
+  casoTipo: string;
+  semestre: number; 
+  correo: string;
+  motivosAca: string;
+  motivosPer: string;
+  evidencia: {
+    contentType: string;
+    fileName: string;
+    url: string; // Agregar la propiedad url al tipo evidencia
+  };
+  motivoRechazo: string;  
+  rechazado: boolean;
+  pdfPath: string; // Propiedad pdfPath para mantener la ruta del PDF
 }
 
 @Component({
@@ -33,10 +35,7 @@ export class JefeiscComponent implements OnInit {
   Alumno: Alumno[] = [];
   motivo: string = '';
 
-  constructor(private authService: AuthService) {
-    
-  }
-  
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.getAlumnos();
@@ -48,15 +47,22 @@ export class JefeiscComponent implements OnInit {
         console.log('Datos de alumnos:', data);
 
         this.Alumno = data.map(alumno => {
-          const pdfPath = `uploads/${alumno.evidencia}`;
-          console.log('pdfPath:', pdfPath);
-          return { ...alumno, pdfPath };
+          return { 
+            ...alumno, 
+            pdfPath: `${alumno.evidencia.url}` // Ahora usamos la propiedad url
+          };
         });
       },
       (error) => {
         console.error('Error obteniendo alumnos', error);
       }
     );
+  }
+
+  // Método para visualizar el PDF de un alumno
+  verPDF(pdfPath: string) {
+    // Abrir una nueva ventana para mostrar el PDF
+    window.open(pdfPath, '_blank');
   }
 
   moverAlumnoAlReciclaje(alumnoId: string): void {

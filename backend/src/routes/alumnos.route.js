@@ -1,15 +1,31 @@
 const { Router } = require('express')
 const router = Router();
-const { getAlumno, createAlumno, updateJefes, updateSecre, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, getAlumnosAceptados, rechazarJefe, aceptarJefe, rechazarComi, aceptarComi, historialJefe} = require('../controllers/alumnos.controllers');
+const {  getAlumno, createAlumno, updateJefes, updateSecre, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, getAlumnosAceptados, rechazarJefe, aceptarJefe, rechazarComi, aceptarComi, historialJefe, getAceptadosComi, getAlumnoPdf} = require('../controllers/alumnos.controllers');
 
+const multer = require('multer');
 // Middleware para gestionar la subida de archivos
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        const fileName = `${Date.now()}-${file.originalname}`;
+        cb(null, fileName);
+    },
+  });
 
+  
+  
+  const upload = multer({ storage });
 
 router.get('/get/alumno/:matricula', getAlumno);
 router.get('/get/alumnos', getAlumnos);
+router.get('/get/AlumnosComi', getAceptadosComi);
+router.get('/alumnos/:id/pdf', getAlumnoPdf);
+
 //router.put('/update/alumnoJefes/:id', updateJefes );
 //router.put('/update/alumnoSecre/:id', updateSecre );
-router.post('/create/alumno', createAlumno);
+router.post('/create/alumno', upload.single('evidencia'), createAlumno);
 router.delete('/delete/alumno/:id', deleteAlumno);
 router.post('/reciclaje/alumno/:id', reciclajeAlumno);
 router.get('/get/reciclaje/alumnos', getReciclajeAlumnos);

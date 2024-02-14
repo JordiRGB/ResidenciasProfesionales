@@ -11,6 +11,6 @@ export class AlumnoAceptService {
   constructor(private http: HttpClient) { }
 
   getAlumnosAceptados(): Observable<any[]> {
-    return this.http.get<any[]>(this.URL+"/get/aceptados/alumnos");
+    return this.http.get<any[]>(this.URL+"/get/AlumnosComi");
   }
 }

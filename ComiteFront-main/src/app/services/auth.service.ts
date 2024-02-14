@@ -3,7 +3,7 @@
   import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
   import { DatosCaso } from '../models/datos-caso';
   import { Form, FormBuilder, FormGroup } from '@angular/forms';
-
+  import { Buffer } from 'buffer';
 
   @Injectable({
     providedIn: 'root'
@@ -36,14 +36,32 @@
     }
     
   
-  registrarCaso(datosCaso: FormData): Observable<any> {
+    registrarCaso(datosCaso: FormData, evidencia: Buffer): Observable<any> {
+      const formData = new FormData();
+      formData.append('matricula', datosCaso.get('matricula')!.toString());
+      formData.append('nombreCom', datosCaso.get('nombreCom')!.toString());
+      formData.append('telefono', datosCaso.get('telefono')!.toString());
+      formData.append('direccion', datosCaso.get('direccion')!.toString());
+      formData.append('carrera', datosCaso.get('carrera')!.toString());
+      formData.append('casoEsta', datosCaso.get('casoEsta')!.toString());
+      formData.append('casoTipo', datosCaso.get('casoTipo')!.toString());
+      formData.append('semestre', datosCaso.get('semestre')!.toString());
+      formData.append('correo', datosCaso.get('correo')!.toString());
+      formData.append('motivosAca', datosCaso.get('motivosAca')!.toString());
+      formData.append('motivosPer', datosCaso.get('motivosPer')!.toString());
+    
+      // Agrega la evidencia como un ArrayBuffer a FormData
+      formData.append('evidencia', new Blob([evidencia]), 'evidencia.pdf');
+    
       const options = {
         headers: new HttpHeaders({
-          'Content-Type': 'multipart/form-data'
+          'Accept': 'application/json, multipart/form-data'
         })
       };
-      return this.http.post(this.URL + '/create/alumno', datosCaso, options);
+    
+      return this.http.post(`${this.URL}/create/alumno`, formData, options);
     }
+
    // Método para mostrar los datos de la colección "Alumno"
    getAlumnos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL}/get/alumnos`);
@@ -98,6 +116,8 @@ aceptarAlumnoComi(id: string): Observable<any> {
 getRoles(): Observable<string[]> {
   return this.http.get<string[]>(`${this.URL}/roles/get`);
 }
+
+
 }
 
 
