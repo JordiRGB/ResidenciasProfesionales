@@ -5,6 +5,8 @@
   import { Form, FormBuilder, FormGroup } from '@angular/forms';
   import { Buffer } from 'buffer';
 
+
+
   @Injectable({
     providedIn: 'root'
     
@@ -35,7 +37,7 @@
       return this.http.post<any>(this.URL + '/users/signin', user);
     }
     
-  
+    //registrar el caso para subir los pdf
     registrarCaso(datosCaso: FormData, evidencia: Buffer): Observable<any> {
       const formData = new FormData();
       formData.append('matricula', datosCaso.get('matricula')!.toString());
@@ -113,6 +115,7 @@ aceptarAlumnoComi(id: string): Observable<any> {
 getRoles(): Observable<string[]> {
   return this.http.get<string[]>(`${this.URL}/roles/get`);
 }
-
-
+getAlumnosAceptados(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
+}
 }
