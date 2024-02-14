@@ -30,6 +30,9 @@ export class PagRegCasoComponent {
     motivosPer: '',
     evidencia: null,
     motivoComi: '',
+    pdfPath: '',
+    motivoRechazo: '',  
+    rechazado: false,
   };
 
   correosCoinciden: boolean = false;

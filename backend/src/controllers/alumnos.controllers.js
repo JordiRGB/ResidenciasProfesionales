@@ -357,6 +357,46 @@ alumnoCtrl.aceptarJefe = async (req, res) => {
     }
 };
 
+alumnoCtrl.aceptarComi = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const alumno = await Alumno.findByIdAndUpdate(
+            id,
+            { 
+                casoEsta: "Aceptado Comi",
+                motivoComi: "Aceptado por el Comite" 
+            },
+            { new: true }
+        );
+
+        if (!alumno) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Envía correo electrónico de notificación de aceptación
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: USER_COMI,
+                pass: EMAIL_COMI,
+            },
+        });
+        const mailOptions = {
+            from: USER_COMI,
+            to: alumno.correo,
+            subject: 'Solicitud Aceptada',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada. Por favor, pasa lo antes posible con el Comité Academico\n\nSaludos`,
+        };
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json(alumno);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+};
+
 
 
 alumnoCtrl.updateSecre = async (req, res) => {
@@ -478,46 +518,6 @@ alumnoCtrl.rechazarComi = async (req, res) => {
             to: alumno.correo,
             subject: 'Solicitud Rechazada por Comite',
             text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido rechazada. El motivo es ${alumno.motivoComi}\n\nSaludos, \nTu Aplicación`,
-        };
-        await transporter.sendMail(mailOptions);
-
-        res.status(200).json(alumno);
-    } catch (error) {
-        res.status(500).json({ message: "Server error" });
-        console.error(error);
-    }
-};
-
-alumnoCtrl.aceptarComi = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        const alumno = await Alumno.findByIdAndUpdate(
-            id,
-            { 
-                casoEsta: "Aceptado Comi",
-                motivoComi: "Aceptado por el Comite" 
-            },
-            { new: true }
-        );
-
-        if (!alumno) {
-            return res.status(404).json(`Alumno with id ${id} not found`);
-        }
-
-        // Envía correo electrónico de notificación de aceptación
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: USER_COMI,
-                pass: EMAIL_COMI,
-            },
-        });
-        const mailOptions = {
-            from: USER_COMI,
-            to: alumno.correo,
-            subject: 'Solicitud Aceptada',
-            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada. Por favor, pasa lo antes posible con el Comité Academico\n\nSaludos`,
         };
         await transporter.sendMail(mailOptions);
 

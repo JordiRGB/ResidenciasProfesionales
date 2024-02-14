@@ -104,9 +104,7 @@
     getAlumnosAceptados(): Observable<any[]> {
       return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
     }
-    aceptarAlumnoComi(id: string): Observable<any> {
-      return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
-    }
+   
     rechazarAlumnoComi(id: string, motivoRechazo: string): Observable<any> {
       const url = `${this.URL}/rechazar/alumnoComi/${id}`;
       const body = { motivoRechazo };
@@ -116,6 +114,9 @@
       const url = `${this.URL}/rechazar/alumnoJefes/${id}`;
       const body = { motivoRechazo };
       return this.http.put(url, body);
+    }
+    aceptarAlumnoComi(id: string): Observable<any> {
+      return this.http.put(`${this.URL}/aceptar/alumnoComi/${id}`, {});
     }
     aceptarAlumnoJefe(id: string): Observable<any> {
       return this.http.put(`${this.URL}/aceptar/alumnoJefes/${id}`, {});
