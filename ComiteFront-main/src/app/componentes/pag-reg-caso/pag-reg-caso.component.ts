@@ -16,6 +16,7 @@ import { Carousel } from 'bootstrap';
 })
 export class PagRegCasoComponent {
   datosCaso: DatosCaso = {
+    _id:'',
     matricula: 0,
     nombreCom: '',
     telefono: 0,
@@ -29,6 +30,9 @@ export class PagRegCasoComponent {
     motivosPer: '',
     evidencia: null,
     motivoComi: '',
+    pdfPath: '',
+    motivoRechazo: '',  
+    rechazado: false,
   };
 
   correosCoinciden: boolean = false;
@@ -181,5 +185,4 @@ export class PagRegCasoComponent {
       console.log('El formulario es inválido o los correos no coinciden');
     }
   }
-}  
-
+}

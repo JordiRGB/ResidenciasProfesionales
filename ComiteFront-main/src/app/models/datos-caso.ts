@@ -1,6 +1,7 @@
 import { Buffer } from 'buffer';
 
 export interface DatosCaso {
+    _id: string;
     matricula: number;
     nombreCom: string;
     telefono: number;
@@ -14,4 +15,7 @@ export interface DatosCaso {
     motivosPer: string;
     evidencia: Buffer |null,
     motivoComi: string;
+    pdfPath: string;
+    motivoRechazo: string;  
+    rechazado: boolean;
 }

@@ -5,8 +5,6 @@
   import { Form, FormBuilder, FormGroup } from '@angular/forms';
   import { Buffer } from 'buffer';
 
-
-
   @Injectable({
     providedIn: 'root'
     
@@ -37,7 +35,7 @@
       return this.http.post<any>(this.URL + '/users/signin', user);
     }
     
-    //registrar el caso para subir los pdf
+  
     registrarCaso(datosCaso: FormData, evidencia: Buffer): Observable<any> {
       const formData = new FormData();
       formData.append('matricula', datosCaso.get('matricula')!.toString());
@@ -63,39 +61,23 @@
     
       return this.http.post(`${this.URL}/create/alumno`, formData, options);
     }
-    
-    
-    
-    
-  /*
-  formData.append('matricula', datosCaso.matricula.toString());
-      formData.append('nombreCom', datosCaso.nombreCom);
-      formData.append('telefono', datosCaso.telefono.toString());
-      formData.append('direccion', datosCaso.direccion);
-      formData.append('carrera', datosCaso.carrera);
-      formData.append('casoEsta', datosCaso.casoEsta);
-      formData.append('casoTipo', datosCaso.casoTipo);
-      formData.append('semestre', datosCaso.semestre.toString());
-      formData.append('correo', datosCaso.correo);
-      formData.append('motivosAca', datosCaso.motivosAca);
-      formData.append('motivosPer', datosCaso.motivosPer);
-      */
-    // Método para mostrar los datos de la colección "Alumno"
-    getAlumnos(): Observable<any[]> {
-      return this.http.get<any[]>(`${this.URL}/get/alumnos`);
-    }
-    // Metodo para mover un registro a la coleccion de reciclaje "Alumno"
-    moverAlumno(alumnoId: string): Observable<any> {
-      const url = `${this.URL}/reciclaje/alumno/${alumnoId}`;
-      return this.http.post(url, {});
-    }
-    getAlumnosReciclaje(): Observable<any[]> {
-      return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos`);
-    }
-    restaurarAlumno(alumnoId: string): Observable<any> {
-      const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
-      return this.http.post(url, {});
-    }
+
+   // Método para mostrar los datos de la colección "Alumno"
+   getAlumnos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.URL}/get/alumnos`);
+  }
+// Metodo para mover un registro a la coleccion de reciclaje "Alumno"
+moverAlumno(alumnoId: string): Observable<any> {
+  const url = `${this.URL}/reciclaje/alumno/${alumnoId}`;
+  return this.http.post(url, {});
+}
+getAlumnosReciclaje(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos`);
+}
+restaurarAlumno(alumnoId: string): Observable<any> {
+  const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
+  return this.http.post(url, {});
+}
 
 // Metodo para mostrar a la coleccion de USERS
 getAllUsers(): Observable<any[]> {
@@ -131,7 +113,6 @@ aceptarAlumnoComi(id: string): Observable<any> {
 getRoles(): Observable<string[]> {
   return this.http.get<string[]>(`${this.URL}/roles/get`);
 }
-getAlumnosAceptados(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
-}
+
+
 }
