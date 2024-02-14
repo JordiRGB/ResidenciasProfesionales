@@ -185,5 +185,4 @@ export class PagRegCasoComponent {
       console.log('El formulario es inválido o los correos no coinciden');
     }
   }
-}  
-
+}

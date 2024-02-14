@@ -81,7 +81,7 @@
                     <td>{{ alumno.carrera }}</td>
                     <td>{{ alumno.casoTipo }}</td>
                     <td>
-                      <a [href]="'uploads/' + alumno.evidencia" download="{{ alumno.evidencia }}">{{ alumno.evidencia }}</a>
+                      <button (click)="verPDF(alumno.pdfPath)">Ver PDF</button>
                     </td>
                     <td>{{ alumno.casoEsta }}</td>
                     <td>

@@ -1,7 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
+interface Alumno {
+  _id: string;
+  matricula: number; 
+  nombreCom: string; 
+  telefono: number; 
+  casoEsta: string;
+  direccion: string;
+  carrera: string;
+  casoTipo: string;
+  semestre: number; 
+  correo: string;
+  motivosAca: string;
+  motivosPer: string;
+  evidencia: {
+    contentType: string;
+    fileName: string;
+    url: string; // Agregar la propiedad url al tipo evidencia
+  };
+  motivoRechazo: string;  
+  rechazado: boolean;
+  pdfPath: string; // Propiedad pdfPath para mantener la ruta del PDF
+  updatedAt: Date;
+}
 
 @Component({
   selector: 'app-aceptados',
@@ -9,7 +32,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./aceptados.component.css']
 })
 export class AceptadosComponent implements OnInit {
-  Alumno: any[] = [];
+  Alumno: Alumno[] = [];
 
   constructor(private authService: AuthService) {}
 
@@ -20,12 +43,15 @@ export class AceptadosComponent implements OnInit {
     this.authService.getAlumnosAceptados().subscribe(
       (response: any) => {
         console.log('Datos de alumnos aceptados:', response);
-  
         if (Array.isArray(response.alumnos)) {
-          this.Alumno = response.alumnos;
+          this.Alumno = response.alumnos.map(alumno => {
+            return { 
+              ...alumno, 
+              pdfPath: `${alumno.evidencia.url}` // Usamos la propiedad url
+            };
+          });
         } else {
           console.error('La propiedad "alumnos" en la respuesta del servicio no es un array:', response);
-          
         }
       },
       (error) => {
@@ -34,6 +60,11 @@ export class AceptadosComponent implements OnInit {
       }
     );
   }
+
+  verPDF(pdfPath: string) {
+    window.open(pdfPath, '_blank');
+  }
+
   rechazarAlumno(id: string): void {
     Swal.fire({
       title: 'Motivo de Rechazo',
@@ -80,7 +111,6 @@ export class AceptadosComponent implements OnInit {
           text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
         });
         console.error('Error al aceptar alumno jefe:', error);
-        // Aquí puedes manejar el error según sea necesario
       }
     );
   }

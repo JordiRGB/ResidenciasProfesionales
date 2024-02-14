@@ -78,9 +78,9 @@
                   <td>{{ alumno.carrera }}</td>
                   <td>{{ alumno.casoTipo }}</td>
                   <td>{{ alumno.updatedAt | date:'dd/MM/yyyy '}}</td>
-                  <button class="btn btn-secondary rounded-circle mr-2">
-                    <i class="fas fa-file-alt"></i>
-                  </button>
+                  <button class="btn btn-secondary rounded-circle mr-2" (click)="verPDF(alumno.pdfPath)">
+                    <i class="fas fa-file-alt"></i> Ver PDF
+                  </button>                  
                   
                   <button class="btn btn-info rounded-circle mr-2" (click)="aceptarAlumno(alumno._id)">
                     <i class="fas fa-check"></i>
