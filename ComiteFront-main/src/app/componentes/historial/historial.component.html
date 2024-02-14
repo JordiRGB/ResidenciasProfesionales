@@ -20,10 +20,10 @@
         <div class="menu">
           <div class="search-button">
             <div class="search">
-                <input type="text" placeholder="Buscar...">
+              <input type="text" placeholder="Buscar..." (keyup)="buscarPorMatricula($event)">
             </div>
             <i class=""></i> 
-        </div>
+          </div>
         <div class="Jefe">
           <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             jefatura.sistemas.tesch.edu.mx
@@ -40,8 +40,8 @@
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
                 <a href="#"><i class="material-icons">person</i> Solicitud de alumnos</a>
-                <a href="#"><i class="material-icons">book</i> Compendio de casos</a>
-                <a href="#"><i class="material-icons">check_circle</i> Casos Aceptados</a>
+                <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
+                <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
                 <a href="#"><i class="material-icons">description</i> Acta LXX</a>
                 <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
                 <a href="papelera"><i class="material-icons">delete</i>papelera</a>
@@ -68,22 +68,19 @@
                         <th>CARRERA</th>
                         <th>TIPO DE CASO</th>
                         <th>EVIDENCIA</th>
-                        <th style="text-align: center;">ESTADO</th>
+                        <th>ESTADO</th>
                     </tr>
                 </thead>
                 <tbody>
-                  <tr class="trTableHisto">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <!-- Utiliza un enlace para abrir el PDF al hacer clic -->
-                    </td>
-                    <td>
-                        <mat-checkbox class="example-margin">Abierto</mat-checkbox>
-                        <mat-checkbox class="example-margin">Cerrado</mat-checkbox>
-                    </td>
+                  <tr class="trTableHisto" *ngFor="let alumno of Alumno">
+                    <td> {{alumno.matricula}}</td>
+                    <td> {{alumno.nombreCom}}</td>
+                    <td> {{alumno.carrera}}</td>
+                    <td> {{alumno.casoTipo}}</td>
+                    <button class="btn btn-secondary rounded-circle mr-2" (click)="verPDF(alumno.pdfPath)">
+                      <i class="fas fa-file-alt"></i> Ver PDF
+                    </button>
+                    <td> {{alumno.casoEsta}}</td>
                 </tbody>
             </table>
             <!-- Utiliza un enlace para abrir el PDF al hacer clic 
@@ -91,8 +88,6 @@
             <button id="vaciarDatos" class="btn btn-primary custom-button">
               <i class="fas fa-folder"></i> Vaciar Datos
             </button> -->
-              
-          
         </div>
     </main>
     <br>

@@ -144,7 +144,15 @@ export class JefeiscComponent implements OnInit {
             // Aquí puedes manejar el error según sea necesario
         }
     );
-}
+  }
+  buscarPorMatricula(event: Event) {
+    const matricula = (event.target as HTMLInputElement).value;
+    if (matricula === '') {
+        this.getAlumnos(); // Si el campo está vacío, mostrar todos los alumnos
+    } else {
+        this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
+    }
+  }
 
   }
  

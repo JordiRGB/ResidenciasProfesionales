@@ -114,6 +114,14 @@ export class AceptadosComponent implements OnInit {
       }
     );
   }
+  buscarPorMatricula(event: Event) {
+    const matricula = (event.target as HTMLInputElement).value;
+    if (matricula === '') {
+        this.getAlumnosAceptados(); // Si el campo está vacío, mostrar todos los alumnos
+    } else {
+        this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
+    }
+  }
   }
   
  

@@ -20,7 +20,7 @@
         <div class="menu">
           <div class="search-button">
             <div class="search">
-                <input type="text" placeholder="Buscar...">
+              <input type="text" placeholder="Buscar..." (keyup)="buscarPorMatricula($event)">
             </div>
             <i class=""></i> 
         </div>
@@ -42,7 +42,7 @@
     <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
     <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
     <a href="#"><i class="material-icons">description</i> Acta LXX</a>
-    <a href="#"><i class="material-icons">history</i> Historial de casos</a>
+    <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
     <a href="papelera"><i class="material-icons">delete</i>papelera</a>
 
           </div>

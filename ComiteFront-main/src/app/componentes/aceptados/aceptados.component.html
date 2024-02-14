@@ -39,8 +39,6 @@
     <a href="#"><i class="material-icons">description</i> Acta LXX</a>
     <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
           </div>
-          
-            
             </div>
         </div>
     </header>
@@ -54,7 +52,7 @@
           <div class="search-table-container">
             <div class="search-button">
                 
-                <input type="text" placeholder="Buscar...">
+              <input type="text" placeholder="Buscar..." (keyup)="buscarPorMatricula($event)">
                 <i class="fas fa-search"></i>  
             </div>
             <table>
