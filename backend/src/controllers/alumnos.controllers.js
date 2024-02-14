@@ -96,6 +96,53 @@ alumnoCtrl.getAlumnoPdf = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener el archivo PDF del alumno.' });
     }
 };
+alumnoCtrl.getAlumnosJefes = async (req, res) => {
+    try {
+        // Obtener el nombre de la carrera desde los parámetros de la solicitud
+        const { carrera } = req.params;
+
+        // Buscar todos los alumnos de la base de datos que pertenecen a la carrera especificada
+        const alumnos = await Alumno.find({ carrera });
+
+        // Verificar si se encontraron alumnos para esa carrera
+        if (alumnos.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron alumnos para esta carrera.' });
+        }
+
+        // Mapear los alumnos para ajustar la respuesta
+        const alumnosConEvidencia = alumnos.map(alumno => {
+            return {
+                id: alumno._id,
+                matricula: alumno.matricula,
+                nombreCom: alumno.nombreCom,
+                telefono: alumno.telefono,
+                casoEsta: alumno.casoEsta,
+                direccion: alumno.direccion,
+                carrera: alumno.carrera,
+                casoTipo: alumno.casoTipo,
+                semestre: alumno.semestre,
+                correo: alumno.correo,
+                motivosAca: alumno.motivosAca,
+                motivosPer: alumno.motivosPer,
+                evidencia: {
+                    url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Ruta para ver el PDF del alumno
+                    fileName: `evidencia_${alumno._id}.pdf`, // Nombre del archivo
+                    contentType: alumno.contentType, // Tipo de contenido
+                },
+                motivoComi: alumno.motivoComi,
+            };
+        });
+
+        // Ordenar los alumnos por nombreCom (nombre completo) de forma ascendente
+        alumnosConEvidencia.sort((a, b) => a.nombreCom.localeCompare(b.nombreCom));
+
+        res.status(200).json(alumnosConEvidencia);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los alumnos.' });
+    }
+};
+
   alumnoCtrl.createAlumno = async (req, res) => {
     try {
         const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
