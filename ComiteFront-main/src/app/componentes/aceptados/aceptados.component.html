@@ -33,11 +33,12 @@
             </button>
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
-    <a href="#"><i class="material-icons">person</i> Solicitud de alumnos</a>
-    <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
-    <a href="#"><i class="material-icons">check_circle</i> Casos Aceptados</a>
-    <a href="#"><i class="material-icons">description</i> Acta LXX</a>
-    <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
+              <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
+              <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
+              <a href="pagActa"><i class="material-icons">description</i> Acta LXX</a>
+              <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
+              <a href="papelera"><i class="material-icons">delete</i>papelera</a>
+          
           </div>
             </div>
         </div>
@@ -61,7 +62,6 @@
                   <th colspan="7" style="text-align: left; font-size: 20px;">SEGUIMIENTO</th>
                 </tr>
                 <tr>
-                  <th>ID</th>
                   <th>MATRICULA</th>
                   <th>NOMBRE COMPLETO</th>
                   <th>CARRERA</th>
@@ -72,7 +72,6 @@
               </thead>
               <tbody>
                 <tr *ngFor="let alumno of Alumno">
-                  <td>{{ alumno._id }}</td>
                   <td>{{ alumno.matricula }}</td>
                   <td>{{ alumno.nombreCom }}</td>
                   <td>{{ alumno.carrera }}</td>

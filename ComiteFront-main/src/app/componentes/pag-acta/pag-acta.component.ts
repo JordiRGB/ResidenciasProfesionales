@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -68,9 +69,24 @@ export class PagActaComponent implements OnInit {
   ];
 
   Pdatos(): void {
-    const asistentesSeleccionados = this.asistentes.filter((asistente) => asistente.presente);
-    this.dataService.setAsistentesSeleccionados(asistentesSeleccionados);
-    this.dataService.setTipoSesion(this.tipoSesion);
-    this.router.navigate(['/pagActaTwo']);
+    const asistenteRoberto = this.asistentes.find((asistente) => asistente.cargoSec === 'Presidente del Comité Académico');
+    const asistenteSecretaria = this.asistentes.find((asistente) => asistente.cargoSec === 'Secretaria de Comité Académico');
+  
+    if (!asistenteRoberto || !asistenteRoberto.presente || !asistenteSecretaria || !asistenteSecretaria.presente) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Debes marcar la casilla de asistencia del Director Académico y Secretaria de Comité Académico antes de continuar.'
+      });
+    } else {
+      const asistentesSeleccionados = this.asistentes.filter((asistente) => asistente.presente);
+      this.dataService.setAsistentesSeleccionados(asistentesSeleccionados);
+      this.dataService.setTipoSesion(this.tipoSesion);
+        
+      // Realizar la navegación solo si la condición se cumple
+      this.router.navigate(['/pagActaTwo']);
+    }
   }
+  
 }
+

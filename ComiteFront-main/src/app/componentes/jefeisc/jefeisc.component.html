@@ -41,7 +41,7 @@
               <h3 class="menu-title">Menú</h3>
     <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
     <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
-    <a href="#"><i class="material-icons">description</i> Acta LXX</a>
+    <a href="pagActa"><i class="material-icons">description</i> Acta LXX</a>
     <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
     <a href="papelera"><i class="material-icons">delete</i>papelera</a>
 
@@ -85,10 +85,10 @@
                     <td>{{ alumno.casoEsta }}</td>
                     <td>
                       <div class="botones-container">
-                        <button class="Aceptar" (click)="aceptarAlumnoJefe(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Jef' || alumno.casoEsta === 'Rechazado Jef'|| alumno.casoEsta === 'Rechazado Comi'">
+                        <button class="Aceptar" (click)="aceptarAlumnoJefe(alumno._id)"[disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">check_circle</i>
                         </button>
-                        <button class="rechazar" (click)="rechazarSolicitudAlumno(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Jef' || alumno.casoEsta === 'Rechazado Jef'|| alumno.casoEsta === 'Rechazado Comi'">
+                        <button class="rechazar" (click)="rechazarSolicitudAlumno(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">cancel</i>
                         </button>
                         

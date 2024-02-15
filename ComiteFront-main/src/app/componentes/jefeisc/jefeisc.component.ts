@@ -127,24 +127,38 @@ export class JefeiscComponent implements OnInit {
     });
   }
   aceptarAlumnoJefe(id: string): void {
-    this.authService.aceptarAlumnoJefe(id).subscribe(
-        response => {
-            Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success' );
+    Swal.fire({
+      title: 'Confirmación',
+      text: '¿Estás seguro de que deseas aceptar al alumno?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, aceptar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authService.aceptarAlumnoJefe(id).subscribe(
+          response => {
+            Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success');
             setTimeout(() => {
-                window.location.reload();
+              window.location.reload();
             }, 1000);
-        },
-        error => {
+          },
+          error => {
             Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
             });
             console.error('Error al aceptar alumno jefe:', error);
             // Aquí puedes manejar el error según sea necesario
-        }
-    );
+          }
+        );
+      }
+    });
   }
+
   buscarPorMatricula(event: Event) {
     const matricula = (event.target as HTMLInputElement).value;
     if (matricula === '') {

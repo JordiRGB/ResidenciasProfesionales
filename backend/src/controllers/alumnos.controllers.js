@@ -846,7 +846,6 @@ alumnoCtrl.getAlumnosAceptados = async (req, res) => {
     try {
         const alumnos = await Alumno.find({
             $or: [
-                { casoEsta: 'Rechazado Jef' },
                 { casoEsta: 'Aceptado Comi' },
                 { casoEsta: 'Rechazado Comi' }
             ]
