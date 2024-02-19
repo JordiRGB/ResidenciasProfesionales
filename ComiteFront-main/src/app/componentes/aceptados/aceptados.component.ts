@@ -33,11 +33,35 @@ interface Alumno {
 })
 export class AceptadosComponent implements OnInit {
   Alumno: Alumno[] = [];
+  userEmail: string | null = ''; 
+  showLogoutOption: boolean = false;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    this.userEmail = localStorage.getItem('userEmail');
     this.getAlumnosAceptados();
+  }
+  logout() {
+    // Mostrar alerta de confirmación usando SweetAlert2
+    Swal.fire({
+      title: '¿Seguro que quieres cerrar sesión?',
+      text: 'Tu sesión actual se cerrará',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Lógica para cerrar sesión
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        // Redireccionar a la página de inicio de sesión
+        window.location.href = '/ruta-de-inicio-de-sesion'; // Reemplaza '/ruta-de-inicio-de-sesion' con la ruta real de tu página de inicio de sesión
+      }
+    });
   }
   getAlumnosAceptados() {
     this.authService.getAlumnosAceptados().subscribe(

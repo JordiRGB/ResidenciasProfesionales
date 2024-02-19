@@ -24,15 +24,10 @@
             </div>
             <i class=""></i> 
           </div>
-        <div class="Jefe">
-          <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            jefatura.sistemas.tesch.edu.mx
-            <i class="fas fa-user"></i> 
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Cerrar sesion</a></li>
-          </ul>
-        </div>        
+          <button (click)="logout()">
+            <i class="material-icons">person</i>
+            <p><strong style="color: black;"> {{ userEmail }}</strong></p>
+          </button>       
             <div class="dropdown">
               <button>
                 <i class="fas fa-bars"></i>

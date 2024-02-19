@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 interface Alumno {
   _id: string;
@@ -32,13 +33,39 @@ interface Alumno {
 })
 export class HistorialComponent  implements OnInit{
   Alumno: Alumno[] = [];
+  userEmail: string | null = ''; 
+  showLogoutOption: boolean = false;
+
 
   constructor(private authService: AuthService){
 
   }
   ngOnInit(): void {
+    this.userEmail = localStorage.getItem('userEmail');
     this.obtenerHistorialJefe();
   }
+  logout() {
+    // Mostrar alerta de confirmación usando SweetAlert2
+    Swal.fire({
+      title: '¿Seguro que quieres cerrar sesión?',
+      text: 'Tu sesión actual se cerrará',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Lógica para cerrar sesión
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        // Redireccionar a la página de inicio de sesión
+        window.location.href = '/ruta-de-inicio-de-sesion'; // Reemplaza '/ruta-de-inicio-de-sesion' con la ruta real de tu página de inicio de sesión
+      }
+    });
+  }
+
   obtenerHistorialJefe() {
     this.authService.obtenerHistorialCasos().subscribe(
       (response: any) => {

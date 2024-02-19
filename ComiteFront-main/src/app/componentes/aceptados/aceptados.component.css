@@ -289,24 +289,53 @@ html, body, ul, li, div {
   /* Agrega estilos para los botones en tu componente */
 
 /* Estilos generales para todos los botones */
-.btn {
-  background-color: #000408; /* Azul Bootstrap como ejemplo */
-  color: white; /* Color del texto */
-}
-/* Estilos específicos para el botón de Evidencia */
-.btn-secondary {
-  background-color: #fde405; /* Cambia el color de fondo según tu preferencia */
-  color: #000000; /* Cambia el color del texto según tu preferencia */
-}
-
-/* Estilos específicos para el botón de Seguimiento */
-.btn-info {
-  background-color: #01d37bda; /* Cambia el color de fondo según tu preferencia */
-  color: #000000; /* Cambia el color del texto según tu preferencia */
+table tr td .Aceptar{
+  width: 40px; /* Ancho deseado */
+  height: 40px; /* Alto deseado */
+  padding: 0; /* Elimina el relleno interno */
+  border: 2px solid black; /* Elimina el borde */
+  background-color: rgb(11, 255, 153); /* Cambia el color de fondo del botón según tus preferencias */
+  color: #000000; /* Cambia el color del texto del botón según tus preferencias */
+  border-radius: 50%; /* Hace que el botón sea circular */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  display: flex; /* Utiliza el modelo de caja flexible */
+  justify-content: center; /* Centra horizontalmente el contenido del botón */
+  align-items: center; /* Centra verticalmente el contenido del botón */
 }
 
-/* Estilos específicos para el botón de Cerrar Caso */
-.btn-danger {
-  background-color: #b40505de; /* Cambia el color de fondo según tu preferencia */
-  color: #ffffff; /* Cambia el color del texto según tu preferencia */
+table tr td .rechazar{
+  width: 40px; /* Ancho deseado */
+  height: 40px; /* Alto deseado */
+  padding: 0; /* Elimina el relleno interno */
+  border: 2px solid black; /* Elimina el borde */
+  background-color: rgb(255, 27, 27); /* Cambia el color de fondo del botón según tus preferencias */
+  color: #070707; /* Cambia el color del texto del botón según tus preferencias */
+  border-radius: 50%; /* Hace que el botón sea circular */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  display: flex; /* Utiliza el modelo de caja flexible */
+  justify-content: center; /* Centra horizontalmente el contenido del botón */
+  align-items: center; /* Centra verticalmente el contenido del botón */
+}
+
+table tr td .pape{
+  width: 40px; /* Ancho deseado */
+  height: 40px; /* Alto deseado */
+  padding: 0; /* Elimina el relleno interno */
+  border: 2px solid black; /* Elimina el borde */
+  background-color: rgb(241, 238, 46); /* Cambia el color de fondo del botón según tus preferencias */
+  color: #070707; /* Cambia el color del texto del botón según tus preferencias */
+  border-radius: 50%; /* Hace que el botón sea circular */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  display: flex; /* Utiliza el modelo de caja flexible */
+  justify-content: center; /* Centra horizontalmente el contenido del botón */
+  align-items: center; /* Centra verticalmente el contenido del botón */
+}
+
+table tr td i{
+  display: flex;
+  gap: 10px;
+}
+.botones-container {
+  display: flex;
+  gap: 10px; /* Agrega un espacio de 10px entre los botones */
 }

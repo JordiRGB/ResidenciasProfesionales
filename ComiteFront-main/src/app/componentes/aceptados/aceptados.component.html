@@ -18,26 +18,19 @@
     <header>
       
         <div class="menu">
-          <div class="Jefe">
-            <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              jefatura.sistemas.tesch.edu.mx
-              <i class="fas fa-user"></i> 
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item btn btn-success" href="#">Cerrar sesión</a></li>
-            </ul>
-          </div>          
+          <button (click)="logout()">
+            <i class="material-icons">person</i>
+            <p><strong style="color: black;"> {{ userEmail }}</strong></p>
+          </button>         
             <div class="dropdown">
               <button>
                 <i class="fas fa-bars"></i>
             </button>
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
-              <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
               <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
               <a href="pagActa"><i class="material-icons">description</i> Acta LXX</a>
               <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
-              <a href="papelera"><i class="material-icons">delete</i>papelera</a>
           
           </div>
             </div>
@@ -77,17 +70,20 @@
                   <td>{{ alumno.carrera }}</td>
                   <td>{{ alumno.casoTipo }}</td>
                   <td>{{ alumno.updatedAt | date:'dd/MM/yyyy '}}</td>
-                  <button class="btn btn-secondary rounded-circle mr-2" (click)="verPDF(alumno.pdfPath)">
-                    <i class="fas fa-file-alt"></i> Ver PDF
-                  </button>                  
-                  
-                  <button class="btn btn-info rounded-circle mr-2" (click)="aceptarAlumno(alumno._id)">
-                    <i class="fas fa-check"></i>
-                  </button>
-                  
-                  <button class="btn btn-danger rounded-circle" (click)="rechazarAlumno(alumno._id)">
-                    <i class="fas fa-times"></i>
-                  </button>
+                  <td>
+                    <div class="botones-container">
+                      <button class="pape" (click)="verPDF(alumno.pdfPath)">
+                        <i class="material-icons">description</i>
+                    </button>                    
+                      <button class="Aceptar" (click)="aceptarAlumno(alumno._id)">
+                        <i class="material-icons">check_circle</i>
+                      </button>
+                      <button class="rechazar" (click)="rechazarAlumno(alumno._id)">
+                        <i class="material-icons">cancel</i>
+                      </button>
+                     
+                   </div>
+                </td>
                 </tr>
               </tbody>
             </table>

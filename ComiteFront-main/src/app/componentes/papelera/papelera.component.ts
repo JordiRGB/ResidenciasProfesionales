@@ -11,11 +11,36 @@ import Swal from 'sweetalert2';
 export class PapeleraComponent implements OnInit {
   alumnosReciclaje: any[] = [];
   alumno: any;
+  userEmail: string | null = ''; 
+  showLogoutOption: boolean = false;
+
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
+    this.userEmail = localStorage.getItem('userEmail');
     this.getAlumnosReciclaje();
+  }
+  logout() {
+    // Mostrar alerta de confirmación usando SweetAlert2
+    Swal.fire({
+      title: '¿Seguro que quieres cerrar sesión?',
+      text: 'Tu sesión actual se cerrará',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Lógica para cerrar sesión
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        // Redireccionar a la página de inicio de sesión
+        window.location.href = '/ruta-de-inicio-de-sesion'; // Reemplaza '/ruta-de-inicio-de-sesion' con la ruta real de tu página de inicio de sesión
+      }
+    });
   }
 
   getAlumnosReciclaje(): void {
