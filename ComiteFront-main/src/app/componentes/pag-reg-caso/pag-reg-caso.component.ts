@@ -38,6 +38,11 @@ export class PagRegCasoComponent {
   correosCoinciden: boolean = false;
   confirmarCorreoInput: any;
   casoForm: FormGroup;
+  formularioCompleto: boolean = false;
+
+  verificarFormularioCompleto() {
+    this.formularioCompleto = this.casoForm.valid;
+  }
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
     this.casoForm = this.fb.group({
@@ -67,6 +72,9 @@ export class PagRegCasoComponent {
         wrap: true // Permite que el carrusel vuelva al principio después de llegar al final
       });
     }
+    this.casoForm.valueChanges.subscribe(() => {
+      this.verificarFormularioCompleto();
+    });
   }
 
   

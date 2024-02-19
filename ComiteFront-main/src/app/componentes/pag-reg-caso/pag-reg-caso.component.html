@@ -44,8 +44,8 @@
         <form [formGroup]="casoForm" enctype="multipart/form-data" (submit)="registrarCaso()" class="example-form">
           <mat-label>Ingresa tu nombre</mat-label>
           <mat-form-field class="example-full">
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre completo" formControlName="nombreCom" >
+            <mat-label>Nombre completo empezando por apellidos</mat-label>
+            <input matInput placeholder="Nombre completo empezando por apellidos" formControlName="nombreCom" >
           </mat-form-field>
 
           <mat-label>Ingresa tu matricula</mat-label>
@@ -69,7 +69,7 @@
           <mat-label>Ingresa tu dirección</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Dirección</mat-label>
-            <textarea matInput type="text" placeholder="Calle 30..." id="direccion" formControlName="direccion" ></textarea>
+            <textarea matInput type="text" placeholder="Calle 30..." id="direccion" formControlName="direccion" style="resize: none;"></textarea>
           </mat-form-field>
 
           <mat-label>Selecciona tu carrera:</mat-label>
@@ -135,19 +135,19 @@
           <mat-label>Motivos personales</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Motivos</mat-label>
-            <textarea matInput type="text" placeholder="Debido a..."  id="motivos-p" formControlName="motivosPer"  required></textarea>
+            <textarea matInput type="text" placeholder="Debido a..."  id="motivos-p" formControlName="motivosPer" style="resize: none;" required></textarea>
           </mat-form-field>
 
           <mat-label>Motivos Académicos</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Motivos</mat-label>
-            <textarea matInput type="text" placeholder="Debido a..."  id="motivos-a" formControlName="motivosAca" required></textarea>
+            <textarea matInput type="text" placeholder="Debido a..."  id="motivos-a" formControlName="motivosAca" style="resize: none;" required></textarea>
           </mat-form-field>
 
             <label class="form-label">Subir evidencia</label>
             <input class="form-control" type="file" accept=".pdf" (change)="onFileChange($event)" formControlName="evidencia" required/>
 
-            <button type="submit" class="btnselectfile" mat-raised-button color="primary">Subir</button>
+            <button type="submit" class="btnselectfile" [disabled]="!formularioCompleto" mat-raised-button color="primary">Registrar caso</button>
         </form>
       </div>
     </section>
