@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { AlumnoAceptService } from 'src/app/services/alumno-acept.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -23,13 +24,18 @@ export class PagActaTwoComponent implements OnInit{
   @ViewChild('Text8', { static: true }) Text8: ElementRef;
   @ViewChild('Text9', { static: true }) Text9: ElementRef;
   public inputValue: string = '';
-
+  public inputValue1: string = '';
+  public inputValue2: string = '';
   currentDateAndTime: { date: string; time: string };
   public palabras: string='';
   public romano: string ='';
   public tipoSesion: string = '';
+  periodo: string = '';
+  sesion: string = '';
   asistentesSeleccionados: any[] = [];
   alumnosAceptados: any[]=[];
+  DGeneral:string[]= [];
+  Solucion:string[]= [];
 
   constructor(private router: Router, private dataService: DataService, private alumnoAcept: AlumnoAceptService) {
     this.currentDateAndTime = this.getCurrentDateTimeFormatted();
@@ -39,7 +45,19 @@ export class PagActaTwoComponent implements OnInit{
     this.obtenerInformacionActa();
     this.obtenerAlumnosAceptados();
     this.tipoSesion = this.dataService.getTipoSesion();
-    this.asistentesSeleccionados = this.dataService.getAsistentesSeleccionados(); 
+    this.asistentesSeleccionados = this.dataService.getAsistentesSeleccionados();
+    this.DGeneral=this.dataService.getDGeneral();
+    this.Solucion=this.dataService.getSolucion();
+  }
+
+  chunk(arr: any[], size: number) {
+    return arr.reduce((acc, _, i) => (i % size ? acc : [...acc, arr.slice(i, i + size)]), []);
+  }
+  getDGenerals(): string[] {
+    return this.DGeneral;
+  }
+  getSolucion(): string[] {
+    return this.Solucion;
   }
 
 
@@ -48,7 +66,7 @@ export class PagActaTwoComponent implements OnInit{
       .map((asistente) => `${asistente.nombre}, ${asistente.cargo} ${asistente.cargoSec ? 'y ' + asistente.cargoSec : ''}`)
       .join(', ');
   }  
-  
+
   getPresidente(): string | undefined {
     const presidente= this.asistentesSeleccionados.find(asistente =>
       asistente.cargoSec === 'Presidente del Comité Académico'
@@ -119,8 +137,12 @@ export class PagActaTwoComponent implements OnInit{
   ReAlumn(): void {
         this.router.navigate(['/RevAlumno']);
   }
+ 
 
   generatePDF() {
+    const formattedTime = this.getCurrentDateTimeFormatted().time;
+    const formatted = this.getCurrentDateTimeFormatted().date;
+    const formattedDate = moment().format('DD-MMMM-YYYY');    
     const text1 = this.Text1.nativeElement.textContent;
     const text2 = this.Text2.nativeElement.textContent;
     const text3 = this.Text3.nativeElement.textContent;
@@ -130,6 +152,8 @@ export class PagActaTwoComponent implements OnInit{
     const text7 = this.Text7.nativeElement.textContent;
     const text8 = this.Text8.nativeElement.textContent;
     const text9 = this.Text9.nativeElement.textContent;
+    
+    const TM = this.inputValue.toUpperCase();
     const tableContent = {
       margin: [100, 0, 0, 0],
       table: {
@@ -149,6 +173,91 @@ export class PagActaTwoComponent implements OnInit{
           ]
       },
   };
+  const asistentesData = this.asistentesSeleccionados.map(asistente => {
+    if (asistente.cargoSec) {
+      return `${asistente.nombre} - ${asistente.cargo} y ${asistente.cargoSec}`;
+    } else {
+      return `${asistente.nombre} - ${asistente.cargo}`;
+    }
+  });
+  
+  const groupedAsistentes = [];
+  for (let i = 0; i < asistentesData.length; i += 2) {
+    groupedAsistentes.push([asistentesData[i], asistentesData[i + 1] || '']);
+  }
+  
+  const tableContent3 = {
+    table: {
+      widths: ['*', '*'],
+      body: groupedAsistentes.map(row => row.map(cell => ({ text: cell, margin: [0, 100] })))
+    },
+    alignment: 'center',
+    layout: {
+      defaultBorder: false
+  }
+  };
+  
+  const tableContent2 =  this.alumnosAceptados.map((alumno, index) => {
+    return{
+    margin: [0, 0, 0, 0],
+    table: {
+        headerRows: 1,
+        widths: ['auto', 'auto', 'auto','auto'],
+        heights: ['auto','auto','auto','auto','auto','auto','auto','auto','auto', 90, 'auto'],
+        body: [
+            [
+                { text: 'Sesión de Comité:' },
+                { text:this.romano},
+                { text: 'Fecha de la sesión:' },
+                { text: formattedDate}
+                
+            ],
+            [
+              {text: 'Número del Caso'},
+              {text: '3.3.'+ (index + 1),colSpan: 3}
+            ],
+            [
+              {text: 'Carrera de Ingeniería'},
+              {text: alumno.carrera,colSpan: 3}
+            ],
+            [
+              {text: 'Nombre del Estudiante'},
+              {text: alumno.nombreCom ,colSpan: 3}
+            ],
+            [
+              { text: 'Descripción General del Caso:'+ '\n'+ this.DGeneral[index], colSpan: 4},
+            ],
+            [
+              { text: 'Resolución del Comité Académico:', colSpan: 4},
+            ],
+            [
+              { text: this.Solucion[index], colSpan: 4,alignment: 'justify'},
+            ],
+            [ 
+              {colSpan: 2, rowSpan: 2, text: 'Visto Bueno Director General del TESCHA', alignment: 'center'},{},
+              {text: 'SI', alignment: 'center'},
+              {text: '(X)', alignment: 'center'}
+            ],
+            [
+              {},{},{text: 'NO', alignment: 'center'},{text: '(X)', alignment: 'center'}
+            ],
+            [
+              {text:'',colSpan:4, height:120}
+            ],
+            [
+              {text: this.getPresidente() + '\nDIRECCIÓN GENERAL'+ '\nTESCHA',colSpan:4, alignment: 'center'}
+            ]
+            
+        ]
+    }
+  };
+}).reduce((acc, curr) => {
+  acc.push(curr);
+  acc.push({ text: '\n\n', pageBreak: 'after' }); // Salto de línea después de cada tabla
+  return acc;
+}, []);
+
+
     const docDefinition = {
         content: [
             {
@@ -156,7 +265,7 @@ export class PagActaTwoComponent implements OnInit{
                 body: [
                   [
                     {
-                      text: text1, fillColor: 'blak',color: 'white', alignment:'center'
+                      text: text1, fillColor: 'black',color: 'white', alignment:'center'
                     }
                   ]
                 ]
@@ -184,14 +293,20 @@ export class PagActaTwoComponent implements OnInit{
                 },
             ]
             },
-            { text: '\n\n' }, // Doble salto de línea
+            { text: '\n\n' },
             tableContent,
             { text: '\n' },
             {
               type:'none',
               ol:[
               { text: '4. Asuntos generales' },
-              { text: this.inputValue, bold: true },
+              { text: '\n' },
+              { text: '',
+                type: 'none',
+                    ol: [
+                        { text: '4.1 '+ this.inputValue}
+                    ]
+                },
               ]
             },
             { text: '\n' },
@@ -203,7 +318,7 @@ export class PagActaTwoComponent implements OnInit{
                 { text: '',
                 type: 'none',
                     ol: [
-                        { text: text3}
+                        { text: text3,alignment: 'justify'}
                     ]
                 },
                 { text: '\n\n' },
@@ -212,9 +327,9 @@ export class PagActaTwoComponent implements OnInit{
                 { text: '',
                 type: 'none',
                     ol: [
-                        { text: text4 },
+                        { text: text4 ,alignment: 'justify'},
                         { text: '\n' },
-                        { text: text5 }
+                        { text: text5 ,alignment: 'justify' }
                     ]
                 },
                 { text: '\n' },
@@ -230,16 +345,47 @@ export class PagActaTwoComponent implements OnInit{
                     ]
                 },
                 { text: '\n' },
-                { text: text8},
+                { text: text8,alignment: 'justify'},
                 { text: '\n' },
-                { text: text9},
+                { text: text9,alignment: 'justify'},
             ]
             },
-            
+            { text: '\n\n' }, 
+            tableContent2,
+            {
+              type:'none',
+              ol:[
+              { text: '4. ASUNTOS GENERALES.' },
+              { text: '\n' },
+              { text: '',
+                type: 'none',
+                    ol: [
+                        { text: '4.1 ' + TM }
+                    ]
+              },
+              { text: '\n'},
+              { text:'El '+ this.getPresidente() + ' solicito a '+ this.getSecret()+ ' informar sobre el periodo de recepción de ' + this.periodo+ ' y agendar fecha para celebrar la proxima Sesión '+ this.sesion,alignment: 'justify'},
+              { text: '\n' },
+              { text:'La '+ this.getSecret()+ 'informa lo siguiente:'},
+              { text: '',
+               ul: [
+                { text:this.inputValue1},
+                { text:this.inputValue2}
+              ]        
+              },
+              { text: '\n' },
+              {
+                text: 'El '+this.getPresidente()+ 'preguntó si existen comentarios al respecto. No habiendo comentarios , se da por concluido.'
+              },
+              { text: '\n' },
+              {text: 'Una vez agotados los puntos de la '+this.romano+ ' sesión '+this.tipoSesion+ 'del Comité Académico del Tecnológico de Estudios Superiores de Chalco, siendo las ' + formattedTime +  ' horas, del día '+ formatted+' se da por concluida',alignment: 'justify' 
+              },
+              { text: '\n\n\n' },
+              tableContent3
+              ]
+            },
         ]
     };
-    
-
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
 }

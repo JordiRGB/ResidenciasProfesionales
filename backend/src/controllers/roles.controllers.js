@@ -12,8 +12,9 @@ rolesCtrl.createRol = async (req, res) => {
 
 rolesCtrl.getRoles = async (req, res) => {
     try {
-        const roles = await Roles.find();
-        res.status(200).json(roles);
+        const roles = await Roles.find(); // Llamada correcta al modelo de roles
+        const roleNames = roles.map(role => role.nombreRol);
+        res.status(200).json(roleNames);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

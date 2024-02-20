@@ -31,15 +31,27 @@ export class PagLogInComponent {
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
-          this.router.navigate(['/inicio']);
+          localStorage.setItem('userEmail', this.user.email); 
+          if (this.user.email === 'jefatura.electromecanica@tesch.edu.mx' || this.user.email === 'jefatura.electronica@tesch.edu.mx'|| this.user.email === 'jefatura.sistemas@tesch.edu.mx') {
+            this.router.navigate(['/jefes']);
+          }
+          else if (this.user.email === 'roberto_bg@tesch.edu.mx') {
+            this.router.navigate(['/Aceptado']);
+          } else if (this.user.email === 'baxuelos0109@outlook.com') { 
+            this.router.navigate(['/administrador']); 
+          } else {
+            this.router.navigate(['/otra-ruta']); 
+          }
         },
         err => {
           console.log(err);
-          // Agregar alerta si la contraseña es incorrecta
+          // Agregar alerta si la contraseña o usuario son incorrectos
           if (err.status === 401) {
             Swal.fire('Error', 'Contraseña o Usuario incorrecto. Por favor, inténtalo de nuevo.', 'error');
+          } else {
+            Swal.fire('Error', 'Hubo un problema durante el inicio de sesión. Por favor, inténtalo de nuevo.', 'error');
           }
         }
-      );
-  }
-}
+      );
+  }
+ }

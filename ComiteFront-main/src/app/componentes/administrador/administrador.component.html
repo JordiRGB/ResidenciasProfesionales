@@ -17,8 +17,7 @@
           
         <div class="Jefe">
           <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            jefatura.sistemas.tesch.edu.mx
-            <i class="fas fa-user"></i> 
+Administrador            <i class="fas fa-user"></i> 
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="#">Cerrar sesion</a></li>
@@ -55,20 +54,7 @@
                 
               </tbody>
             </table>
-<!-- Formulario para editar los usuarios
-<div *ngIf="selectedUser">
-  <form (ngSubmit)="guardarCambios()" class="edit-form">
-    <label>Usuario:</label>
-    <input type="text" [(ngModel)]="selectedUser.name" name="name" placeholder="Usuario">
-    <label>Correo Electrónico:</label>
-    <input type="text" [(ngModel)]="selectedUser.email" name="email" placeholder="Correo Electrónico">
-    <label>Cargo:</label>
-    <input type="text" [(ngModel)]="selectedUser.roles" name="roles" placeholder="Cargo">
-    <label>Contraseña:</label>
-    <input type="text" [(ngModel)]="selectedUser.password" name="password" placeholder="Contraseña">
-    <button type="submit">Guardar cambios</button>
-  </form>
-</div>-->
+
 <div *ngIf="selectedUser" class="container mt-4">
   <form (ngSubmit)="guardarCambios()" class="card p-4">
     <h2 class="text-center mb-4">Editar Usuario</h2>
@@ -116,7 +102,9 @@
 
     <div class="mb-3">
       <label for="roles" class="form-label">Cargo:</label>
-      <input id="roles" type="text" [(ngModel)]="newUser.roles" name="roles" class="form-control">
+      <select id="roles" [(ngModel)]="newUser.roles" name="roles" class="form-control">
+        <option *ngFor="let role of roles">{{ role }}</option>
+      </select>
     </div>
 
     <div class="mb-3">

@@ -20,30 +20,23 @@
         <div class="menu">
           <div class="search-button">
             <div class="search">
-                <input type="text" placeholder="Buscar...">
+              <input type="text" placeholder="Buscar..." (keyup)="buscarPorMatricula($event)">
             </div>
             <i class=""></i> 
-        </div>
-        <div class="Jefe">
-          <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            jefatura.sistemas.tesch.edu.mx
-            <i class="fas fa-user"></i> 
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Cerrar sesion</a></li>
-          </ul>
-        </div>        
-            <div class="dropdown">
+      </div>
+      <button (click)="logout()">
+        <i class="material-icons">person</i>
+        <p><strong style="color: black;"> {{ userEmail }}</strong></p>
+      </button>
+             
+        <div class="dropdown">
               <button>
                 <i class="fas fa-bars"></i>
             </button>
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
-    <a href="#"><i class="material-icons">person</i> Solicitud de alumnos</a>
     <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
-    <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
-    <a href="#"><i class="material-icons">description</i> Acta LXX</a>
-    <a href="#"><i class="material-icons">history</i> Historial de casos</a>
+    <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
     <a href="papelera"><i class="material-icons">delete</i>papelera</a>
 
           </div>
@@ -81,22 +74,21 @@
                     <td>{{ alumno.carrera }}</td>
                     <td>{{ alumno.casoTipo }}</td>
                     <td>
-                      <a [href]="'uploads/' + alumno.evidencia" download="{{ alumno.evidencia }}">{{ alumno.evidencia }}</a>
+                      <button (click)="verPDF(alumno.pdfPath)">Ver PDF</button>
                     </td>
                     <td>{{ alumno.casoEsta }}</td>
                     <td>
                       <div class="botones-container">
-                        <button class="Aceptar" (click)="aceptarAlumno(alumno._id)">
+                        <button class="Aceptar" (click)="aceptarAlumnoJefe(alumno._id)"[disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">check_circle</i>
                         </button>
-                        
-                        <button class="rechazar" (click)="rechazarAlumno(alumno._id, motivo)">
+                        <button class="rechazar" (click)="rechazarSolicitudAlumno(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">cancel</i>
                         </button>
-                      <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)">
+                        <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)">
                         <i class="material-icons">delete</i>
-                      </button>
-                    </div>
+                        </button>
+                     </div>
                   </td>
                 </tbody>
             </table>

@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
 import * as bootstrap from 'bootstrap';
+import { Carousel } from 'bootstrap';
+
 
 @Component({
   selector: 'app-pag-inicio',
@@ -11,7 +13,13 @@ export class PagInicioComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.myFunction(); // La función original que proporcionaste
-    this.initializeCarousel();
+    const myCarousel = document.getElementById('carouselExampleIndicators');
+    if (myCarousel) {
+      new Carousel(myCarousel, {
+        interval: 3000, // Cambio cada 3 segundos
+        wrap: true // Permite que el carrusel vuelva al principio después de llegar al final
+      });
+    }
   }
 
   myFunction(): void {
@@ -22,14 +30,6 @@ export class PagInicioComponent implements AfterViewInit {
       } else {
         x.className = 'topnav';
       }
-    }
-  }
-
-  initializeCarousel(): void {
-    if (this.carouselElement) {
-      const myCarousel = new bootstrap.Carousel(this.carouselElement.nativeElement, {
-        interval: 3000 // Cambia la imagen cada 3 segundos (ajusta según tus necesidades)
-      });
     }
   }
 }

@@ -1,27 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
 interface Alumno {
-    _id: string;
-    matricula: number; 
-    nombreCom: string; 
-    telefono: number; 
-    casoEsta: string;
-    direccion: string;
-    carrera: string;
-    casoTipo: string;
-    semestre: number; 
-    correo: string;
-    motivosAca: string;
-    motivosPer: string;
-    evidencia: string;
-    pdfPath: string;
-    motivoRechazo: string;  
-    rechazado: boolean;
-  
-  
+  _id: string;
+  matricula: number; 
+  nombreCom: string; 
+  telefono: number; 
+  casoEsta: string;
+  direccion: string;
+  carrera: string;
+  casoTipo: string;
+  semestre: number; 
+  correo: string;
+  motivosAca: string;
+  motivosPer: string;
+  evidencia: {
+    contentType: string;
+    fileName: string;
+    url: string; // Agregar la propiedad url al tipo evidencia
+  };
+  motivoRechazo: string;  
+  rechazado: boolean;
+  pdfPath: string; // Propiedad pdfPath para mantener la ruta del PDF
 }
 
 @Component({
@@ -31,15 +33,35 @@ interface Alumno {
 })
 export class JefeiscComponent implements OnInit {
   Alumno: Alumno[] = [];
-  motivo: string = '';
+  userEmail: string | null = ''; 
 
-  constructor(private authService: AuthService) {
-    
-  }
-  
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    this.userEmail = localStorage.getItem('userEmail');
     this.getAlumnos();
+  }
+
+  logout() {
+    // Mostrar alerta de confirmación usando SweetAlert2
+    Swal.fire({
+      title: '¿Seguro que quieres cerrar sesión?',
+      text: 'Tu sesión actual se cerrará',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Lógica para cerrar sesión
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        // Redireccionar a la página de inicio de sesión
+        window.location.href = '/ruta-de-inicio-de-sesion'; // Reemplaza '/ruta-de-inicio-de-sesion' con la ruta real de tu página de inicio de sesión
+      }
+    });
   }
 
   getAlumnos() {
@@ -48,15 +70,22 @@ export class JefeiscComponent implements OnInit {
         console.log('Datos de alumnos:', data);
 
         this.Alumno = data.map(alumno => {
-          const pdfPath = `uploads/${alumno.evidencia}`;
-          console.log('pdfPath:', pdfPath);
-          return { ...alumno, pdfPath };
+          return { 
+            ...alumno, 
+            pdfPath: `${alumno.evidencia.url}` // Ahora usamos la propiedad url
+          };
         });
       },
       (error) => {
         console.error('Error obteniendo alumnos', error);
       }
     );
+  }
+
+  // Método para visualizar el PDF de un alumno
+  verPDF(pdfPath: string) {
+    // Abrir una nueva ventana para mostrar el PDF
+    window.open(pdfPath, '_blank');
   }
 
   moverAlumnoAlReciclaje(alumnoId: string): void {
@@ -84,39 +113,82 @@ export class JefeiscComponent implements OnInit {
       }
     );
   }
-  aceptarAlumno(idAlumno: string) {
-    this.authService.aceptarAlumno(idAlumno).subscribe(
-      (response) => {
-        // Mostrar mensaje de éxito con SweetAlert2
-        Swal.fire('Éxito', 'Alumno aceptado correctamente', 'success');
-
-        // Actualizar la lista de alumnos después de aceptar uno
-        this.getAlumnos();
+  
+  rechazarSolicitudAlumno(id: string): void {
+    Swal.fire({
+      title: 'Motivo de Rechazo',
+      input: 'text',
+      inputLabel: 'Ingrese el motivo de rechazo',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'El motivo de rechazo es requerido';
+        }
+        return null;
       },
-      (error) => {
-        console.error('Error al aceptar alumno:', error);
-        // Mostrar mensaje de error con SweetAlert2
-        Swal.fire('Error', 'Error al aceptar alumno', 'error');
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Rechazar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const motivoRechazo = result.value;
+
+        this.authService.rechazarSolicitudAlumno(id, motivoRechazo).subscribe(
+          (response) => {
+            console.log('Solicitud rechazada con éxito', response);
+
+            Swal.fire('Éxito', 'Solicitud rechazada con éxito', 'success');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          },
+          (error) => {
+            console.error('Error al rechazar la solicitud', error);
+            Swal.fire('Error', 'Error al rechazar la solicitud', 'error');
+          }
+        );
       }
-    );
+    });
+  }
+  
+  aceptarAlumnoJefe(id: string): void {
+    Swal.fire({
+      title: 'Confirmación',
+      text: '¿Estás seguro de que deseas aceptar al alumno?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, aceptar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authService.aceptarAlumnoJefe(id).subscribe(
+          response => {
+            Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          },
+          error => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
+            });
+            console.error('Error al aceptar alumno jefe:', error);
+            // Aquí puedes manejar el error según sea necesario
+          }
+        );
+      }
+    });
   }
 
-  rechazarAlumno(idAlumno: string, motivo: string) {
-    this.authService.rechazarAlumno(idAlumno, motivo).subscribe(
-      (response) => {
-        // Mostrar mensaje de éxito con SweetAlert2
-        Swal.fire('Éxito', 'Alumno rechazado correctamente', 'success');
-
-        // Actualizar la lista de alumnos después de rechazar uno
-        this.getAlumnos();
-      },
-      (error) => {
-        console.error('Error al rechazar alumno:', error);
-        // Mostrar mensaje de error con SweetAlert2
-        Swal.fire('Error', 'Error al rechazar alumno', 'error');
-      }
-    );
+  buscarPorMatricula(event: Event) {
+    const matricula = (event.target as HTMLInputElement).value;
+    if (matricula === '') {
+        this.getAlumnos(); // Si el campo está vacío, mostrar todos los alumnos
+    } else {
+        this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
+    }
   }
-
- 
 }

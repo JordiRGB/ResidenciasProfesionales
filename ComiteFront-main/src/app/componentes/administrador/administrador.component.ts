@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent implements OnInit {
+  roles: string[] = [];
   users: any[] = [];
   selectedUser: any = null; 
   newUser: any = {
@@ -23,8 +24,20 @@ export class AdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsers();
+    this.getRoles();
   }
-
+  
+  getRoles(): void {
+    this.authService.getRoles().subscribe(
+      roles => {
+        this.roles = roles;
+      },
+      error => {
+        console.error('Error al obtener roles:', error);
+      }
+    );
+  }
+  
   getAllUsers(): void {
     this.authService.getAllUsers().subscribe(
       data => {
@@ -105,15 +118,12 @@ export class AdministradorComponent implements OnInit {
   }
   
 
-  agregarUsuario(): void {
+agregarUsuario(): void {
     this.authService.createUser(this.newUser).subscribe(
       response => {
         console.log('Usuario creado exitosamente:', response);
-        // Mostrar mensaje de éxito con SweetAlert2
         Swal.fire('Éxito', 'Usuario creado exitosamente', 'success');
-        // Actualizar la lista de usuarios después de la creación
         this.getAllUsers();
-        // Limpiar datos del nuevo usuario
         this.newUser = {
           name: '',
           email: '',

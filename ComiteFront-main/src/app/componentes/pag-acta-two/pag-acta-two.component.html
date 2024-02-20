@@ -1,6 +1,9 @@
-<app-my-navbar></app-my-navbar>
+<app-my-navbar></app-my-navbar><br>
+<br>
+<br>
 
-<div class="container row justify-content-between" >
+<body>
+  <div class="container row justify-content-between" >
     <div class="card1" #Text1>
         ACTA DE LA {{palabras}} SESION {{tipoSesion}} DEL COMITE ACADEMICO DEL TECNOLOGICO DE ESTUDIOS SUPERIORES DE CHALCO TESCHA/ACTA.COM.ACAD./{{ getCurrentDate() | date: 'dd-MM-yyyy' }}/{{romano}}   
     </div>
@@ -38,7 +41,7 @@
     <div class="card">
         <table>
             <thead>
-        <tr>
+        <tr class="card1">
           <th scope="col">CASO</th>
           <th scope="col">NOMBRE DEL ESTUDIANTE</th>
           <th scope="col">CARRERA</th>
@@ -46,7 +49,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let alumno of alumnosAceptados; let i = index">
-          <td>{{'3.3.' + (i + 1 )}}</td>
+          <td class="p">{{'3.3.' + (i + 1 )}}</td>
           <td>{{ alumno.nombreCom }}</td>
           <td>{{ alumno.carrera }}</td>
         </tr>
@@ -78,7 +81,35 @@
         <p #Text8>El {{getPresidente()}}, comento que con fundamento legal en lo dispuesto articulo 5, Fracción V; articulo 14, del Decreto del Ejecutivo del Estado de México de fecha 08 de diciembre de 1998 por el que se crea el Organismo Publico Descentralizado de Carácter Estatal denominado Tecnológico de Estudios Superiores de Chalco; los Lineamientos Académicos Administrativos emitidos por el TecNM para los planes 2004, 2010 y 2015 y el Reglamento de Estudiantes del TESCHA autorizado por la Junta Directiva en la CXII Sesión Ordinaria, celebrada el dia 06 de agosto del 2018, se lleva a cabo la siguiente sesión {{ getCurrentDate() | date: 'yyyy' }}</p>
         <p #Text9>El {{getPresidente()}} pide a {{getSecret()}} de lectura a los casos para los que se cito para su análisis.  </p>
     </div>
-
+    <div class="card">
+      <p>4.ASUNTOS GENERALES.</p>
+        <p>El {{getPresidente()}} solicitó a {{getSecret()}} informar sobre el periodo de recepción de <input type="text" [(ngModel)]="periodo" > y agendar fecha para celebrar la proxima Sesión <input type="text"[(ngModel)]="sesion"> </p>
+        <p></p>
+        <p>La {{getSecret()}} informa lo siguiente:</p>
+        <input type="text" [(ngModel)]="inputValue1">
+        <input type="text" [(ngModel)]="inputValue2">
+        <p>El {{getPresidente()}} preguntó si existen comentarios al respecto. No habiendo comentarios , se da por concluido.</p>
+        <p></p>
+        <p>Una vez agotados los puntos de la {{romano}} sesión {{tipoSesion}} del Comité Académico del Tecnológico de Estudios Superiores de Chalco, siendo las {{currentDateAndTime.time }} horas, del día {{ getCurrentDate() | date: 'dd' }} de {{ getCurrentDate() | date: 'MMMM' }} del {{ getCurrentDate() | date: 'YYYY' }}, se da por concluida</p>
+    </div>
+    <div class="card">
+      <table>
+        <tr *ngFor="let grupo of chunk(asistentesSeleccionados, 2)">
+          <td *ngFor="let asistente of grupo"style="width: 100px; height: 230px;">
+            <p class="p" style="margin-bottom: 5px;">{{ asistente.nombre }}</p>
+            <p class="p" style="margin-top: 5px;">{{ asistente.cargo }} y {{ asistente.cargoSec }}</p>
+          </td>
+        </tr>
+      </table>      
+    </div>
     <button (click)="generatePDF()">Generar PDF</button>
 
 </div>
+<br><br>
+<footer>
+  <p class="p1">Carretera Federal México Cuautla s/n La Candelaria Tlapala, 56641 Chalco de Díaz Covarrubias, Méx.</p>
+  <p class="p2">Correo   Comite    5500887733 / 5522447765     Lineamientos Politicas de Privacidad</p>
+  <p class="p3">© 2022 Tecnologico de Estudios Superiores de Chalco. Todos los derechos reservados</p>    </footer>
+ 
+</body>
+<br><br><br><br><br><br>

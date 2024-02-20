@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 export class DataService {
   private tipoSesion: string = '';
   private asistentesSeleccionados: any[] = [];
+  private DGeneral: string[]=[];
+  private Solucion: string[]=[];
   private URL = 'http://localhost:4000/api'
   constructor(private http: HttpClient){}
 
@@ -29,5 +31,21 @@ export class DataService {
 
   getAsistentesSeleccionados(): any[] {
     return this.asistentesSeleccionados;
+  }
+
+  setDGeneral(value: string[]): void {
+    this.DGeneral = value;
+  }
+
+  getDGeneral(): string[] {
+    return this.DGeneral;
+  }
+
+  setSolucion(value: string[]): void {
+    this.Solucion = value;
+  }
+
+  getSolucion(): string[] {
+    return this.Solucion;
   }
 }

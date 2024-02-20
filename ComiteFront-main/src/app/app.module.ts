@@ -10,7 +10,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { PagRegCasoComponent } from './componentes/pag-reg-caso/pag-reg-caso.component';
 import { PagLogInComponent } from './componentes/pag-log-in/pag-log-in.component';
-import { PagRestablecerPassComponent } from './componentes/pag-restablecer-pass/pag-restablecer-pass.component';
 import { PagSignUpComponent } from './componentes/pag-sign-up/pag-sign-up.component';
 import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
@@ -21,7 +20,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { AuthService } from './services/auth.service';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
+import { MatIconModule } from '@angular/material/icon';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyNavbarComponent } from './componentes/my-navbar/my-navbar.component';
@@ -39,7 +38,6 @@ import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.componen
     PagInicioComponent,
     PagRegCasoComponent,
     PagLogInComponent,
-    PagRestablecerPassComponent,
     PagSignUpComponent,
     JefeiscComponent,
     AdministradorComponent,
@@ -62,6 +60,7 @@ import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.componen
     HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule, 
     ReactiveFormsModule,
     MatCheckboxModule
   ],

@@ -4,7 +4,6 @@ const EMAIL_COMI = process.env.EMAIL_COMI;
 const USER_COMI = process.env.USER_COMI;
 const nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
-const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
 
@@ -100,74 +99,15 @@ alumnoCtrl.getAlumnosJefes = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los alumnos.' });
     }
 };
-
-alumnoCtrl.getAlumnoMatricula = async (req, res) => {
+alumnoCtrl.getAceptadosComi = async (req, res) => {
     try {
-        // Obtener la matrícula desde los parámetros de la solicitud
-        const { matricula } = req.params;
-
-        // Buscar el alumno por matrícula en la base de datos
-        const alumno = await Alumno.findOne({ matricula });
-
-        // Verificar si el alumno existe
-        if (!alumno) {
-            return res.status(404).json({ message: 'Alumno no encontrado.' });
-        }
-
-        // Mapear el alumno para ajustar la respuesta
-        const alumnoConEvidencia = {
-            matricula: alumno.matricula,
-            nombreCom: alumno.nombreCom,
-            telefono: alumno.telefono,
-            casoEsta: alumno.casoEsta,
-            direccion: alumno.direccion,
-            carrera: alumno.carrera,
-            casoTipo: alumno.casoTipo,
-            semestre: alumno.semestre,
-            correo: alumno.correo,
-            motivosAca: alumno.motivosAca,
-            motivosPer: alumno.motivosPer,
-            evidencia: {
-                url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Ruta para ver el PDF del alumno
-                fileName: `evidencia_${alumno._id}.pdf`, // Nombre del archivo
-                contentType: alumno.contentType, // Tipo de contenido
-            },
-            motivoComi: alumno.motivoComi,
-        };
-
-        res.status(200).json(alumnoConEvidencia);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al obtener el alumno.' });
-    }
-};
-
-
-
-alumnoCtrl.getAlumnos = async (req, res) => {
-    try {
-        const alumnos = await Alumno.find();
-        const alumnosWithFileURLs = alumnos.map(alumno => {
-            // Obtener el nombre del archivo de evidencia del alumno
-            const evidenciaFileName = alumno.evidencia.fileName;
-
-            // Crear la URL completa del archivo PDF
-            const fileURL = `/uploads/${evidenciaFileName}`;
-
-            // Devolver la información del alumno con la URL del archivo PDF
-            return {
-                ...alumno.toObject(),
-                evidenciaURL: fileURL,
-            };
-        });
-
-        res.status(200).json(alumnosWithFileURLs);
+        const alumnos = await Alumno.find({ casoEsta: "Aceptado Comi" });
+        res.status(200).json(alumnos);
     } catch (error) {
         res.status(500).json({ message: error.message });
         console.log(error);
     }
-};
-
+  };
 alumnoCtrl.getAlumnos = async (req, res) => {
     try {
         // Obtener todos los alumnos de la base de datos
@@ -176,6 +116,78 @@ alumnoCtrl.getAlumnos = async (req, res) => {
         // Mapear los alumnos para ajustar la respuesta
         const alumnosConEvidencia = alumnos.map(alumno => {
             return {
+		        _id: alumno._id,		
+                matricula: alumno.matricula,
+                nombreCom: alumno.nombreCom,
+                telefono: alumno.telefono,
+                casoEsta: alumno.casoEsta,
+                direccion: alumno.direccion,
+                carrera: alumno.carrera,
+                casoTipo: alumno.casoTipo,
+                semestre: alumno.semestre,
+                correo: alumno.correo,
+                motivosAca: alumno.motivosAca,
+                motivosPer: alumno.motivosPer,
+                evidencia: {
+                    url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Ruta para ver el PDF del alumno
+                    fileName: `evidencia_${alumno._id}.pdf`, // Nombre del archivo
+                    contentType: alumno.contentType, // Tipo de contenido
+                },
+                motivoComi: alumno.motivoComi,
+            };
+        });
+
+        // Ordenar los alumnos por nombreCom (nombre completo) de forma ascendente
+        alumnosConEvidencia.sort((a, b) => a.nombreCom.localeCompare(b.nombreCom));
+
+        res.status(200).json(alumnosConEvidencia);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los alumnos.' });
+    }
+};
+alumnoCtrl.getAlumnoPdf = async (req, res) => {
+    try {
+        const alumno = await Alumno.findById(req.params.id);
+
+        // Verificar si el alumno existe
+        if (!alumno) {
+            return res.status(404).json({ message: 'Alumno no encontrado.' });
+        }
+
+        // Verificar si hay evidencia adjunta
+        if (!alumno.evidencia || !alumno.evidencia.data) {
+            return res.status(404).json({ message: 'No hay evidencia adjunta para este alumno.' });
+        }
+
+        // Establecer encabezados para indicar que se está enviando un archivo PDF
+        res.setHeader('Content-Type', 'application/pdf');
+
+        // Enviar el archivo PDF como respuesta
+        res.send(alumno.evidencia.data);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener el archivo PDF del alumno.' });
+    }
+};
+alumnoCtrl.getAlumnosJefes = async (req, res) => {
+    try {
+        // Obtener el nombre de la carrera desde los parámetros de la solicitud
+        const { carrera } = req.params;
+
+        // Buscar todos los alumnos de la base de datos que pertenecen a la carrera especificada
+        const alumnos = await Alumno.find({ carrera });
+
+        // Verificar si se encontraron alumnos para esa carrera
+        if (alumnos.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron alumnos para esta carrera.' });
+        }
+
+        // Mapear los alumnos para ajustar la respuesta
+        const alumnosConEvidencia = alumnos.map(alumno => {
+            return {
+                id: alumno._id,
                 matricula: alumno.matricula,
                 nombreCom: alumno.nombreCom,
                 telefono: alumno.telefono,
@@ -206,8 +218,7 @@ alumnoCtrl.getAlumnos = async (req, res) => {
     }
 };
 
-
-alumnoCtrl.createAlumno = async (req, res) => {
+  alumnoCtrl.createAlumno = async (req, res) => {
     try {
         const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
 
@@ -260,7 +271,7 @@ alumnoCtrl.createAlumno = async (req, res) => {
             from: USER_COMI, // Cambia esto por tu correo electrónico
             to: correo,
             subject: 'Solicitud recibida',
-            text: `Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve será revisada. Te pedimos estar atento.\nSaludos!!`,
+            text:`Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve será revisada. Te pedimos estar atento.\nSaludos!!`,
         };
 
         // Envía el correo electrónico
@@ -269,35 +280,10 @@ alumnoCtrl.createAlumno = async (req, res) => {
         res.status(201).json(newAlumno);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al crear el alumno.' });
-    }
+        res.status(500).json({ message: 'Error al crear el alumno.' });
+    }
 };
-
-alumnoCtrl.getAlumnoPdf = async (req, res) => {
-    try {
-        const alumno = await Alumno.findById(req.params.id);
-
-        // Verificar si el alumno existe
-        if (!alumno) {
-            return res.status(404).json({ message: 'Alumno no encontrado.' });
-        }
-
-        // Verificar si hay evidencia adjunta
-        if (!alumno.evidencia || !alumno.evidencia.data) {
-            return res.status(404).json({ message: 'No hay evidencia adjunta para este alumno.' });
-        }
-
-        // Establecer encabezados para indicar que se está enviando un archivo PDF
-        res.setHeader('Content-Type', 'application/pdf');
-
-        // Enviar el archivo PDF como respuesta
-        res.send(alumno.evidencia.data);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al obtener el archivo PDF del alumno.' });
-    }
-};
+  
 
 
 alumnoCtrl.updateJefes = async (req, res) => {
@@ -417,6 +403,88 @@ alumnoCtrl.updateJefes = async (req, res) => {
         console.error(error);
     }
 };
+alumnoCtrl.rechazarJefe = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { motivoRechazo } = req.body;
+
+        const alumno = await Alumno.findByIdAndUpdate(
+            id,
+            { 
+                casoEsta: 'Rechazado Jef', 
+                motivoComi: motivoRechazo || 'Motivo no especificado' // Actualiza el estado y el motivo de rechazo
+            },
+            { new: true }
+        );
+
+        if (!alumno) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Envía correo electrónico de notificación de rechazo
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: USER_COMI,
+                pass: EMAIL_COMI,
+            },
+        });
+        const mailOptions = {
+            from: USER_COMI,
+            to: alumno.correo,
+            subject: 'Solicitud Rechazada',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido rechazada. El motivo es ${alumno.motivoComi}\n\nSaludos, \nTu Aplicación`,
+        };
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json(alumno);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+};
+
+alumnoCtrl.aceptarJefe = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const alumno = await Alumno.findByIdAndUpdate(
+            id,
+            { 
+                casoEsta: "Aceptado Jef",
+                motivoComi: "Aceptado por Jef@ de Carrera" 
+            },
+            { new: true }
+        );
+
+        if (!alumno) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Envía correo electrónico de notificación de aceptación
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: USER_COMI,
+                pass: EMAIL_COMI,
+            },
+        });
+        const mailOptions = {
+            from: USER_COMI,
+            to: alumno.correo,
+            subject: 'Solicitud Aceptada',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada. Te pedimos estar a tento a la decisión del COMITE DE CASOS ESPECIALES sobre tu caso\n\nSaludos`,
+        };
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json(alumno);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+};
+
+
 
 alumnoCtrl.updateSecre = async (req, res) => {
     try {
@@ -505,9 +573,85 @@ alumnoCtrl.updateSecre = async (req, res) => {
         console.error(error);
     }
 };
+alumnoCtrl.rechazarComi = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { motivoRechazo } = req.body;
 
+        const alumno = await Alumno.findByIdAndUpdate(
+            id,
+            { 
+                casoEsta: 'Rechazado Comi', 
+                motivoComi: motivoRechazo || 'Motivo no especificado' 
+            },
+            { new: true }
+        );
 
+        if (!alumno) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
 
+        // Envía correo electrónico de notificación de rechazo
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: USER_COMI,
+                pass: EMAIL_COMI,
+            },
+        });
+        const mailOptions = {
+            from: USER_COMI,
+            to: alumno.correo,
+            subject: 'Solicitud Rechazada por Comite',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido rechazada. El motivo es ${alumno.motivoComi}\n\nSaludos, \nTu Aplicación`,
+        };
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json(alumno);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+};
+alumnoCtrl.aceptarComi = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const alumno = await Alumno.findByIdAndUpdate(
+            id,
+            { 
+                casoEsta: "Aceptado Comi",
+                motivoComi: "Aceptado por el Comite" 
+            },
+            { new: true }
+        );
+
+        if (!alumno) {
+            return res.status(404).json(`Alumno with id ${id} not found`);
+        }
+
+        // Envía correo electrónico de notificación de aceptación
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: USER_COMI,
+                pass: EMAIL_COMI,
+            },
+        });
+        const mailOptions = {
+            from: USER_COMI,
+            to: alumno.correo,
+            subject: 'Solicitud Aceptada',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada. Por favor, pasa lo antes posible con el Comité Academico\n\nSaludos`,
+        };
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json(alumno);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+};
 alumnoCtrl.deleteAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -563,7 +707,6 @@ alumnoCtrl.reciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
     try {
         const reciclajes = await Reciclaje.find();
@@ -573,7 +716,6 @@ alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -599,7 +741,6 @@ alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.restaurarAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -635,58 +776,7 @@ alumnoCtrl.restaurarAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
-alumnoCtrl.aceptarAlumno = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        // Obtener la información del alumno antes de moverlo a aceptados
-        const alumnoExistente = await Alumno.findById(id);
-
-        // Verificar si el alumno existe
-        if (!alumnoExistente) {
-            return res.status(404).json(`Alumno with id ${id} not found`);
-        }
-
-        // Crear un nuevo documento en la colección de aceptados con los datos del alumno
-        const alumnoAceptado = await Aceptados.create({
-            // Asegúrate de agregar todos los campos necesarios aquí
-            matricula: alumnoExistente.matricula,
-            nombreCom: alumnoExistente.nombreCom,
-            telefono: alumnoExistente.telefono,
-            casoEsta: 'Aceptado',
-            direccion: alumnoExistente.direccion,
-            carrera: alumnoExistente.carrera,
-            casoTipo: alumnoExistente.casoTipo,
-            semestre: alumnoExistente.semestre,
-            correo: alumnoExistente.correo,
-            motivosAca: alumnoExistente.motivosAca,
-            motivosPer: alumnoExistente.motivosPer,
-            evidencia: alumnoExistente.evidencia
-
-        });
-
-        // Eliminar el alumno de la colección principal
-        await Alumno.findByIdAndDelete(id);
-
-        res.status(200).json(alumnoAceptado);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
-        console.error(error);
-    }
-};
-alumnoCtrl.getaceptarAlumno = async (req, res) => {
-    try {
-        const aceptados = await Aceptados.find();
-        res.status(200).json(aceptados);
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
-        console.error(error);
-    }
-};
-
  //reciclaje
-
 alumnoCtrl.reciclajeAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -717,7 +807,6 @@ alumnoCtrl.reciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
     try {
         const reciclajes = await Reciclaje.find();
@@ -727,7 +816,6 @@ alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -753,7 +841,6 @@ alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.restaurarAlumno = async (req, res) => {
     try {
         const { id } = req.params;
@@ -792,20 +879,88 @@ alumnoCtrl.restaurarAlumno = async (req, res) => {
 //aceptados
 alumnoCtrl.getAlumnosAceptados = async (req, res) => {
     try {
-      // Busca los alumnos con "Aceptado" en el campo casoEsta
-      const alumnosAceptados = await Alumno.find({ casoEsta: 'Aceptado' });
+      // Obtener todos los alumnos aceptados de la base de datos
+      const alumnosAceptados = await Alumno.find({ casoEsta: 'Aceptado Jef' });
   
-      // Envía la lista de alumnos como respuesta
-      res.status(200).json({ alumnos: alumnosAceptados });
+      // Mapear los alumnos aceptados para ajustar la respuesta
+      const alumnosConEvidencia = alumnosAceptados.map(alumno => {
+        return {
+          _id: alumno._id,
+          matricula: alumno.matricula,
+          nombreCom: alumno.nombreCom,
+          telefono: alumno.telefono,
+          casoEsta: alumno.casoEsta,
+          direccion: alumno.direccion,
+          carrera: alumno.carrera,
+          casoTipo: alumno.casoTipo,
+          semestre: alumno.semestre,
+          correo: alumno.correo,
+          motivosAca: alumno.motivosAca,
+          motivosPer: alumno.motivosPer,
+          evidencia: {
+            url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Ruta para ver el PDF del alumno
+            fileName: `evidencia_${alumno._id}.pdf`, // Nombre del archivo
+            contentType: alumno.contentType, // Tipo de contenido
+          },
+          motivoComi: alumno.motivoComi,
+          updatedAt: alumno.updatedAt,
+        };
+      });
+  
+      // Ordenar los alumnos aceptados por nombreCom (nombre completo) de forma ascendente
+      alumnosConEvidencia.sort((a, b) => a.nombreCom.localeCompare(b.nombreCom));
+  
+      res.status(200).json({ alumnos: alumnosConEvidencia });
     } catch (error) {
       console.error('Error al obtener los alumnos aceptados:', error);
-      res.status(500).json({ message: 'Error en el servidor' });
-    }
-  };
-// rechazarAlumno
+      res.status(500).json({ message: 'Error en el servidor' });
+    }
+  };
+  
+  alumnoCtrl.historialJefe = async (req, res) => {
+    try {
+        const alumnos = await Alumno.find({
+            $or: [
+                { casoEsta: 'Aceptado Comi' },
+                { casoEsta: 'Rechazado Comi' }
+            ]
+        });
 
+        const alumnosConEvidencia = alumnos.map(alumno => {
+            return {
+                _id: alumno._id,
+                matricula: alumno.matricula,
+                nombreCom: alumno.nombreCom,
+                telefono: alumno.telefono,
+                casoEsta: alumno.casoEsta,
+                direccion: alumno.direccion,
+                carrera: alumno.carrera,
+                casoTipo: alumno.casoTipo,
+                semestre: alumno.semestre,
+                correo: alumno.correo,
+                motivosAca: alumno.motivosAca,
+                motivosPer: alumno.motivosPer,
+                evidencia: {
+                    url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`,
+                    fileName: `evidencia_${alumno._id}.pdf`,
+                    contentType: alumno.contentType,
+                },
+                motivoRechazo: alumno.motivoRechazo,
+                rechazado: alumno.rechazado,
+                pdfPath: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Agregar pdfPath
+                updatedAt: alumno.updatedAt
+            };
+        });
 
+        res.status(200).json({ historialJefe: alumnosConEvidencia });
+    } catch (error) {
+        console.error('Error al obtener el historial del jefe:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
 
+  
+  
 
 module.exports = alumnoCtrl;
 
