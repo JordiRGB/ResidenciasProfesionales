@@ -15,14 +15,10 @@
 
         <div class="menu">
           
-        <div class="Jefe">
-          <button class="btn btn-secondary jefe-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-Administrador            <i class="fas fa-user"></i> 
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Cerrar sesion</a></li>
-          </ul>
-        </div>        
+          <button (click)="logout()">
+            <i class="material-icons">person</i>
+            <p><strong style="color: black;"> {{ userEmail }}</strong></p>
+          </button>     
             
         </div>
     </header>
@@ -71,14 +67,10 @@ Administrador            <i class="fas fa-user"></i>
 
     <div class="mb-3">
       <label for="roles" class="form-label">Cargo:</label>
-      <input id="roles" type="text" [(ngModel)]="selectedUser.roles" name="roles" class="form-control">
+      <select id="roles" [(ngModel)]="newUser.roles" name="roles" class="form-control">
+        <option *ngFor="let role of roles">{{ role }}</option>
+      </select>
     </div>
-
-    <div class="mb-3">
-      <label for="password" class="form-label">Contraseña:</label>
-      <input id="password" type="password" [(ngModel)]="selectedUser.password" name="password" class="form-control" required>
-    </div>
-
     <div class="d-grid gap-2">
       <button type="submit" class="btn btn-primary">Guardar Cambios</button>
       <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
