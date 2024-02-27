@@ -121,14 +121,14 @@
           <mat-label>Ingresa tu correo institucional</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Correo institucional</mat-label>
-            <input matInput type="email" placeholder="Pedro_sc@..." id="correo" formControlName="correo" >
+            <input matInput type="email" placeholder="Pedro_sc@..." id="correo" formControlName="correo" [(ngModel)]="datosCaso.correo">
           </mat-form-field>
 
           <mat-label>Confirmar correo institucional</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Confirmar correo institucional</mat-label>
-            <input matInput type="email" id="confirmarcorreo" placeholder="Pedro_sc@..." formControlName="confirmarcorreo" (input)="verificarCorreos()">
-            <div *ngIf="casoForm.get('confirmarcorreo')?.touched && !correosCoinciden" style="color: red;">Los correos no coinciden</div>
+            <input matInput type="email" id="confirmarcorreo" placeholder="Pedro_sc@..." (input)="verificarCorreos()">
+            <div *ngIf="!correosCoinciden" style="color: red;">Los correos no coinciden</div>
           </mat-form-field>
 
 
@@ -144,11 +144,11 @@
             <textarea matInput type="text" placeholder="Debido a..."  id="motivos-a" formControlName="motivosAca" style="resize: none;" required></textarea>
           </mat-form-field>
 
-            <label for="formFile" class="form-label">Subir evidencia</label>
-            <input class="form-control" type="file" id="formFile" formControlName="evidencia" />
+          <label for="formFile" class="form-label">Subir evidencia</label>
+          <input class="form-control" type="file" id="formFile" formControlName="evidencia" [(ngModel)]="datosCaso.evidencia"/>
 
-            <button type="submit" class="btnselectfile" [disabled]="!formularioCompleto" mat-raised-button color="primary">Registrar caso</button>
-        </form>
+          <button type="submit" class="btnselectfile" mat-raised-button color="primary">Subir</button>
+      </form>
       </div>
     </section>
     
