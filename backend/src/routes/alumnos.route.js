@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const router = Router();
-const {  getAlumno, createAlumno, updateJefes, updateSecre, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, getAlumnosAceptados, rechazarJefe, aceptarJefe, rechazarComi, aceptarComi, historialJefe, getAceptadosComi, getAlumnoPdf, getAlumnosJefes} = require('../controllers/alumnos.controllers');
+const { getAlumnoMatricula, getAlumno, createAlumno, updateJefes, updateSecre, deleteAlumno, getAlumnos, reciclajeAlumno, getReciclajeAlumnos, deleteReciclajeAlumno, restaurarAlumno, getAlumnosAceptados, rechazarJefe, aceptarJefe, rechazarComi, aceptarComi, historialJefe, getAceptadosComi, getAlumnoPdf, getAlumnosJefes} = require('../controllers/alumnos.controllers');
 
 const multer = require('multer');
 // Middleware para gestionar la subida de archivos

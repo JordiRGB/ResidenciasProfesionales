@@ -11,6 +11,23 @@ const mongoose = require('mongoose');
 // Utilizamos promisify para convertir fs.unlink en una función que devuelve una promesa
 const unlinkAsync = require('util').promisify(fs.unlink);
 
+alumnoCtrl.getAlumnoMatricula = async (req, res) => {
+    try {
+        const { matricula } = req.params;
+        const alumno = await Alumno.findOne({ matricula: matricula });
+  
+        if (!alumno) {
+            return res.status(404).json(`Alumno with matricula ${matricula} not found`);
+        }
+  
+        res.status(200).json(alumno);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error(error);
+    }
+  };
+  
+
 alumnoCtrl.getAlumnosComi = async (req, res) => {
     try {
         // Obtener todos los alumnos de la base de datos cuyo casoEsta sea igual a "AceptadoJefes"
