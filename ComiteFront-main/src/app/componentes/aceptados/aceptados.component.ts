@@ -23,7 +23,7 @@ interface Alumno {
   motivoRechazo: string;  
   rechazado: boolean;
   pdfPath: string; // Propiedad pdfPath para mantener la ruta del PDF
-  updatedAt: Date;
+  createdAt: Date;
 }
 
 @Component({
@@ -65,25 +65,23 @@ export class AceptadosComponent implements OnInit {
   }
   getAlumnosAceptados() {
     this.authService.getAlumnosAceptados().subscribe(
-      (response: any) => {
+      (response: any[]) => {
         console.log('Datos de alumnos aceptados:', response);
-        if (Array.isArray(response.alumnos)) {
-          this.Alumno = response.alumnos.map(alumno => {
-            return { 
-              ...alumno, 
-              pdfPath: `${alumno.evidencia.url}` // Usamos la propiedad url
-            };
-          });
-        } else {
-          console.error('La propiedad "alumnos" en la respuesta del servicio no es un array:', response);
-        }
+        this.Alumno = response.map(alumno => {
+          return { 
+            ...alumno, 
+            pdfPath: `${alumno.evidencia.url}` // Usamos la propiedad url
+          };
+        });
       },
       (error) => {
         console.error('Error obteniendo alumnos aceptados', error);
+        // Aquí podrías mostrar un mensaje de error al usuario
         Swal.fire('Error', 'Error obteniendo alumnos aceptados', 'error');
       }
     );
   }
+  
 
   verPDF(pdfPath: string) {
     window.open(pdfPath, '_blank');

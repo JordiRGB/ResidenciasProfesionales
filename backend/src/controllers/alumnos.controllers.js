@@ -250,7 +250,7 @@ alumnoCtrl.getAlumnosJefes = async (req, res) => {
 
         // Cambiar el tamaño del Buffer de la evidencia si es necesario (opcional)
         // Aquí puedes ajustar el tamaño del Buffer según tus necesidades
-        const nuevoTamaño = 1024 * 1024; // 1 MB en bytes
+        const nuevoTamaño = 10 * 1024 * 1024; // 1 MB en bytes
         const evidenciaDataAjustada = Buffer.alloc(nuevoTamaño);
         evidenciaData.copy(evidenciaDataAjustada);
 
@@ -896,43 +896,52 @@ alumnoCtrl.restaurarAlumno = async (req, res) => {
 //aceptados
 alumnoCtrl.getAlumnosAceptados = async (req, res) => {
     try {
-      // Obtener todos los alumnos aceptados de la base de datos
-      const alumnosAceptados = await Alumno.find({ casoEsta: 'Aceptado Jef' });
-  
-      // Mapear los alumnos aceptados para ajustar la respuesta
-      const alumnosConEvidencia = alumnosAceptados.map(alumno => {
-        return {
-          _id: alumno._id,
-          matricula: alumno.matricula,
-          nombreCom: alumno.nombreCom,
-          telefono: alumno.telefono,
-          casoEsta: alumno.casoEsta,
-          direccion: alumno.direccion,
-          carrera: alumno.carrera,
-          casoTipo: alumno.casoTipo,
-          semestre: alumno.semestre,
-          correo: alumno.correo,
-          motivosAca: alumno.motivosAca,
-          motivosPer: alumno.motivosPer,
-          evidencia: {
-            url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Ruta para ver el PDF del alumno
-            fileName: `evidencia_${alumno._id}.pdf`, // Nombre del archivo
-            contentType: alumno.contentType, // Tipo de contenido
-          },
-          motivoComi: alumno.motivoComi,
-          updatedAt: alumno.updatedAt,
-        };
-      });
-  
-      // Ordenar los alumnos aceptados por nombreCom (nombre completo) de forma ascendente
-      alumnosConEvidencia.sort((a, b) => a.nombreCom.localeCompare(b.nombreCom));
-  
-      res.status(200).json({ alumnos: alumnosConEvidencia });
+        // Obtener todos los alumnos de la base de datos cuyo casoEsta sea igual a "AceptadoJefes"
+        const alumnos = await Alumno.find({ casoEsta: "Aceptado Jef" });
+        
+        // Obtener todos los reciclajes de la base de datos cuyo casoEsta sea igual a "AceptadoJefes"
+        const reciclajes = await Reciclaje.find({ casoEsta: "Aceptado Jef" });
+
+        // Combinar los resultados de ambas consultas
+        const todosLosAlumnos = [...alumnos, ...reciclajes];
+
+        // Verificar si se encontraron alumnos con el estado "AceptadoJefes" en alguna de las colecciones
+        if (todosLosAlumnos.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron alumnos con estado "AceptadoJefes".' });
+        }
+
+        // Mapear los alumnos para ajustar la respuesta
+        const alumnosConEvidencia = todosLosAlumnos.map(alumno => {
+            return {
+                _id: alumno._id,
+                matricula: alumno.matricula,
+                nombreCom: alumno.nombreCom,
+                telefono: alumno.telefono,
+                casoEsta: alumno.casoEsta,
+                direccion: alumno.direccion,
+                carrera: alumno.carrera,
+                casoTipo: alumno.casoTipo,
+                semestre: alumno.semestre,
+                correo: alumno.correo,
+                motivosAca: alumno.motivosAca,
+                motivosPer: alumno.motivosPer,
+                evidencia: {
+                    url: `${req.protocol}://${req.get('host')}/api/alumnos/${alumno._id}/pdf`, // Ruta para ver el PDF del alumno
+                    fileName: `evidencia_${alumno._id}.pdf`, // Nombre del archivo
+                    contentType: alumno.contentType, // Tipo de contenido
+                },
+                motivoComi: alumno.motivoComi,
+                createdAt: alumno.createdAt // Incluir el campo createdAt
+            };
+        });
+
+        res.status(200).json(alumnosConEvidencia);
     } catch (error) {
-      console.error('Error al obtener los alumnos aceptados:', error);
-      res.status(500).json({ message: 'Error en el servidor' });
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los alumnos.' });
     }
-  };
+};
+
   
   alumnoCtrl.historialJefe = async (req, res) => {
     try {

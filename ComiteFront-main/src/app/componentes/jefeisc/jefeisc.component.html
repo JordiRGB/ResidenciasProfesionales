@@ -36,7 +36,6 @@
             <div class="dropdown-content">
               <h3 class="menu-title">Menú</h3>
     <a href="jefes"><i class="material-icons">book</i> Compendio de casos</a>
-    <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
     <a href="papelera"><i class="material-icons">delete</i>papelera</a>
 
           </div>
@@ -85,7 +84,7 @@
                         <button class="rechazar" (click)="rechazarSolicitudAlumno(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">cancel</i>
                         </button>
-                        <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)">
+                        <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                         <i class="material-icons">delete</i>
                         </button>
                      </div>
