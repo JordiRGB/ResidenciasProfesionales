@@ -89,7 +89,7 @@ export class HistorialComponent  implements OnInit{
               motivoRechazo: alumno.motivoRechazo,
               rechazado: alumno.rechazado,
               pdfPath: `${alumno.evidencia.url}`, // Agregar la propiedad pdfPath
-              updatedAt: alumno.updatedAt
+              updatedAt: alumno.updatedAt 
             };
           });
         } else {

@@ -178,7 +178,7 @@ export class PagRegCasoComponent {
             icon: 'success',
             title: '¡Caso registrado exitosamente!',
             showConfirmButton: false,
-            timer: 1500
+            timer: 3000
           });
           this.casoForm.reset();
           // Aquí puedes redirigir a la página de visualización o mostrar un mensaje de éxito

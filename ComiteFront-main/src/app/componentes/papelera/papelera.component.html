@@ -56,7 +56,6 @@
                   <th colspan="7" style="text-align: left; font-size: 20px;">CASOS ELIMINADOS</th>
                 </tr>
                 <tr>
-                  <th>ID</th>
                   <th>MATRICULA</th>
                   <th>NOMBRE COMPLETO</th>
                   <th>CARRERA</th>
@@ -67,7 +66,6 @@
               </thead>
               <tbody>
                 <tr *ngFor="let alumno of alumnosReciclaje">
-                  <td>{{ alumno._id }}</td>
                   <td>{{ alumno.matricula }}</td>
                   <td>{{ alumno.nombreCom }}</td>
                   <td>{{ alumno.carrera }}</td>
