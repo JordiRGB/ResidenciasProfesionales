@@ -48,24 +48,21 @@
             <input matInput placeholder="Nombre completo empezando por apellidos" formControlName="nombreCom" >
           </mat-form-field>
 
-          <mat-label>Ingresa tu matricula</mat-label>
           <mat-form-field class="example-full">
-            <mat-label>Matricula</mat-label>
-              <input matInput type="text" placeholder="201924..." formControlName="matricula" (input)="limitarLongitud('matricula', 9)">
-              <mat-error *ngIf="casoForm.get('matricula')?.invalid && (casoForm.get('matricula')?.dirty || casoForm.get('matricula')?.touched)">
-                El número teléfono debe tener exactamente 10 dígitos.
-              </mat-error>
-          </mat-form-field>
-
-          <mat-label>Ingresa tu numero de teléfono</mat-label>
-          <mat-form-field class="example-full">
-            <mat-label>Teléfono/celular</mat-label>
-            <input matInput type="text" placeholder="10 digitos" id="telefono" formControlName="telefono" (input)="limitarLongitud('telefono', 10)">
-            <mat-error *ngIf="casoForm.get('telefono')?.invalid && (casoForm.get('telefono')?.dirty || casoForm.get('telefono')?.touched)">
-              El número teléfono debe tener exactamente 10 dígitos.
+            <mat-label>Matrícula</mat-label>
+            <input matInput type="text" placeholder="201924..." formControlName="matricula" inputRestriction="0-9" (input)="limitarLongitud('matricula', 9)">
+            <mat-error *ngIf="casoForm.get('matricula')?.invalid && (casoForm.get('matricula')?.dirty || casoForm.get('matricula')?.touched)">
+              La matrícula debe contener solo números.
             </mat-error>
           </mat-form-field>
-
+          
+          <mat-form-field class="example-full">
+            <mat-label>Teléfono/celular</mat-label>
+            <input matInput type="text" placeholder="10 dígitos" id="telefono" formControlName="telefono" inputRestriction="0-9" (input)="limitarLongitud('telefono', 10)">
+            <mat-error *ngIf="casoForm.get('telefono')?.invalid && (casoForm.get('telefono')?.dirty || casoForm.get('telefono')?.touched)">
+              El número de teléfono debe contener solo números.
+            </mat-error>
+          </mat-form-field>
           <mat-label>Ingresa tu dirección</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Dirección</mat-label>

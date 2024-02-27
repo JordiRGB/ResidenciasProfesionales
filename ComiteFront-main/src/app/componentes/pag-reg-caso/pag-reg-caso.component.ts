@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Directive } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { DatosCaso } from '../../models/datos-caso';
@@ -7,6 +7,7 @@ import { Buffer } from 'buffer';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Carousel } from 'bootstrap';
+import { InputRestrictionDirective } from '../input-restriction.directive';
 
 
 @Component({
@@ -46,9 +47,9 @@ export class PagRegCasoComponent {
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
     this.casoForm = this.fb.group({
-      matricula: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      matricula: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(9), Validators.maxLength(9)]],
       nombreCom: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(10), Validators.maxLength(10)]],
       direccion: ['', Validators.required],
       carrera: ['', Validators.required],
       casoEsta: ['pendiente', Validators.required],
@@ -107,8 +108,8 @@ export class PagRegCasoComponent {
   //limitar longitud
   limitarLongitud(controlName: string, maxLength: number): void {
     const control = this.casoForm.get(controlName);
-    if (control?.value.length > maxLength) {
-      control?.setValue(control?.value.slice(0, maxLength));
+    if (control?.value.length > maxLength || !/^\d+$/.test(control?.value)) {
+      control?.setValue(control?.value.replace(/\D/g, '').slice(0, maxLength));
     }
   }
 
@@ -144,6 +145,13 @@ export class PagRegCasoComponent {
 
   async registrarCaso(): Promise<void> {
     if (this.casoForm.valid && this.correosCoinciden) {
+      const matricula = this.casoForm.get('matricula')?.value;
+      const telefono = this.casoForm.get('telefono')?.value;
+      if (!/^\d+$/.test(matricula) || !/^\d+$/.test(telefono)) {
+        console.error('La matrícula y el teléfono deben contener solo números.');
+        return;
+      }
+      
       const fileInput = this.casoForm.get('evidencia')?.value;
       console.log(fileInput);
       if (!fileInput || !(fileInput instanceof File)) {
@@ -158,9 +166,9 @@ export class PagRegCasoComponent {
           const buffer = Buffer.from(reader.result as ArrayBuffer);
   
           const formData = new FormData();
-          formData.append('matricula', this.casoForm.get('matricula')?.value.toString() ?? '');
+          formData.append('matricula', matricula.toString());
           formData.append('nombreCom', this.casoForm.get('nombreCom')?.value ?? '');
-          formData.append('telefono', this.casoForm.get('telefono')?.value.toString() ?? '');
+          formData.append('telefono', telefono.toString());
           formData.append('direccion', this.casoForm.get('direccion')?.value ?? '');
           formData.append('carrera', this.casoForm.get('carrera')?.value ?? '');
           formData.append('casoEsta', this.casoForm.get('casoEsta')?.value ?? '');
@@ -182,7 +190,7 @@ export class PagRegCasoComponent {
           });
           this.casoForm.reset();
           // Aquí puedes redirigir a la página de visualización o mostrar un mensaje de éxito
-          
+  
         };
         reader.readAsArrayBuffer(file);
       } catch (error) {
@@ -193,4 +201,5 @@ export class PagRegCasoComponent {
       console.log('El formulario es inválido o los correos no coinciden');
     }
   }
+  
 }

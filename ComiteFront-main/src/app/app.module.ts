@@ -29,6 +29,9 @@ import { DataService } from './services/data.service';
 import { HistorialComponent } from './componentes/historial/historial.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.component';
+import { InputRestrictionDirective } from './componentes/input-restriction.directive';
+import { CommonModule } from '@angular/common';
+
 
 
 @NgModule({
@@ -46,6 +49,7 @@ import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.componen
     PagActaComponent,
     PagActaTwoComponent,
     RevAlumnoComponent,
+    InputRestrictionDirective
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,11 @@ import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.componen
     MatInputModule,
     MatIconModule, 
     ReactiveFormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    CommonModule,
+  ],
+  exports:[
+    InputRestrictionDirective // Exporta la directiva si deseas utilizarla fuera del módulo
   ],
   providers: [AuthService, DataService],
   bootstrap: [AppComponent]
