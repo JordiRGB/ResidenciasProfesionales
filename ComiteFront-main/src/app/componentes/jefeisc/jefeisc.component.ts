@@ -34,12 +34,32 @@ interface Alumno {
 export class JefeiscComponent implements OnInit {
   Alumno: Alumno[] = [];
   userEmail: string | null = ''; 
+  carreraSeleccionada: string = ''; // Variable para almacenar la carrera asociada al usuario
+
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.userEmail = localStorage.getItem('userEmail');
-    this.getAlumnos();
+    if (this.userEmail === 'jefatura.sistemas@tesch.edu.mx') {
+      this.carreraSeleccionada = 'Ingeniería en Sistemas Computacionales';
+      this.getAlumnosJefes(this.carreraSeleccionada);
+    } else if (this.userEmail === 'jefatura.industrial@tesch.edu.mx') {
+      this.carreraSeleccionada = 'Ingeniería Industrial';
+      this.getAlumnosJefes(this.carreraSeleccionada);
+    } else if (this.userEmail === 'jefatura.electromecanica@tesch.edu.mx') {
+      this.carreraSeleccionada = 'Ingeniería Electromecánica';
+      this.getAlumnosJefes(this.carreraSeleccionada);
+    } else if (this.userEmail === 'jefatura.electronica@tesch.edu.mx') {
+      this.carreraSeleccionada = 'Ingeniería Electrónica';
+      this.getAlumnosJefes(this.carreraSeleccionada);
+    }else if (this.userEmail === 'Jefatura.informatica@tesch.edu.mx') {
+      this.carreraSeleccionada = 'Ingeniería Informática';
+      this.getAlumnosJefes(this.carreraSeleccionada);
+    }else if (this.userEmail === 'jefatura_admon@tesch.edu.mx') {
+      this.carreraSeleccionada = 'Ingeniería en Administración';
+      this.getAlumnosJefes(this.carreraSeleccionada);
+    }
   }
 
   logout() {
@@ -64,23 +84,18 @@ export class JefeiscComponent implements OnInit {
     });
   }
 
-  getAlumnos() {
-    this.authService.getAlumnos().subscribe(
+  getAlumnosJefes(carrera: string) {
+    this.authService.getAlumnosJefes(carrera).subscribe(
       (data: Alumno[]) => {
-        console.log('Datos de alumnos:', data);
-
-        this.Alumno = data.map(alumno => {
-          return { 
-            ...alumno, 
-            pdfPath: `${alumno.evidencia.url}` // Ahora usamos la propiedad url
-          };
-        });
+        console.log('Datos de alumnos jefes:', data);
+        this.Alumno = data;
       },
       (error) => {
-        console.error('Error obteniendo alumnos', error);
+        console.error('Error obteniendo alumnos jefes', error);
       }
     );
   }
+  
 
   // Método para visualizar el PDF de un alumno
   verPDF(pdfPath: string) {
@@ -186,9 +201,9 @@ export class JefeiscComponent implements OnInit {
   buscarPorMatricula(event: Event) {
     const matricula = (event.target as HTMLInputElement).value;
     if (matricula === '') {
-        this.getAlumnos(); // Si el campo está vacío, mostrar todos los alumnos
+      this.getAlumnosJefes(this.carreraSeleccionada); // Pasa el nombre de la carrera predeterminada si el campo está vacío
     } else {
-        this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
+      this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
     }
   }
 }

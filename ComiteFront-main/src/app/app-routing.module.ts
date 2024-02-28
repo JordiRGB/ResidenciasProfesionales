@@ -7,7 +7,7 @@ import { JefeiscComponent } from './componentes/jefeisc/jefeisc.component';
 import { PapeleraComponent } from './componentes/papelera/papelera.component';
 import { AdministradorComponent } from './componentes/administrador/administrador.component';
 import { AceptadosComponent } from './componentes/aceptados/aceptados.component';
-
+import { loginbloqueo } from './block/login.bloqueo';
 import { PagActaComponent } from './componentes/pag-acta/pag-acta.component';
 import { PagActaTwoComponent } from './componentes/pag-acta-two/pag-acta-two.component';
 import { HistorialComponent } from './componentes/historial/historial.component';
@@ -15,17 +15,20 @@ import { RevAlumnoComponent } from './componentes/rev-alumno/rev-alumno.componen
 const routes: Routes = [
   { path: 'inicio', component: PagInicioComponent },
   { path: 'regcaso', component: PagRegCasoComponent },
-  { path: 'login', component: PagLogInComponent },
-  { path: 'jefes', component: JefeiscComponent},
-  { path: 'papelera', component: PapeleraComponent},
+  {
+     path: 'jefes', 
+     component: JefeiscComponent,
+     canActivate: [loginbloqueo]
+  },
+  { path: 'papelera', component: PapeleraComponent,canActivate: [loginbloqueo]},
   { path: 'administrador', component: AdministradorComponent},
-  { path: 'pagActa', component: PagActaComponent},
-  { path: 'pagActaTwo', component: PagActaTwoComponent},
-  { path: 'historial', component: HistorialComponent},
-  {path: 'Aceptado', component: AceptadosComponent},
-  { path: 'RevAlumno', component: RevAlumnoComponent},
-  { path: '**', component: PagInicioComponent }, // Manejo de rutas no encontradas
-  
+  { path: 'pagActa', component: PagActaComponent,canActivate: [loginbloqueo]},
+  { path: 'pagActaTwo', component: PagActaTwoComponent,canActivate: [loginbloqueo]},
+  { path: 'historial', component: HistorialComponent,canActivate: [loginbloqueo]},
+  {path: 'Aceptado', component: AceptadosComponent,canActivate: [loginbloqueo] },
+  { path: 'RevAlumno', component: RevAlumnoComponent,canActivate: [loginbloqueo]},
+  { path: 'login', component: PagLogInComponent },
+  { path: '', component: PagInicioComponent }, // Manejo de rutas no encontradas
 ];
 
 @NgModule({  

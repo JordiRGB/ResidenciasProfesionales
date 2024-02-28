@@ -18,6 +18,11 @@
     // Nuevo BehaviorSubject para almacenar los datos del caso
     private datosCasoSubject = new BehaviorSubject<FormGroup>(this.formBuilder.group({} as DatosCaso));
     datosCaso$ = this.datosCasoSubject.asObservable();
+
+  //BehaviorSubject para almacenar los alumnos jefes  
+    private alumnosJefesSubject = new BehaviorSubject<any[]>([]);
+    alumnosJefes$ = this.alumnosJefesSubject.asObservable();
+  
     
     constructor(private http: HttpClient, private formBuilder: FormBuilder) {}
 
@@ -121,5 +126,8 @@
     }
     getAlumnosAceptados(): Observable<any[]> {
       return this.http.get<any[]>(`${this.URL}/get/alumnos/aceptados`);
+    }
+    getAlumnosJefes(carrera: string): Observable<any[]> {
+      return this.http.get<any[]>(`${this.URL}/get/alumnos/jefes/${carrera}`);
     }
   }
