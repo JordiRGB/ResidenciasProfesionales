@@ -138,8 +138,19 @@ export class PagActaTwoComponent implements OnInit{
         this.router.navigate(['/RevAlumno']);
   }
  
-
   generatePDF() {
+    // Llamar al servicio para actualizar el número de acta
+    this.dataService.updateActaNumber().subscribe(
+      (response) => {
+        this.generatePDF1();
+      },
+      (error) => {
+        console.error('Error al actualizar el número de acta:', error);
+      }
+    );
+  }
+
+  generatePDF1 () {
     const formattedTime = this.getCurrentDateTimeFormatted().time;
     const formatted = this.getCurrentDateTimeFormatted().date;
     const formattedDate = moment().format('DD-MMMM-YYYY');    

@@ -1,8 +1,9 @@
 const { Router } = require('express')
 const router = Router();
 
-const {conversor} = require('../controllers/acta.controllers')
+const {conversor, Act} = require('../controllers/acta.controllers')
 
 router.get('/acta/number', conversor);
+router.put('/acta/number', Act);
 
 module.exports = router

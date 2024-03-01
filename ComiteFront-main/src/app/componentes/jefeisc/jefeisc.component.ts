@@ -104,67 +104,89 @@ export class JefeiscComponent implements OnInit {
   }
 
   moverAlumnoAlReciclaje(alumnoId: string): void {
-    this.authService.moverAlumno(alumnoId).subscribe(
-      (data) => {
-        // Mostrar mensaje de éxito con SweetAlert2
-        Swal.fire('Éxito', 'Alumno movido a la papelera', 'success');
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Estás a punto de mover al alumno a la papelera. ¿Estás seguro de continuar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, mover a la papelera',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.authService.moverAlumno(alumnoId).subscribe(
+                (data) => {
+                    // Mostrar mensaje de éxito con SweetAlert2
+                    Swal.fire('Éxito', 'Alumno movido a la papelera', 'success');
 
-        // Esperar 3 segundos y luego recargar la página
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      },
-      (error) => {
-        console.error('Error moviendo alumno al reciclaje:', error);
+                    // Esperar 3 segundos y luego recargar la página
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                },
+                (error) => {
+                    console.error('Error moviendo alumno al reciclaje:', error);
 
-        // Verifica el tipo de error
-        if (error instanceof HttpErrorResponse) {
-          console.error('Estado del error:', error.status);
-          console.error('Mensaje del error:', error.error);
+                    // Verifica el tipo de error
+                    if (error instanceof HttpErrorResponse) {
+                        console.error('Estado del error:', error.status);
+                        console.error('Mensaje del error:', error.error);
+                    }
+
+                    // Mostrar mensaje de error con SweetAlert2
+                    Swal.fire('Error', 'Error al mover el alumno a la papelera', 'error');
+                }
+            );
         }
+    });
+}
 
-        // Mostrar mensaje de error con SweetAlert2
-        Swal.fire('Error', 'Error al mover el alumno a la papelera', 'error');
-      }
-    );
-  }
-  
   rechazarSolicitudAlumno(id: string): void {
     Swal.fire({
-      title: 'Motivo de Rechazo',
-      input: 'text',
-      inputLabel: 'Ingrese el motivo de rechazo',
-      inputValidator: (value) => {
-        if (!value) {
-          return 'El motivo de rechazo es requerido';
-        }
-        return null;
-      },
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Rechazar',
+        title: 'Motivo de Rechazo',
+        input: 'text',
+        inputLabel: 'Ingrese el motivo de rechazo',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'El motivo de rechazo es requerido';
+            }
+            return null;
+        },
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Rechazar',
     }).then((result) => {
-      if (result.isConfirmed) {
-        const motivoRechazo = result.value;
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Estás a punto de rechazar al alumno. ¿Estás seguro de continuar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, rechazar',
+                cancelButtonText: 'Cancelar'
+            }).then((confirmResult) => {
+                if (confirmResult.isConfirmed) {
+                    const motivoRechazo = result.value;
 
-        this.authService.rechazarSolicitudAlumno(id, motivoRechazo).subscribe(
-          (response) => {
-            console.log('Solicitud rechazada con éxito', response);
+                    this.authService.rechazarSolicitudAlumno(id, motivoRechazo).subscribe(
+                        (response) => {
+                            console.log('Solicitud rechazada con éxito', response);
 
-            Swal.fire('Éxito', 'Solicitud rechazada con éxito', 'success');
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
-          },
-          (error) => {
-            console.error('Error al rechazar la solicitud', error);
-            Swal.fire('Error', 'Error al rechazar la solicitud', 'error');
-          }
-        );
-      }
+                            Swal.fire('Éxito', 'Solicitud rechazada con éxito', 'success');
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        },
+                        (error) => {
+                            console.error('Error al rechazar la solicitud', error);
+                            Swal.fire('Error', 'Error al rechazar la solicitud', 'error');
+                        }
+                    );
+                }
+            });
+        }
     });
-  }
-  
+}
+
   aceptarAlumnoJefe(id: string): void {
     Swal.fire({
       title: 'Confirmación',

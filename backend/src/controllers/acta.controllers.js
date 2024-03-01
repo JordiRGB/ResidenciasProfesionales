@@ -40,7 +40,20 @@ const convertToRoman = (number)=>{
   }
   return romanNumerals[number - 1];
   }
-
+  actaCtrl.Act = async (req, res) => {
+    try {
+        const acta = await Acta.findOne();
+        if (!acta) {
+            return res.status(404).json({ message: 'Acta no encontrada' });
+        }
+        acta.number++;
+        await acta.save();
+        res.status(200).json({ number: acta.number });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+  };
 
 
 module.exports = actaCtrl;

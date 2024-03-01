@@ -1,7 +1,19 @@
 const alumnoCtrl = {};
 const { Alumno, Reciclaje } = require('../models/Alumno.js'); // Corrección en esta línea;
+const PASS_COMI = process.env.PASS_COMI;
 const EMAIL_COMI = process.env.EMAIL_COMI;
-const USER_COMI = process.env.USER_COMI;
+const EMAIL_ELECTRONICA = process.env.EMAIL_ELECTRONICA;
+const PASS_ELECTRONICA = process.env.PASS_ELECTRONICA;
+const EMAIL_INDUSTRIAL = process.env.EMAIL_INDUSTRIAL;
+const PASS_INDUSTRIAL = process.env.PASS_INDUSTRIAL;
+const EMAIL_SISTEMAS = process.env.EMAIL_SISTEMAS;
+const PASS_SISTEMAS = process.env.PASS_SISTEMAS;
+const EMAIL_ELECTROMECANICA = process.env.EMAIL_ELECTROMECANICA;
+const PASS_ELECTROMECANICA = process.env.PASS_ELECTROMECANICA;
+const EMAIL_INFORMATICA = process.env.EMAIL_INFORMATICA;
+const PASS_INFORMATICA = process.env.PASS_INFORMATICA;
+const EMAIL_ADMINISTRACION = process.env.EMAIL_ADMINISTRACION;
+const PASS_ADMINISTRACION = process.env.PASS_ADMINISTRACION;
 const nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
@@ -142,10 +154,47 @@ alumnoCtrl.getAlumnosJefes = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los alumnos.' });
     }
 };
-
-  alumnoCtrl.createAlumno = async (req, res) => {
+alumnoCtrl.createAlumno = async (req, res) => {
     try {
         const { matricula, nombreCom, telefono, casoEsta, direccion, carrera, casoTipo, semestre, correo, motivosAca, motivosPer, motivoComi } = req.body;
+
+        let jefeNombre, passJefe;
+
+        switch (carrera) {
+            case "Ingeniería en Sistemas Computacionales":
+                jefeNombre = EMAIL_SISTEMAS;
+                passJefe = PASS_SISTEMAS;
+                break;
+                    
+            case "Ingeniería Industrial":
+                jefeNombre = EMAIL_INDUSTRIAL;
+                passJefe = PASS_INDUSTRIAL;
+                break;
+                    
+            case "Ingeniería Electromecánica":
+                jefeNombre = EMAIL_ELECTROMECANICA;
+                passJefe = PASS_ELECTROMECANICA;
+                break;
+
+            case "Ingeniería Informática":
+                jefeNombre = EMAIL_INFORMATICA;
+                passJefe = PASS_INFORMATICA;
+                break;
+
+            case "Ingeniería Electrónica":
+                jefeNombre = EMAIL_ELECTRONICA;
+                passJefe = PASS_ELECTRONICA;
+                break;
+
+            case "Ingeniería en Administración":
+                jefeNombre = EMAIL_ADMINISTRACION;
+                passJefe = PASS_ADMINISTRACION;
+                break;
+                
+            default:
+                jefeNombre = "Jefe/a de Carrera";
+                break;
+        }
 
         // Verificar si se ha subido un archivo
         if (!req.file) {
@@ -186,17 +235,17 @@ alumnoCtrl.getAlumnosJefes = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: USER_COMI, // Cambia esto por tu correo electrónico
-                pass: EMAIL_COMI, // Cambia esto por tu contraseña
+                user: jefeNombre, // Cambia esto por tu correo electrónico
+                pass: passJefe, // Cambia esto por tu contraseña
             },
         });
 
         // Contenido del correo electrónico
         const mailOptions = {
-            from: USER_COMI, // Cambia esto por tu correo electrónico
+            from: jefeNombre, // Cambia esto por tu correo electrónico
             to: correo,
             subject: 'Solicitud recibida',
-            text:`Hola ${nombreCom},\n\nTu solicitud ha sido recibida con éxito. Gracias por enviarla.\n\nEn breve será revisada. Te pedimos estar atento.\nSaludos!!`,
+            text:`Hola ${nombreCom}.\nTu solicitud ha sido enviada al Jefe/a de carrera con éxito. Gracias por enviarla.\n\nTe pedimos estar atento a la resolución de tu caso.\nSaludos!!`,
         };
 
         // Envía el correo electrónico
@@ -205,12 +254,9 @@ alumnoCtrl.getAlumnosJefes = async (req, res) => {
         res.status(201).json(newAlumno);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al crear el alumno.' });
-    }
+        res.status(500).json({ message: 'Error al crear el alumno.' });
+    }
 };
-  
-
-
 alumnoCtrl.updateJefes = async (req, res) => {
     try {
         const { id } = req.params;
@@ -333,32 +379,68 @@ alumnoCtrl.rechazarJefe = async (req, res) => {
         const { id } = req.params;
         const { motivoRechazo } = req.body;
 
-        const alumno = await Alumno.findByIdAndUpdate(
-            id,
-            { 
-                casoEsta: 'Rechazado Jef', 
-                motivoComi: motivoRechazo || 'Motivo no especificado' // Actualiza el estado y el motivo de rechazo
-            },
-            { new: true }
-        );
+        const alumno = await Alumno.findById(id);
 
         if (!alumno) {
             return res.status(404).json(`Alumno with id ${id} not found`);
         }
+
+        let jefeNombre, passJefe;
+
+        switch (alumno.carrera) {
+            case "Ingeniería en Sistemas Computacionales":
+                jefeNombre = EMAIL_SISTEMAS;
+                passJefe = PASS_SISTEMAS;
+                break;
+                    
+            case "Ingeniería Industrial":
+                jefeNombre = EMAIL_INDUSTRIAL;
+                passJefe = PASS_INDUSTRIAL;
+                break;
+                    
+            case "Ingeniería Electromecánica":
+                jefeNombre = EMAIL_ELECTROMECANICA;
+                passJefe = PASS_ELECTROMECANICA;
+                break;
+
+            case "Ingeniería Informática":
+                jefeNombre = EMAIL_INFORMATICA;
+                passJefe = PASS_INFORMATICA;
+                break;
+
+            case "Ingeniería Electrónica":
+                jefeNombre = EMAIL_ELECTRONICA;
+                passJefe = PASS_ELECTRONICA;
+                break;
+
+            case "Ingeniería en Administración":
+                jefeNombre = EMAIL_ADMINISTRACION;
+                passJefe = PASS_ADMINISTRACION;
+                break;
+                
+            default:
+                jefeNombre = "Jefe/a de Carrera";
+                break;
+        }
+
+        // Actualizar el estado del caso y el motivo de rechazo
+        alumno.casoEsta = 'Rechazado Jef'; 
+        alumno.motivoComi = motivoRechazo || 'Motivo no especificado'; 
+        await alumno.save();
 
         // Envía correo electrónico de notificación de rechazo
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: USER_COMI,
-                pass: EMAIL_COMI,
+                user: jefeNombre,
+                pass: passJefe,
             },
         });
         const mailOptions = {
-            from: USER_COMI,
+            from: jefeNombre,
             to: alumno.correo,
-            subject: 'Solicitud Rechazada',
-            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido rechazada. El motivo es ${alumno.motivoComi}\n\nSaludos, \nTu Aplicación`,
+            subject: 'Solicitud Rechazada por Jefe/a de Carrera',
+            text: `Hola ${alumno.nombreCom}.\nTu solicitud ha sido rechazada por el jefe/a de carrera. El motivo es: ${alumno.motivoComi}\n\nPonte en contacto con tu jefe/a de carrera para más información.\n\Saludos!!`,
         };
         await transporter.sendMail(mailOptions);
 
@@ -368,37 +450,72 @@ alumnoCtrl.rechazarJefe = async (req, res) => {
         console.error(error);
     }
 };
-
 alumnoCtrl.aceptarJefe = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const alumno = await Alumno.findByIdAndUpdate(
-            id,
-            { 
-                casoEsta: "Aceptado Jef",
-                motivoComi: "Aceptado por Jef@ de Carrera" 
-            },
-            { new: true }
-        );
+        const alumno = await Alumno.findById(id);
 
         if (!alumno) {
             return res.status(404).json(`Alumno with id ${id} not found`);
         }
 
+        let jefeNombre, passJefe;
+
+        switch (alumno.carrera) {
+            case "Ingeniería en Sistemas Computacionales":
+                jefeNombre = EMAIL_SISTEMAS;
+                passJefe = PASS_SISTEMAS;
+                break;
+                    
+            case "Ingeniería Industrial":
+                jefeNombre = EMAIL_INDUSTRIAL;
+                passJefe = PASS_INDUSTRIAL;
+                break;
+                    
+            case "Ingeniería Electromecánica":
+                jefeNombre = EMAIL_ELECTROMECANICA;
+                passJefe = PASS_ELECTROMECANICA;
+                break;
+
+            case "Ingeniería Informática":
+                jefeNombre = EMAIL_INFORMATICA;
+                passJefe = PASS_INFORMATICA;
+                break;
+
+            case "Ingeniería Electrónica":
+                jefeNombre = EMAIL_ELECTRONICA;
+                passJefe = PASS_ELECTRONICA;
+                break;
+
+            case "Ingeniería en Administración":
+                jefeNombre = EMAIL_ADMINISTRACION;
+                passJefe = PASS_ADMINISTRACION;
+                break;
+                
+            default:
+                jefeNombre = "Jefe/a de Carrera";
+                break;
+        }
+
+        // Actualizar el estado del caso y el motivo de comentario
+        alumno.casoEsta = "Aceptado Jef";
+        alumno.motivoComi = "Aceptado por Jef@ de Carrera";
+        await alumno.save();
+
         // Envía correo electrónico de notificación de aceptación
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: USER_COMI,
-                pass: EMAIL_COMI,
+                user: jefeNombre,
+                pass: passJefe,
             },
         });
         const mailOptions = {
-            from: USER_COMI,
+            from: jefeNombre,
             to: alumno.correo,
-            subject: 'Solicitud Aceptada',
-            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada. Te pedimos estar a tento a la decisión del COMITE DE CASOS ESPECIALES sobre tu caso\n\nSaludos`,
+            subject: 'Solicitud Aceptada por Jefe/a de Carrera',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada por el jefe/a de carrera. Tu caso pasará al comité de casos especiales. Te pedimos estar atento a la resolución de tu caso.\n\nSaludos!!`,
         };
         await transporter.sendMail(mailOptions);
 
@@ -408,9 +525,6 @@ alumnoCtrl.aceptarJefe = async (req, res) => {
         console.error(error);
     }
 };
-
-
-
 alumnoCtrl.updateSecre = async (req, res) => {
     try {
         const { id } = req.params;
@@ -520,15 +634,15 @@ alumnoCtrl.rechazarComi = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: USER_COMI,
-                pass: EMAIL_COMI,
+                user: EMAIL_COMI,
+                pass: PASS_COMI,
             },
         });
         const mailOptions = {
-            from: USER_COMI,
+            from: EMAIL_COMI,
             to: alumno.correo,
-            subject: 'Solicitud Rechazada por Comite',
-            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido rechazada. El motivo es ${alumno.motivoComi}\n\nSaludos, \nTu Aplicación`,
+            subject: 'Solicitud Rechazada por el Comité Académico',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido rechazada pos el comité de casos especiales. El motivo es ${alumno.motivoComi}.\n\nPonte en contacto con el comité académico para más información\n\nSaludos!!`,
         };
         await transporter.sendMail(mailOptions);
 
@@ -546,7 +660,7 @@ alumnoCtrl.aceptarComi = async (req, res) => {
             id,
             { 
                 casoEsta: "Aceptado Comi",
-                motivoComi: "Aceptado por el Comite" 
+                motivoComi: "Aceptado por el Comité Académico" 
             },
             { new: true }
         );
@@ -559,15 +673,15 @@ alumnoCtrl.aceptarComi = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: USER_COMI,
-                pass: EMAIL_COMI,
+                user: EMAIL_COMI,
+                pass: PASS_COMI,
             },
         });
         const mailOptions = {
-            from: USER_COMI,
+            from: EMAIL_COMI,
             to: alumno.correo,
-            subject: 'Solicitud Aceptada',
-            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada. Por favor, pasa lo antes posible con el Comité Academico\n\nSaludos`,
+            subject: 'Solicitud Aceptada por el Comité Académico',
+            text: `Hola ${alumno.nombreCom},\n\nTu solicitud ha sido aceptada, para su revisión y consideración final.\nEn días posteriores te pedimos visitar el Comite Academico sobre cualquier actualización relacionada con tu solicitud.\n\nSaludos`,
         };
         await transporter.sendMail(mailOptions);
 
@@ -849,8 +963,6 @@ alumnoCtrl.getAlumnosAceptados = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los alumnos.' });
     }
 };
-
-  
   alumnoCtrl.historialJefe = async (req, res) => {
     try {
         const alumnos = await Alumno.find({
@@ -892,10 +1004,5 @@ alumnoCtrl.getAlumnosAceptados = async (req, res) => {
         res.status(500).json({ message: 'Error en el servidor' });
     }
 };
-
-  
-  
-
 module.exports = alumnoCtrl;
-
 module.exports.fileUploadMiddleware = fileUpload;

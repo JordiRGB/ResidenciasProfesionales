@@ -48,4 +48,7 @@ export class DataService {
   getSolucion(): string[] {
     return this.Solucion;
   }
+  updateActaNumber(): Observable<any> {
+    return this.http.put<any>(this.URL + '/acta/number', {});
+  }
 }
