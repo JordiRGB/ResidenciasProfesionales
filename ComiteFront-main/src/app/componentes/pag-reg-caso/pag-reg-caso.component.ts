@@ -7,7 +7,6 @@ import { Buffer } from 'buffer';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Carousel } from 'bootstrap';
-import { InputRestrictionDirective } from '../input-restriction.directive';
 
 
 @Component({
@@ -138,11 +137,7 @@ export class PagRegCasoComponent {
         reader.readAsArrayBuffer(file);
       }
     }
-  }
-  
-  
-  
-
+  } 
   async registrarCaso(): Promise<void> {
     if (this.casoForm.valid && this.correosCoinciden) {
       const matricula = this.casoForm.get('matricula')?.value;
@@ -189,8 +184,8 @@ export class PagRegCasoComponent {
             timer: 3000
           });
           this.casoForm.reset();
+          window.location.reload();
           // Aquí puedes redirigir a la página de visualización o mostrar un mensaje de éxito
-  
         };
         reader.readAsArrayBuffer(file);
       } catch (error) {

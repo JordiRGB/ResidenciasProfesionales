@@ -12,14 +12,11 @@
 </head>
 <body>
     <header>
-
         <div class="menu">
-          
           <button (click)="logout()">
             <i class="material-icons">person</i>
             <p><strong style="color: black;"> {{ userEmail }}</strong></p>
           </button>     
-            
         </div>
     </header>
     <div>
@@ -45,12 +42,9 @@
                     <td>{{ user.roles.join(', ') }}</td>
                     <button class="custom-button editar-button editar"(click)="editarUsuario(user)"><i class="fas fa-pencil-alt"></i></button> 
                     <button class="custom-button editar-button eliminar" (click)="eliminarUsuario(user._id)"><i class="fas fa-trash"></i></button>
-
                 </tr>
-                
               </tbody>
             </table>
-
 <div *ngIf="selectedUser" class="container mt-4">
   <form (ngSubmit)="guardarCambios()" class="card p-4">
     <h2 class="text-center mb-4">Editar Usuario</h2>

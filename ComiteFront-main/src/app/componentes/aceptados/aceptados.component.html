@@ -10,37 +10,33 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="script.js"></script>
 </head>
 <body>
-    <header>
-      
-        <div class="menu">
-          <button (click)="logout()">
-            <i class="material-icons">person</i>
-            <p><strong style="color: black;"> {{ userEmail }}</strong></p>
-          </button>         
-            <div class="dropdown">
-              <button>
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="dropdown-content">
-              <h3 class="menu-title">Menú</h3>
-              <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
-              <a href="pagActa"><i class="material-icons">description</i> Acta LXX</a>
-              <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
-          
+  <header>
+    <div class="menu">
+      <button (click)="logout()">
+        <i class="material-icons">person</i>
+        <p><strong style="color: black;"> {{ userEmail }}</strong></p>
+      </button>         
+        <div class="dropdown">
+          <button>
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="dropdown-content">
+            <h3 class="menu-title">Menú</h3>
+            <a href="Aceptado"><i class="material-icons">check_circle</i> Casos Aceptados</a>
+            <a href="pagActa"><i class="material-icons">description</i> Acta LXX</a>
+            <a href="historial"><i class="material-icons">history</i> Historial de casos</a>
           </div>
-            </div>
         </div>
-    </header>
+    </div>   
+  </header>
     <div>
       <img src="assets/images/Aceptado.png" alt="Imagen de bienvenida" width="70" height="60" style="display: inline-block;">
       <h1 style="display: inline-block;">ACEPTADOS</h1>
-  </div>
-  
+    </div>
     <main>
         <div class="header_fixed">
           <div class="search-table-container">
@@ -74,16 +70,15 @@
                     <div class="botones-container">
                       <button class="pape" (click)="verPDF(alumno.pdfPath)">
                         <i class="material-icons">description</i>
-                    </button>                    
+                      </button>                    
                       <button class="Aceptar" (click)="aceptarAlumno(alumno._id)">
                         <i class="material-icons">check_circle</i>
                       </button>
                       <button class="rechazar" (click)="rechazarAlumno(alumno._id)">
                         <i class="material-icons">cancel</i>
                       </button>
-                     
-                   </div>
-                </td>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>

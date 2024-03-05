@@ -81,7 +81,6 @@ export class AceptadosComponent implements OnInit {
       }
     );
   }
-  
 
   verPDF(pdfPath: string) {
     window.open(pdfPath, '_blank');
@@ -144,7 +143,4 @@ export class AceptadosComponent implements OnInit {
         this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
     }
   }
-  }
-  
- 
-
+}
