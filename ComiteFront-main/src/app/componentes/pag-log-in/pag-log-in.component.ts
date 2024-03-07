@@ -32,7 +32,7 @@ export class PagLogInComponent {
           console.log(res);
           localStorage.setItem('token', res.token);
           localStorage.setItem('userEmail', this.user.email); 
-          if (this.user.email === 'jefatura.electromecanica@tesch.edu.mx' || this.user.email === 'jefatura.electronica@tesch.edu.mx'|| this.user.email === 'jefatura.sistemas@tesch.edu.mx'|| this.user.email === 'jefatura_admon@tesch.edu.mx'|| this.user.email === 'jefatura.industrial@tesch.edu.mx') {
+          if (this.user.email === 'jefatura.electromecanica@tesch.edu.mx' || this.user.email === 'jefatura.electronica@tesch.edu.mx'|| this.user.email === 'jefatura.sistemas@tesch.edu.mx'|| this.user.email === 'jefatura_admon@tesch.edu.mx'|| this.user.email === 'jefatura.industrial@tesch.edu.mx'|| this.user.email === 'jefatura.informatica@tesch.edu.mx') {
             this.router.navigate(['/jefes']);
           }
           else if (this.user.email === 'roberto_bg@tesch.edu.mx') {
