@@ -46,7 +46,7 @@ export class AdministradorComponent implements OnInit {
         localStorage.removeItem('token');
         localStorage.removeItem('userEmail');
         // Redireccionar a la página de inicio de sesión
-        window.location.href = '/ruta-de-inicio-de-sesion'; // Reemplaza '/ruta-de-inicio-de-sesion' con la ruta real de tu página de inicio de sesión
+        window.location.href = '/login';
       }
     });
   }

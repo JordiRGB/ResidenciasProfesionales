@@ -79,7 +79,7 @@ export class JefeiscComponent implements OnInit {
         localStorage.removeItem('token');
         localStorage.removeItem('userEmail');
         // Redireccionar a la página de inicio de sesión
-        window.location.href = '/ruta-de-inicio-de-sesion'; // Reemplaza '/ruta-de-inicio-de-sesion' con la ruta real de tu página de inicio de sesión
+        window.location.href = '/login';   
       }
     });
   }
@@ -88,7 +88,13 @@ export class JefeiscComponent implements OnInit {
     this.authService.getAlumnosJefes(carrera).subscribe(
       (data: Alumno[]) => {
         console.log('Datos de alumnos jefes:', data);
-        this.Alumno = data;
+        
+        this.Alumno = data.map(alumno => {
+          return { 
+            ...alumno, 
+            pdfPath:`${alumno.evidencia.url}`// Ahora usamos la propiedad url
+          };
+        });
       },
       (error) => {
         console.error('Error obteniendo alumnos jefes', error);
@@ -219,7 +225,14 @@ export class JefeiscComponent implements OnInit {
       }
     });
   }
-
+  mostrarInformacion(alumno: Alumno): void {
+    Swal.fire({
+      title: `Motivos de ${alumno.nombreCom}`,
+      html: `<p><strong>Motivos Académicos:</strong> ${alumno.motivosAca}</p><p><strong>Motivos Personales:</strong> ${alumno.motivosPer}</p>`,
+      icon: 'info'
+    });
+  }
+  
   buscarPorMatricula(event: Event) {
     const matricula = (event.target as HTMLInputElement).value;
     if (matricula === '') {

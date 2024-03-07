@@ -21,7 +21,7 @@ const routes: Routes = [
      canActivate: [loginbloqueo]
   },
   { path: 'papelera', component: PapeleraComponent,canActivate: [loginbloqueo]},
-  { path: 'administrador', component: AdministradorComponent},
+  { path: 'administrador', component: AdministradorComponent,canActivate: [loginbloqueo]},
   { path: 'pagActa', component: PagActaComponent,canActivate: [loginbloqueo]},
   { path: 'pagActaTwo', component: PagActaTwoComponent,canActivate: [loginbloqueo]},
   { path: 'historial', component: HistorialComponent,canActivate: [loginbloqueo]},

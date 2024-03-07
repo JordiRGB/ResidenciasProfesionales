@@ -124,7 +124,7 @@ alumnoCtrl.getAlumnosJefes = async (req, res) => {
         // Mapear los alumnos para ajustar la respuesta
         const alumnosConEvidencia = alumnos.map(alumno => {
             return {
-                id: alumno._id,
+                _id: alumno._id,
                 matricula: alumno.matricula,
                 nombreCom: alumno.nombreCom,
                 telefono: alumno.telefono,
@@ -755,29 +755,72 @@ alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
         console.error(error);
     }
 };
-alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
+alumnoCtrl.getReciclajeAlumnospapelera = async (req, res) => {
     try {
-        const { id } = req.params;
+        // Obtener el nombre de la carrera desde los parámetros de la solicitud
+        const { carrera } = req.params;
 
-        // Obtener la información del alumno antes de eliminarlo
-        const alumnoExistente = await Reciclaje.findById(id);
+        // Buscar todos los reciclajes de la base de datos que pertenecen a la carrera especificada
+        const reciclajes = await Reciclaje.find({ carrera });
 
-        // Verificar si el alumno existe
-        if (!alumnoExistente) {
-            return res.status(404).json(`Alumno with id ${id} not found`);
+        // Verificar si se encontraron reciclajes para esa carrera
+        if (reciclajes.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron alumnos para esta carrera.' });
         }
 
-        // Eliminar el archivo PDF asociado al alumno
-        const rutaArchivo = `uploads/${alumnoExistente.evidencia}`;
-        await fs.promises.unlink(rutaArchivo);
+        // Mapear los reciclajes para ajustar la respuesta
+        const reciclajesConEvidencia = reciclajes.map(reciclaje => {
+            return {
+                _id: reciclaje._id,
+                matricula: reciclaje.matricula,
+                nombreCom: reciclaje.nombreCom,
+                telefono: reciclaje.telefono,
+                casoEsta: reciclaje.casoEsta,
+                direccion: reciclaje.direccion,
+                carrera: reciclaje.carrera,
+                casoTipo: reciclaje.casoTipo,
+                semestre: reciclaje.semestre,
+                correo: reciclaje.correo,
+                motivosAca: reciclaje.motivosAca,
+                motivosPer: reciclaje.motivosPer,
+                evidencia: {
+                    url: `${req.protocol}://${req.get('host')}/api/alumnos/${reciclaje._id}/pdf`, // Ruta para ver el PDF del alumno
+                    fileName: `evidencia_${reciclaje._id}.pdf`, // Nombre del archivo
+                    contentType: reciclaje.contentType, // Tipo de contenido
+                },
+                motivoComi: reciclaje.motivoComi,
+                updatedAt: reciclaje.updatedAt
+            };
+        });
+
+        // Ordenar los reciclajes por algún criterio si es necesario
+        // reciclajesConEvidencia.sort((a, b) => a.fecha - b.fecha); // Ejemplo de ordenación por fecha
+
+        res.status(200).json(reciclajesConEvidencia);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener los reciclajes.' });
+    }
+};
+
+alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
+    try {
+        const alumnoId = req.params.id; // Suponiendo que recibes el ID del alumno a eliminar como parámetro en la URL
+
+        // Verificar si el alumno existe
+        const alumno = await Reciclaje.findById(alumnoId);
+        if (!alumno) {
+            return res.status(404).json({ message: 'Alumno no encontrado.' });
+        }
 
         // Eliminar el alumno de la base de datos
-        const alumnoEliminado = await Reciclaje.findByIdAndDelete(id);
+        await Reciclaje.findByIdAndDelete(alumnoId);
 
-        res.status(200).json(alumnoEliminado);
+        // Envía una respuesta de éxito
+        res.status(200).json({ message: 'Alumno eliminado correctamente.' });
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
         console.error(error);
+        res.status(500).json({ message: 'Error al eliminar el alumno.' });
     }
 };
 alumnoCtrl.restaurarAlumno = async (req, res) => {
@@ -815,106 +858,7 @@ alumnoCtrl.restaurarAlumno = async (req, res) => {
         console.error(error);
     }
 };
- //reciclaje
-alumnoCtrl.reciclajeAlumno = async (req, res) => {
-    try {
-        const { id } = req.params;
 
-        // Obtener la información del alumno antes de moverlo a reciclaje
-        const alumnoExistente = await Alumno.findById(id);
-
-        // Verificar si el alumno existe
-        if (!alumnoExistente) {
-            return res.status(404).json(`Alumno with id ${id} not found`);
-        }
-
-        // Crear un nuevo documento en la colección de reciclaje con los datos del alumno
-        const alumnoReciclado = await Reciclaje.create(alumnoExistente.toObject());
-
-        // Obtener el nombre del archivo
-        const evidencia = alumnoExistente.evidencia;
-
-        // Eliminar el alumno de la colección principal
-        await Alumno.findByIdAndDelete(id);
-
-        // No mover ni copiar el archivo, mantenerlo en la carpeta uploads
-        // Puedes agregar aquí lógica adicional si es necesario
-
-        res.status(200).json(alumnoReciclado);
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
-        console.error(error);
-    }
-};
-alumnoCtrl.getReciclajeAlumnos = async (req, res) => {
-    try {
-        const reciclajes = await Reciclaje.find();
-        res.status(200).json(reciclajes);
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
-        console.error(error);
-    }
-};
-alumnoCtrl.deleteReciclajeAlumno = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        // Obtener la información del alumno antes de eliminarlo
-        const alumnoExistente = await Reciclaje.findById(id);
-
-        // Verificar si el alumno existe
-        if (!alumnoExistente) {
-            return res.status(404).json(`Alumno with id ${id} not found`);
-        }
-
-        // Eliminar el archivo PDF asociado al alumno
-        const rutaArchivo = `uploads/${alumnoExistente.evidencia}`;
-        await fs.promises.unlink(rutaArchivo);
-
-        // Eliminar el alumno de la base de datos
-        const alumnoEliminado = await Reciclaje.findByIdAndDelete(id);
-
-        res.status(200).json(alumnoEliminado);
-    } catch (error) {
-        res.status(500).json({ message: "Server error" });
-        console.error(error);
-    }
-};
-alumnoCtrl.restaurarAlumno = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        // Verificar si el ID es null o no es un ObjectId válido
-        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: 'Invalid ID provided' });
-        }
-
-        // Obtener la información del alumno antes de restaurarlo desde reciclaje
-        const alumnoReciclado = await Reciclaje.findById(id);
-
-        // Verificar si el alumno existe en reciclaje
-        if (!alumnoReciclado) {
-            return res.status(404).json(`Alumno in Reciclaje with id ${id} not found`);
-        }
-
-        // Obtener el nombre del archivo
-        const evidencia = alumnoReciclado.evidencia;
-
-        // No mover ni copiar el archivo, mantenerlo en la carpeta uploads
-        // Puedes agregar aquí lógica adicional si es necesario
-
-        // Eliminar el alumno de la colección de reciclaje
-        await Reciclaje.findByIdAndDelete(id);
-
-        // Crear un nuevo documento en la colección de Alumno con los datos del alumno reciclado
-        const alumnoRestaurado = await Alumno.create(alumnoReciclado.toObject());
-
-        res.status(200).json(alumnoRestaurado);
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
-        console.error(error);
-    }
-};
 //aceptados
 alumnoCtrl.getAlumnosAceptados = async (req, res) => {
     try {

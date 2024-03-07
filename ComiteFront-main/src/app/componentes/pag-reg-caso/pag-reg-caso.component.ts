@@ -46,7 +46,7 @@ export class PagRegCasoComponent {
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder) {
     this.casoForm = this.fb.group({
-      matricula: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      matricula: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       nombreCom: ['', Validators.required],
       telefono: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       direccion: ['', Validators.required],
@@ -181,6 +181,7 @@ export class PagRegCasoComponent {
             timer: 1500
           });
           this.casoForm.reset();
+          window.location.reload();
           // Aquí puedes redirigir a la página de visualización o mostrar un mensaje de éxito
           
         };

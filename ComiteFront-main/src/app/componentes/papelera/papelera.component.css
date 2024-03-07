@@ -288,28 +288,38 @@ td button {
 }
 
 /* Estilos personalizados para el botón */
-#restablecer.custom-button {
-  background-color: white;
-  border-radius: 8px;
-  color: #000;
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  margin-top: 20px; /* Agrega un espacio vertical entre el botón y la tabla */
-  font-weight: bold; /* Hace que el texto sea negritas */
+table tr td .resta{
+  width: 40px; /* Ancho deseado */
+  height: 40px; /* Alto deseado */
+  padding: 0; /* Elimina el relleno interno */
+  border: 2px solid black; /* Elimina el borde */
+  background-color: rgb(255, 178, 11); /* Cambia el color de fondo del botón según tus preferencias */
+  color: #000000; /* Cambia el color del texto del botón según tus preferencias */
+  border-radius: 50%; /* Hace que el botón sea circular */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
   display: flex; /* Utiliza el modelo de caja flexible */
-  justify-content: space-between; /* Distribuye los elementos con espacio entre ellos */
-  align-items: center; /* Centra verticalmente los elementos */
-  flex-direction: row-reverse; /* Invierte la dirección de los elementos */
+  justify-content: center; /* Centra horizontalmente el contenido del botón */
+  align-items: center; /* Centra verticalmente el contenido del botón */
 }
 
-/* Estilo para el icono dentro del botón */
-#restablecer.custom-button i {
-  margin-left: 9px; /* Agrega un margen a la derecha del icono */
-  opacity: 0.5; /* Establece la transparencia del icono (0.7 = 70% de opacidad) */
-  color: #000000;
+table tr td .delete{
+  width: 40px; /* Ancho deseado */
+  height: 40px; /* Alto deseado */
+  padding: 0; /* Elimina el relleno interno */
+  border: 2px solid black; /* Elimina el borde */
+  background-color: rgb(255, 27, 27); /* Cambia el color de fondo del botón según tus preferencias */
+  color: #070707; /* Cambia el color del texto del botón según tus preferencias */
+  border-radius: 50%; /* Hace que el botón sea circular */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  display: flex; /* Utiliza el modelo de caja flexible */
+  justify-content: center; /* Centra horizontalmente el contenido del botón */
+  align-items: center; /* Centra verticalmente el contenido del botón */
 }
-
-/* Cambio de estilo al pasar el ratón por encima (opcional) */
-#restablecer.custom-button:hover {
-  background-color: #68817a;
+.botones-container {
+  display: flex;
+  gap: 10px; /* Agrega un espacio de 10px entre los botones */
+}
+table tr td i{
+  display: flex;
+  gap: 10px;
 }

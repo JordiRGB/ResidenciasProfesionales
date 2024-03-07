@@ -71,10 +71,12 @@
                     <option *ngFor="let role of roles">{{ role }}</option>
                   </select>
                 </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label">Contraseña:</label>
-                  <input id="password" type="password" name="password" class="form-control">
-                </div>
+            
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña:</label>
+                    <input id="password" type="password" [(ngModel)]="selectedUser.password" name="password" class="form-control">
+                  </div>
+            
                 <div class="d-grid gap-2">
                   <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                   <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>

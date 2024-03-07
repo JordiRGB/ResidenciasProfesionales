@@ -22,6 +22,10 @@
   //BehaviorSubject para almacenar los alumnos jefes  
     private alumnosJefesSubject = new BehaviorSubject<any[]>([]);
     alumnosJefes$ = this.alumnosJefesSubject.asObservable();
+  // BehaviorSubject para almacenar los reciclajes de alumnos
+    private reciclajesAlumnosSubject = new BehaviorSubject<any[]>([]);
+    reciclajesAlumnos$ = this.reciclajesAlumnosSubject.asObservable();
+
   
     
     constructor(private http: HttpClient, private formBuilder: FormBuilder) {}
@@ -82,9 +86,7 @@
       const url = `${this.URL}/reciclaje/alumno/${alumnoId}`;
       return this.http.post(url, {});
     }
-    getAlumnosReciclaje(): Observable<any[]> {
-      return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos`);
-    }
+    
     restaurarAlumno(alumnoId: string): Observable<any> {
       const url = `${this.URL}/restaurar/alumno/${alumnoId}`;
       return this.http.post(url, {});
@@ -130,4 +132,13 @@
     getAlumnosJefes(carrera: string): Observable<any[]> {
       return this.http.get<any[]>(`${this.URL}/get/alumnos/jefes/${carrera}`);
     }
+    getReciclajeAlumnos(carrera: string): Observable<any[]> {
+      return this.http.get<any[]>(`${this.URL}/get/reciclaje/alumnos/${carrera}`);
+    }
+    
+    eliminarAlumnoReciclado(alumnoId: string): Observable<any> {
+      const url = `${this.URL}/delete/reciclaje/alumno/${alumnoId}`;
+      return this.http.delete(url);
+    }
+    
   }

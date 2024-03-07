@@ -59,7 +59,7 @@ export class AceptadosComponent implements OnInit {
         localStorage.removeItem('token');
         localStorage.removeItem('userEmail');
         // Redireccionar a la página de inicio de sesión
-        window.location.href = '/ruta-de-inicio-de-sesion'; // Reemplaza '/ruta-de-inicio-de-sesion' con la ruta real de tu página de inicio de sesión
+        window.location.href = '/login'; 
       }
     });
   }
@@ -143,6 +143,13 @@ export class AceptadosComponent implements OnInit {
     } else {
         this.Alumno = this.Alumno.filter(alumno => alumno.matricula.toString().includes(matricula));
     }
+  }
+  mostrarInformacion(alumno: Alumno): void {
+    Swal.fire({
+      title: `Motivos de ${alumno.nombreCom}`,
+      html: `<p><strong>Motivos Académicos:</strong> ${alumno.motivosAca}</p><p><strong>Motivos Personales:</strong> ${alumno.motivosPer}</p>`,
+      icon: 'info'
+    });
   }
   }
   

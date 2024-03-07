@@ -51,7 +51,7 @@
           <mat-label>Ingresa tu matricula</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Matricula</mat-label>
-              <input matInput type="text" placeholder="201924..." formControlName="matricula" (input)="limitarLongitud('matricula', 9)">
+              <input matInput type="number" placeholder="201924..." formControlName="matricula" (input)="limitarLongitud('matricula', 10)">
               <mat-error *ngIf="casoForm.get('matricula')?.invalid && (casoForm.get('matricula')?.dirty || casoForm.get('matricula')?.touched)">
                 El número teléfono debe tener exactamente 10 dígitos.
               </mat-error>
@@ -60,7 +60,7 @@
           <mat-label>Ingresa tu numero de teléfono</mat-label>
           <mat-form-field class="example-full">
             <mat-label>Teléfono/celular</mat-label>
-            <input matInput type="text" placeholder="10 digitos" id="telefono" formControlName="telefono" (input)="limitarLongitud('telefono', 10)">
+            <input matInput type="number" placeholder="10 digitos" id="telefono" formControlName="telefono" (input)="limitarLongitud('telefono', 10)">
             <mat-error *ngIf="casoForm.get('telefono')?.invalid && (casoForm.get('telefono')?.dirty || casoForm.get('telefono')?.touched)">
               El número teléfono debe tener exactamente 10 dígitos.
             </mat-error>

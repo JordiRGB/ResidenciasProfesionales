@@ -63,6 +63,7 @@
                         <th>TIPO DE CASO</th>
                         <th>EVIDENCIA</th>
                         <th>ESTADO</th>
+                        <th>MOTIVOS</th>
                         <th>ACCIONES</th>
                     </tr>
                 </thead>
@@ -78,7 +79,14 @@
                     <td>{{ alumno.casoEsta }}</td>
                     <td>
                       <div class="botones-container">
-                        <button class="Aceptar" (click)="aceptarAlumnoJefe(alumno._id)"[disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
+                        <button class="info" (click)="mostrarInformacion(alumno)">
+                          <i class="material-icons">message</i>
+                        </button>
+                      </div>
+                    </td>                   <td>
+                      <div class="botones-container">
+                                      
+                        <button class="Aceptar" (click)="aceptarAlumnoJefe(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">check_circle</i>
                         </button>
                         <button class="rechazar" (click)="rechazarSolicitudAlumno(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
@@ -87,15 +95,11 @@
                         <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                         <i class="material-icons">delete</i>
                         </button>
+                       
                      </div>
                   </td>
                 </tbody>
             </table>
-            <button id="vaciarDatos" class="btn btn-primary custom-button">
-              <i class="fas fa-folder"></i> Vaciar Datos
-            </button>
-              
-          
         </div>
     </main>
     <br>
