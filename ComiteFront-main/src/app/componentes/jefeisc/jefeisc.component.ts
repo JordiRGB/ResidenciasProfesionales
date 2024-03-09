@@ -53,7 +53,7 @@ export class JefeiscComponent implements OnInit {
     } else if (this.userEmail === 'jefatura.electronica@tesch.edu.mx') {
       this.carreraSeleccionada = 'Ingeniería Electrónica';
       this.getAlumnosJefes(this.carreraSeleccionada);
-    }else if (this.userEmail === 'Jefatura.informatica@tesch.edu.mx') {
+    }else if (this.userEmail === 'jefatura.informatica@tesch.edu.mx') {
       this.carreraSeleccionada = 'Ingeniería Informática';
       this.getAlumnosJefes(this.carreraSeleccionada);
     }else if (this.userEmail === 'jefatura_admon@tesch.edu.mx') {
@@ -101,8 +101,6 @@ export class JefeiscComponent implements OnInit {
       }
     );
   }
-  
-
   // Método para visualizar el PDF de un alumno
   verPDF(pdfPath: string) {
     // Abrir una nueva ventana para mostrar el PDF
@@ -146,7 +144,7 @@ export class JefeiscComponent implements OnInit {
     });
 }
 
-  rechazarSolicitudAlumno(id: string): void {
+  rechazarSolicitudAlumno(id: string, nombreCom: string): void {
     Swal.fire({
         title: 'Motivo de Rechazo',
         input: 'text',
@@ -164,7 +162,7 @@ export class JefeiscComponent implements OnInit {
         if (result.isConfirmed) {
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: 'Estás a punto de rechazar al alumno. ¿Estás seguro de continuar?',
+                text: `Estás a punto de rechazar al alumno ${nombreCom}. ¿Estás seguro de continuar?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Sí, rechazar',
@@ -193,10 +191,10 @@ export class JefeiscComponent implements OnInit {
     });
 }
 
-  aceptarAlumnoJefe(id: string): void {
+  aceptarAlumnoJefe(id: string, nombreCom: string): void {
     Swal.fire({
       title: 'Confirmación',
-      text: '¿Estás seguro de que deseas aceptar al alumno?',
+      text: `¿Estás seguro de que deseas aceptar al alumno ${nombreCom}?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

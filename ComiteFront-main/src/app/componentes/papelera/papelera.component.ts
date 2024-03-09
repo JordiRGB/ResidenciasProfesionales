@@ -54,7 +54,7 @@ export class PapeleraComponent implements OnInit {
     } else if (this.userEmail === 'jefatura.electronica@tesch.edu.mx') {
       this.carreraSeleccionada = 'Ingeniería Electrónica';
       this.getAlumnosReciclaje(this.carreraSeleccionada);
-    }else if (this.userEmail === 'Jefatura.informatica@tesch.edu.mx') {
+    }else if (this.userEmail === 'jefatura.informatica@tesch.edu.mx') {
       this.carreraSeleccionada = 'Ingeniería Informática';
       this.getAlumnosReciclaje(this.carreraSeleccionada);
     }else if (this.userEmail === 'jefatura_admon@tesch.edu.mx') {

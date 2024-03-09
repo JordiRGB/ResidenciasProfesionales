@@ -86,10 +86,10 @@
                     </td>                   <td>
                       <div class="botones-container">
                                       
-                        <button class="Aceptar" (click)="aceptarAlumnoJefe(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
+                        <button class="Aceptar" (click)="aceptarAlumnoJefe(alumno._id, alumno.nombreCom)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">check_circle</i>
                         </button>
-                        <button class="rechazar" (click)="rechazarSolicitudAlumno(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
+                        <button class="rechazar" (click)="rechazarSolicitudAlumno(alumno._id, alumno.nombreCom)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">
                           <i class="material-icons">cancel</i>
                         </button>
                         <button class="pape" (click)="moverAlumnoAlReciclaje(alumno._id)" [disabled]="alumno.casoEsta === 'Aceptado Comi' || alumno.casoEsta === 'Rechazado Comi'">

@@ -871,11 +871,6 @@ alumnoCtrl.getAlumnosAceptados = async (req, res) => {
         // Combinar los resultados de ambas consultas
         const todosLosAlumnos = [...alumnos, ...reciclajes];
 
-        // Verificar si se encontraron alumnos con el estado "AceptadoJefes" en alguna de las colecciones
-        if (todosLosAlumnos.length === 0) {
-            return res.status(404).json({ message: 'No se encontraron alumnos con estado "AceptadoJefes".' });
-        }
-
         // Mapear los alumnos para ajustar la respuesta
         const alumnosConEvidencia = todosLosAlumnos.map(alumno => {
             return {
@@ -901,12 +896,18 @@ alumnoCtrl.getAlumnosAceptados = async (req, res) => {
             };
         });
 
+        // Verificar si se encontraron alumnos con el estado "AceptadoJefes" en alguna de las colecciones
+        if (alumnosConEvidencia.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron alumnos con estado "AceptadoJefes".' });
+        }
+
         res.status(200).json(alumnosConEvidencia);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error al obtener los alumnos.' });
     }
 };
+
   alumnoCtrl.historialJefe = async (req, res) => {
     try {
         const alumnos = await Alumno.find({

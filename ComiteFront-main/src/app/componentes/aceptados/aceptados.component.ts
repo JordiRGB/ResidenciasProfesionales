@@ -67,74 +67,106 @@ export class AceptadosComponent implements OnInit {
     this.authService.getAlumnosAceptados().subscribe(
       (response: any[]) => {
         console.log('Datos de alumnos aceptados:', response);
-        this.Alumno = response.map(alumno => {
-          return { 
-            ...alumno, 
-            pdfPath: `${alumno.evidencia.url}` // Usamos la propiedad url
-          };
-        });
+        if (response.length > 0) {
+          this.Alumno = response.map(alumno => {
+            return { 
+              ...alumno, 
+              pdfPath: `${alumno.evidencia.url}` // Usamos la propiedad url
+            };
+          });
+        } else {
+          // Mostrar una alerta si no se encontraron registros
+          Swal.fire('Información', 'No se encontraron alumnos aceptados', 'info');
+        }
       },
       (error) => {
         console.error('Error obteniendo alumnos aceptados', error);
-        // Aquí podrías mostrar un mensaje de error al usuario
+        // Mostrar una alerta en caso de error
         Swal.fire('Error', 'Error obteniendo alumnos aceptados', 'error');
       }
     );
   }
   
-
   verPDF(pdfPath: string) {
     window.open(pdfPath, '_blank');
   }
 
-  rechazarAlumno(id: string): void {
+  rechazarAlumno(id: string, nombreCom:string): void {
     Swal.fire({
       title: 'Motivo de Rechazo',
       input: 'text',
       inputLabel: 'Ingrese el motivo de rechazo',
       inputValidator: (value) => {
-        if (!value) {
-          return 'El motivo de rechazo es requerido';
-        }
-        return null;
+          if (!value) {
+              return 'El motivo de rechazo es requerido';
+          }
+          return null;
       },
       showCancelButton: true,
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Rechazar',
+  }).then((result) => {
+      if (result.isConfirmed) {
+          Swal.fire({
+              title: '¿Estás seguro?',
+              text: `Estás a punto de rechazar al alumno ${nombreCom}. ¿Estás seguro de continuar?`,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Sí, rechazar',
+              cancelButtonText: 'Cancelar'
+          }).then((confirmResult) => {
+              if (confirmResult.isConfirmed) {
+                  const motivoRechazo = result.value;
+
+                  this.authService.rechazarAlumnoComi(id, motivoRechazo).subscribe(
+                      (response) => {
+                          console.log('Solicitud rechazada con éxito', response);
+
+                          Swal.fire('Éxito', 'Solicitud rechazada con éxito', 'success');
+                          setTimeout(() => {
+                              window.location.reload();
+                          }, 1000);
+                      },
+                      (error) => {
+                          console.error('Error al rechazar la solicitud', error);
+                          Swal.fire('Error', 'Error al rechazar la solicitud', 'error');
+                      }
+                  );
+              }
+          });
+      }
+  });
+  }
+  aceptarAlumno(id: string, nombreCom:string): void {
+    Swal.fire({
+      title: 'Confirmación',
+      text: `¿Estás seguro de que deseas aceptar al alumno ${nombreCom}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, aceptar',
+      cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        const motivoRechazo = result.value;
-
-        this.authService.rechazarAlumnoComi(id, motivoRechazo).subscribe(
-          (response) => {
-            console.log('Alumno rechazado con éxito', response);
-            Swal.fire('Éxito', 'Alumno rechazado con éxito', 'success');
+        this.authService.aceptarAlumnoComi(id).subscribe(
+          response => {
+            Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
           },
-          (error) => {
-            console.error('Error al rechazar el alumno', error);
-            Swal.fire('Error', 'Error al rechazar el alumno', 'error');
+          error => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al aceptar al alumno por la secretaria del comite . Por favor, inténtalo de nuevo.'
+            });
+            console.error('Error al aceptar alumno :', error);
           }
         );
       }
     });
-  }
-  aceptarAlumno(id: string): void {
-    this.authService.aceptarAlumnoComi(id).subscribe(
-      response => {
-        Swal.fire('Éxito', 'El alumno ha sido aceptado exitosamente', 'success' );
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      },
-      error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Hubo un error al aceptar al alumno jefe. Por favor, inténtalo de nuevo.'
-        });
-        console.error('Error al aceptar alumno jefe:', error);
-      }
-    );
   }
   buscarPorMatricula(event: Event) {
     const matricula = (event.target as HTMLInputElement).value;
